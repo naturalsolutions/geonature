@@ -12,7 +12,16 @@ describe('Testing Leaflet control layers', () => {
     cy.get(controlExpandedSelector).should('be.visible');
   });
   it('should control "overlayers content"', () => {
-    cy.get(overlayersTitleSelector).should('have.length', 4);
-    cy.get(overlayersTitleSelector).first().should('contains.text', 'Znieff de Bretagne');
+    cy.intercept({
+      method: 'GET',
+      path: '/gn_commons/config',
+    }).as("config")
+    cy.wait('@config').then(({response}) => {
+      expect(response.statusCode).to.eq(200)
+      cy.get(overlayersTitleSelector).its("length").then((size)=>{
+        expect(response.body.MAPCONFIG.REF_LAYERS).to.have.length(size)
+      })
+      
+    })
   });
 });
