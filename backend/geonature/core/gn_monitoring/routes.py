@@ -10,12 +10,7 @@ from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 from geonature.core.gn_commons.models import TModules
 from geonature.core.gn_permissions.decorators import _forbidden_message, login_required
 from geonature.utils.env import DB
-from geonature.core.gn_monitoring.models import (
-    TBaseSites,
-    TIndividuals,
-    corSiteArea,
-    corSiteModule,
-)
+from geonature.core.gn_monitoring.models import TBaseSites,TIndividuals, cor_site_area, cor_site_module
 
 from utils_flask_sqla.response import json_resp
 from utils_flask_sqla_geo.generic import get_geojson_feature
@@ -94,16 +89,16 @@ def get_site_areas(id_site):
     params = request.args
 
     query = (
-        select(corSiteArea, func.ST_Transform(LAreas.geom, 4326))
-        .join(LAreas, LAreas.id_area == corSiteArea.c.id_area)
-        .where(corSiteArea.c.id_base_site == id_site)
+        select(cor_site_area, func.ST_Transform(LAreas.geom, 4326))
+        .join(LAreas, LAreas.id_area == cor_site_area.c.id_area)
+        .where(cor_site_area.c.id_base_site == id_site)
     )
 
     if "id_area_type" in params:
         query = query.where(LAreas.id_type == params["id_area_type"])
     if "id_module" in params:
-        query = query.join(corSiteModule, corSiteModule.c.id_base_site == id_site).where(
-            corSiteModule.c.id_module == params["id_module"]
+        query = query.join(cor_site_module, cor_site_module.c.id_base_site == id_site).where(
+            cor_site_module.c.id_module == params["id_module"]
         )
 
     data = DB.session.execute(query).all()
