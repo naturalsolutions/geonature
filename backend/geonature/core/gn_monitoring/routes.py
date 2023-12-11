@@ -3,7 +3,7 @@ from sqlalchemy.sql import func
 from geojson import FeatureCollection
 
 from geonature.utils.env import DB
-from geonature.core.gn_monitoring.models import TBaseSites, corSiteArea, corSiteModule
+from geonature.core.gn_monitoring.models import TBaseSites, cor_site_area, cor_site_module
 
 from utils_flask_sqla.response import json_resp
 from utils_flask_sqla_geo.generic import get_geojson_feature
@@ -81,16 +81,16 @@ def get_site_areas(id_site):
     params = request.args
 
     q = (
-        DB.session.query(corSiteArea, func.ST_Transform(LAreas.geom, 4326))
-        .join(LAreas, LAreas.id_area == corSiteArea.c.id_area)
-        .filter(corSiteArea.c.id_base_site == id_site)
+        DB.session.query(cor_site_area, func.ST_Transform(LAreas.geom, 4326))
+        .join(LAreas, LAreas.id_area == cor_site_area.c.id_area)
+        .filter(cor_site_area.c.id_base_site == id_site)
     )
 
     if "id_area_type" in params:
         q = q.filter(LAreas.id_type == params["id_area_type"])
     if "id_module" in params:
-        q = q.join(corSiteModule, corSiteModule.c.id_base_site == id_site).filter(
-            corSiteModule.c.id_module == params["id_module"]
+        q = q.join(cor_site_module, cor_site_module.c.id_base_site == id_site).filter(
+            cor_site_module.c.id_module == params["id_module"]
         )
 
     data = q.all()
