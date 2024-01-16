@@ -352,3 +352,17 @@ class TIndividuals(DB.Model):
                 ors.append(cls.digitiser.has(id_organisme=user.id_organisme))
             query = query.where(or_(*ors))
         return query
+@serializable
+class TObservations(DB.Model):
+    __tablename__ = "t_observations"
+    __table_args__ = {"schema": "gn_monitoring"}
+    id_observation = DB.Column(DB.Integer, primary_key=True, nullable=False, unique=True)
+    id_base_visit = DB.Column(DB.ForeignKey("gn_monitoring.t_base_visits.id_base_visit"))
+    id_digitiser = DB.Column(DB.Integer, DB.ForeignKey("utilisateurs.t_roles.id_role"))
+    digitiser = DB.relationship(
+        User, primaryjoin=(User.id_role == id_digitiser), foreign_keys=[id_digitiser]
+    )
+    cd_nom = DB.Column(DB.Integer)
+    comments = DB.Column(DB.String)
+    uuid_observation = DB.Column(UUID(as_uuid=True), default=select(func.uuid_generate_v4()))
+    id_individual = DB.Column(DB.ForeignKey("gn_monitoring.t_individuals.id_individual"))
