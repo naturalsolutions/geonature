@@ -8,14 +8,18 @@ import { MapService } from '@geonature_common/map/map.service';
 import { DataService } from '../../services/data.service';
 import { ImportProcessService } from '../import_process/import-process.service';
 import {
+  EntitiesThemesFields,
+  Field,
   Import,
   ImportError,
   Nomenclature,
   NomenclatureType,
   TaxaDistribution,
+  ThemesFields,
 } from '../../models/import.model';
 import { ConfigService } from '@geonature/services/config.service';
 import { CsvExportService } from '../../services/csv-export.service';
+import { FieldMappingValues } from '../../models/mapping.model';
 
 interface MatchedNomenclature {
   source: Nomenclature;
@@ -42,6 +46,7 @@ export class ImportReportComponent implements OnInit {
     'group2_inpn',
   ];
   public importData: Import | null;
+  public tableFieldsCorresp: FieldMappingValues = {}
   public expansionPanelHeight: string = '60px';
   public validBbox: any;
   public taxaDistribution: Array<TaxaDistribution> = [];
@@ -92,6 +97,9 @@ export class ImportReportComponent implements OnInit {
     // show line per line...
     this.loadErrors();
     this.setImportStatus();
+    this._dataService.getBibFields().subscribe((fields)=> {
+      this.mapFields(fields, this.tableFieldsCorresp, this.importData.fieldmapping);
+    })
     this._dataService.getNomenclatures().subscribe((nomenclatures) => {
       this.nomenclatures = nomenclatures;
     });
@@ -258,4 +266,26 @@ export class ImportReportComponent implements OnInit {
   navigateToImportList() {
     this._router.navigate([this.config.IMPORT.MODULE_URL]);
   }
+
+  mapFields(fields: EntitiesThemesFields[], tableFieldsCorresp: Object, fieldMapping: FieldMappingValues) {
+    fields.forEach(field => {
+      tableFieldsCorresp[field.entity.label] = {};
+      this.mapThemes(field.themes, tableFieldsCorresp[field.entity.label], fieldMapping);
+    });
+  }
+  
+  mapThemes(themes: ThemesFields[], tableFieldsCorresp: Object, fieldMapping: FieldMappingValues) {
+    themes.forEach(theme => {
+      this.mapField(theme.fields, tableFieldsCorresp, fieldMapping);
+    });
+  }
+  
+  mapField(listField: Field[], tableFieldsCorresp: Object, fieldMapping: FieldMappingValues) {
+    listField.forEach(field => {
+      if (Object.keys(fieldMapping).includes(field.name_field)) {
+        tableFieldsCorresp[field.name_field] = fieldMapping[field.name_field];
+      }
+    });
+  }
+
 }
