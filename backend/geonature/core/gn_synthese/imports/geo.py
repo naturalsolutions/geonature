@@ -8,9 +8,9 @@ from geonature.utils.env import db
 from ref_geo.models import LAreas, BibAreasTypes
 
 
-def set_geom_from_area_code(
-    imprt, entity, geom_4326_col, geom_local_col, source_column, area_type_filter
-):  # XXX specific synthese
+def set_geom_columns_from_area_code(
+    imprt, entity, geom_4326_col, geom_local_col, code_column, area_type_filter
+):
     transient_table = imprt.destination.get_transient_table()
     # Find area in CTE, then update corresponding column in statement
     cte = (
@@ -19,10 +19,10 @@ def set_geom_from_area_code(
             transient_table.c.line_no,
             LAreas.id_area,
             LAreas.geom,
-            # TODO: add LAreas.geom_4326
+            LAreas.geom_4326,
         )
         .select_from(
-            join(transient_table, LAreas, source_column == LAreas.area_code).join(BibAreasTypes)
+            join(transient_table, LAreas, code_column == LAreas.area_code).join(BibAreasTypes)
         )
         .where(transient_table.c.id_import == imprt.id_import)
         .where(transient_table.c[entity.validity_column] == True)
@@ -36,9 +36,7 @@ def set_geom_from_area_code(
             {
                 transient_table.c.id_area_attachment: cte.c.id_area,
                 transient_table.c[geom_local_col]: cte.c.geom,
-                transient_table.c[geom_4326_col]: ST_Transform(
-                    cte.c.geom, 4326
-                ),  # TODO: replace with cte.c.geom_4326
+                transient_table.c[geom_4326_col]: cte.c.geom_4326,
             }
         )
         .where(transient_table.c.id_import == cte.c.id_import)
@@ -47,7 +45,7 @@ def set_geom_from_area_code(
     db.session.execute(stmt)
 
 
-def convert_geom_columns_from_area_code(
+def set_geom_columns_from_area_codes(
     imprt,
     entity,
     geom_4326_field,
@@ -67,7 +65,7 @@ def convert_geom_columns_from_area_code(
             continue
         source_column = transient_table.c[field.source_field]
         # Set geom from area of the given type and with matching area_code:
-        set_geom_from_area_code(
+        set_geom_columns_from_area_code(
             imprt,
             entity,
             geom_4326_field.dest_field,
