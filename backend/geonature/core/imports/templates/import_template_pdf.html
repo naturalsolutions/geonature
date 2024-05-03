@@ -19,97 +19,102 @@
 </head>
 
 <body>
-    <div class="titre contentItem">
+    <div class="titre noPageBreak">
         <h5> Import ID : {{ data.id_import }} </h5>
         <h5> Date d'import : {{ data.date_end_import }} </h5>
         <h5> Nom du fichier d'import : {{ data.full_file_name }} </h5>
         <div class="ligne-titre ligne main-color"></div>
         <div class="verticalSpacer"></div>
     </div>
-    <div class="description contentItem">
-        <div class="left-block">
-            <p class="fiche-descriptive">Fiche descriptive</p>
-            <div class="information">
-                <p class="info-titre">Identification</p>
-                <p class="info-contenu">
-                    <br>
-                    Auteur :
-                    {% if data.authors_name: %}
-                    {{ data.authors_name }}
+    <div class="noPageBreak">
+        <div class="sectionInfo">
+            <p class="sectionInfoTitle">Fiche descriptive</p>
+            <div class="horizontalLayout sectionInfo__content">
+                <div class="layoutItemGrow">
+                    <p class="sectionInfoTitle__title">Identification</p>
+                    <p class="sectionInfoTitle__content">
+                        <br>
+                        Auteur :
+                        {% if data.authors_name: %}
+                        {{ data.authors_name }}
+                        {% endif %}
+                        <br>
+                        SRID :
+                        {% if data.srid: %}
+                        {{ data.srid }}
+                        {% endif %}
+                        <br>
+                        Encodage :
+                        {% if data.encoding: %}
+                        {{ data.encoding }}
+                        {% endif %}
+                        <br>
+                        Format :
+                        {% if data.format_source_file: %}
+                        {{ data.format_source_file }}
+                        {% endif %}
+                        <br>
+                        Jeux de données :
+                        {% if data.dataset: %}
+                        {{ data.dataset.dataset_name }}
+                        {% endif %}
+                    </p>
+                    {% if data.keywords: %}
+                    <p class="sectionInfoTitle__title">Mots-clés</p>
+                    <p class="sectionInfoTitle__content">
+                        {{ data.keywords }}
+                    </p>
                     {% endif %}
-                    <br>
-                    SRID :
-                    {% if data.srid: %}
-                    {{ data.srid }}
-                    {% endif %}
-                    <br>
-                    Encodage :
-                    {% if data.encoding: %}
-                    {{ data.encoding }}
-                    {% endif %}
-                    <br>
-                    Format :
-                    {% if data.format_source_file: %}
-                    {{ data.format_source_file }}
-                    {% endif %}
-                    <br>
-                    Jeux de données :
-                    {% if data.dataset: %}
-                    {{ data.dataset.dataset_name }}
-                    {% endif %}
-                </p>
+                </div>
+                {% if data.map %}
+                <div class="horizontalSpacer"></div>
+                <div class="container33">
+                    <img class="img"
+                         src="{{ data.map }}">
+                </div>
+                {% endif %}
             </div>
+        </div>
+    </div>
+    <div class="verticalSpacer"></div>
 
-            {% if data.keywords: %}
-            <div class="information">
-                <p class="info-titre">Mots-clés</p>
-                <p class="info-contenu">
-                    {{ data.keywords }}
-                </p>
+    <div class="noPageBreak">
+        <p class="sectionInfoTitle__title">Statistiques</p>
+        <div class="verticalSpacer--small"></div>
+        <div class="horizontalLayout">
+            <div class="layoutItemGrow">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th class="main-color">Champs</th>
+                            <th class="main-color">Valeur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in data.statistics_formated.items() %}
+                        <tr>
+                            <td>{{ key|capitalize }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if data.chart %}
+            <div class="horizontalSpacer"></div>
+            <div class="containerXX">
+                <img class="img img--charts"
+                     src="{{ data.chart }}" />
             </div>
             {% endif %}
         </div>
-        {% if data.map %}
-        <div class="horizontalSpacer"></div>
-        <div class="zone">
-            <p class="zone-geographique">Zone géographique</p>
-            <img class="zone-geographique-map"
-                 src="{{ data.map }}">
-        </div>
-        {% endif %}
-    </div>
-    <div class="verticalSpacer"></div>
-    <div class="contentItem">
-        <p class="info-titre">Statistiques</p>
-        <div class="verticalSpacer--small"></div>
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th class="main-color">Champs</th>
-                    <th class="main-color">Valeur</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for key, value in data.statistics_formated.items() %}
-                <tr>
-                    <td>{{ key|capitalize }}</td>
-                    <td>{{ value }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% if data.chart %}
-        <div class="verticalSpacer--small"></div>
-        <div class="charts">
-        <img class="charts__img"
-             src="{{ data.chart }}" />
-        </div>
-        {% endif %}
+
     </div>
 
     <div class="verticalSpacer"></div>
-    <div class="contentItem">
-        <p class="info-titre">Erreurs</p>
+
+    <div class="noPageBreak">
+        <p class="sectionInfoTitle__title">Erreurs</p>
         <div class="verticalSpacer--small"></div>
         <table class="custom-table">
             <thead>
@@ -139,7 +144,7 @@
 </body>
 <style>
     /* ***************************************************************************/
-    /* layout item */
+    /* page
     /* ***************************************************************************/
     @page {
         size: A4;
@@ -149,8 +154,8 @@
         margin-bottom: 40px;
     }
 
-    h5 {
-        margin: 10px;
+    .noPageBreak {
+        page-break-inside: avoid;
     }
 
     .bandeau {
@@ -159,6 +164,26 @@
         margin-right: -20px;
     }
 
+    h5 {
+        margin: 10px;
+    }
+
+    /* ***************************************************************************/
+    /* layout */
+    /* ***************************************************************************/
+    .horizontalLayout {
+        display: flex;
+        flex-flow: row nowrap;
+        column-gap: 15px;
+    }
+
+    .layoutItemGrow {
+        flex-grow: 2;
+    }
+
+    /* ***************************************************************************/
+    /* footer
+    /* ***************************************************************************/
     .footer {
         margin-bottom: -40px;
     }
@@ -168,17 +193,11 @@
         color: #f8af51;
     }
 
-    .contentItem {
-        page-break-inside: avoid;
-        margin: 0;
-    }
-
     /* ***************************************************************************/
     /* spacer */
     /* ***************************************************************************/
-
     .horizontalSpacer {
-        width: 15px;
+        min-width: 8px;
     }
 
     .verticalSpacer {
@@ -190,40 +209,57 @@
     }
 
     /* ***************************************************************************/
-    /* layout item */
+    /* img */
     /* ***************************************************************************/
-
-    .left-block {
-        min-width: 60%;
-        width: 100%;
-    }
-
-    .zone {
+    .container33 {
         min-width: 33%;
         max-width: 33%;
     }
 
-    .zone-geographique-map {
-        margin-top: 0;
-        margin-left: 31px;
-        max-height: 150px;
-        max-width: 200px;
+    .containerXX {
+        min-width: 36%;
     }
 
-    .charts {
+    .img {
         width: 100%;
-
     }
-    .charts__img {
-        margin: 0 auto;
-        max-height: 300px;
-        width: auto;
+
+    .img--charts {
+        margin-bottom: -30px;
+        /*  remove extra whitespace at the bottom of the img. keep an eye on this. */
     }
 
     /* ***************************************************************************/
-    /* CUSTOM TABLE */
+    /* sectionInfo */
     /* ***************************************************************************/
+    .sectionInfo {
+        padding-bottom: 20px;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 11px;
+        border: 0.75px solid grey;
+        border-radius: 25px;
+    }
 
+    .sectionInfoTitle {
+        text-align: center;
+        margin: 5px auto 20px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .sectionInfoTitle__title {
+        font-weight: bold;
+        margin: 0 0 2px;
+    }
+
+    .sectionInfoTitle__content {
+        margin: 0 20px 0;
+    }
+
+    /* ***************************************************************************/
+    /* custom-table */
+    /* ***************************************************************************/
     .custom-table {
         page-break-inside: avoid;
         border-collapse: collapse;
