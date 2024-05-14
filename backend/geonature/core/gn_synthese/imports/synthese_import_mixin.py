@@ -12,7 +12,7 @@ from geonature.utils.sentry import start_sentry_child
 from geonature.core.gn_commons.models import TModules
 from geonature.core.gn_synthese.models import Synthese, TSources
 
-from geonature.core.imports.models import Entity, EntityField, BibFields, TImports
+from geonature.core.imports.models import Entity, EntityField, BibFields, TImports, TDatasets
 from geonature.core.imports.utils import (
     load_transient_data_in_dataframe,
     update_transient_data_from_dataframe,
@@ -67,6 +67,14 @@ class SyntheseImportMixin(ImportMixin):
         return [
             {"key": "taxa_count", "value": "Nombre de taxons importés"},
         ]
+
+    @staticmethod
+    def import_label() -> str:
+        return "Importer des occurrences de taxons"
+
+    @staticmethod
+    def generate_input_url_for_dataset(dataset: TDatasets) -> str:
+        return f"/import/synthese/process/upload?datasetId={dataset.id_dataset}"
 
     @staticmethod
     def preprocess_transient_data(imprt: TImports, df) -> set:

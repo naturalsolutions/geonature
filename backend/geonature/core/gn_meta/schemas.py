@@ -12,6 +12,7 @@ from .models import (
 from geonature.utils.env import MA
 from geonature.utils.schema import CruvedSchemaMixin
 from geonature.core.gn_commons.models import TModules
+from geonature.core.imports.import_mixin import ImportMixin
 from geonature.core.gn_commons.schemas import ModuleSchema
 
 # Note: import of SourceSchema is importent as it trigger import of synthese models
@@ -72,7 +73,7 @@ class DatasetSchema(CruvedSchemaMixin, SmartRelationshipsMixin, MA.SQLAlchemyAut
     def module_input(self, item, original, many, **kwargs):
         if "modules" in item:
             for i, module in enumerate(original.modules):
-                if not hasattr(module, "generate_input_url_for_dataset"):
+                if not ImportMixin.is_implemented_in_module(type(module)):
                     continue
                 object_code = getattr(module.generate_input_url_for_dataset, "object_code", "ALL")
                 create_scope = get_scopes_by_action(
@@ -85,7 +86,7 @@ class DatasetSchema(CruvedSchemaMixin, SmartRelationshipsMixin, MA.SQLAlchemyAut
                 item["modules"][i].update(
                     {
                         "input_url": module.generate_input_url_for_dataset(original),
-                        "input_label": module.generate_input_url_for_dataset.label,
+                        "input_label": module.import_label(),
                     }
                 )
         return item

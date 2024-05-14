@@ -6,7 +6,7 @@ import typing
 import json
 
 from geonature.utils.env import db
-from geonature.core.imports.models import Entity, BibFields, TImports
+from geonature.core.imports.models import Entity, BibFields, TImports, TDatasets
 from geonature.core.imports.import_mixin import ImportMixin, ImportStatisticsLabels
 from .plot import distribution_plot
 
@@ -54,6 +54,14 @@ class OcchabImportMixin(ImportMixin):
             {"key": "station_count", "value": "Nombre de stations importées"},
             {"key": "habitat_count", "value": "Nombre d’habitats importés"},
         ]
+
+    @staticmethod
+    def import_label() -> str:
+        return "Importer des habitats"
+
+    @staticmethod
+    def generate_input_url_for_dataset(dataset: TDatasets) -> str:
+        return f"/import/occhab/process/upload?datasetId={dataset.id_dataset}"
 
     @staticmethod
     def preprocess_transient_data(imprt: TImports, df) -> set:

@@ -1,5 +1,5 @@
 from geonature.core.gn_commons.models import AbstractMixin
-from geonature.core.imports.models import TImports
+from geonature.core.imports.models import TImports, TDatasets
 
 from bokeh.embed.standalone import StandaloneEmbedJson
 
@@ -21,6 +21,16 @@ class ImportMixin(AbstractMixin):
     @staticmethod
     @abstractmethod
     def statistics_labels() -> typing.List[ImportStatisticsLabels]:
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def import_label() -> str:
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def generate_input_url_for_dataset(dataset: TDatasets) -> str:
         pass
 
     # The output of this method is NEVER used
