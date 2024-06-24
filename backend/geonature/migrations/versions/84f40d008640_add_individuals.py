@@ -1,7 +1,7 @@
-"""add individuals
+"""[monitoring] add individuals
 
 Revision ID: 84f40d008640
-Revises: 446e902a14e7
+Revises: 6734d8f7eb2a
 Create Date: 2023-10-04 09:39:48.879128
 
 """
@@ -13,7 +13,7 @@ from sqlalchemy.dialects.postgresql import UUID, JSONB
 
 # revision identifiers, used by Alembic.
 revision = "84f40d008640"
-down_revision = "9f4db1786c22"
+down_revision = "6734d8f7eb2a"
 branch_labels = None
 depends_on = None
 
