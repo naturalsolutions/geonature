@@ -10,6 +10,7 @@ from geoalchemy2 import Geometry
 from sqlalchemy import ForeignKey, or_, false
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import select, func
 from sqlalchemy.schema import FetchedValue
 
@@ -23,6 +24,21 @@ from utils_flask_sqla_geo.serializers import geoserializable
 from geonature.core.gn_commons.models import TModules, TMedias
 from geonature.core.gn_meta.models import TDatasets
 from geonature.utils.env import DB
+from geonature.core.gn_permissions.tools import  has_any_permissions_by_action
+
+
+class PermissionModel:
+    def has_permission(
+        self,
+        cruved_object={"C": False, "R": False, "U": False, "D": False, "E": False, "V": False},
+    ):
+        cruved_object_out = {}
+        for action_key, action_value in cruved_object.items():
+            cruved_object_out[action_key] = self.has_instance_permission(scope=action_value)
+        return cruved_object_out
+
+    def get_permission_by_action(self, module_code=None, object_code=None):
+        return has_any_permissions_by_action(module_code=module_code, object_code=object_code)
 
 
 cor_visit_observer = DB.Table(
@@ -277,7 +293,7 @@ class TMarkingEvent(DB.Model):
 
 
 @serializable
-class TIndividuals(DB.Model):
+class TIndividuals(DB.Model, PermissionModel):
     __tablename__ = "t_individuals"
     __table_args__ = {"schema": "gn_monitoring"}
     id_individual = DB.Column(DB.Integer, primary_key=True)
@@ -352,6 +368,31 @@ class TIndividuals(DB.Model):
                 ors.append(cls.digitiser.has(id_organisme=user.id_organisme))
             query = query.where(or_(*ors))
         return query
+
+    @hybrid_property
+    def organism_actors(self):
+        # return self.digitiser.id_organisme
+        actors_organism_list = []
+        if isinstance(self.digitiser, list):
+            for actor in self.digitiser:
+                if actor.id_organisme is not None:
+                    actors_organism_list.append(actor.id_organisme)
+        elif isinstance(self.digitiser, User):
+            actors_organism_list.append(self.digitiser.id_organisme)
+        return actors_organism_list
+
+    def has_instance_permission(self, scope):
+        if scope == 0:
+            return False
+        elif scope in (1, 2):
+            if (
+                g.current_user.id_role == self.id_digitiser
+            ):  # or g.current_user in self.user_actors:
+                return True
+            if scope == 2 and g.current_user.id_organisme in self.organism_actors:
+                return True
+        elif scope == 3:
+            return True
 @serializable
 class TObservations(DB.Model):
     __tablename__ = "t_observations"
