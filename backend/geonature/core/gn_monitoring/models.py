@@ -276,6 +276,7 @@ class TMarkingEvent(DB.Model):
         lazy="joined",
         primaryjoin=(TMedias.uuid_attached_row == uuid_marking),
         foreign_keys=[TMedias.uuid_attached_row],
+        overlaps="medias,medias",
     )
 
 
