@@ -27,19 +27,6 @@ from geonature.utils.env import DB
 from geonature.core.gn_permissions.tools import  has_any_permissions_by_action
 
 
-class PermissionModel:
-    def has_permission(
-        self,
-        cruved_object={"C": False, "R": False, "U": False, "D": False, "E": False, "V": False},
-    ):
-        cruved_object_out = {}
-        for action_key, action_value in cruved_object.items():
-            cruved_object_out[action_key] = self.has_instance_permission(scope=action_value)
-        return cruved_object_out
-
-    def get_permission_by_action(self, module_code=None, object_code=None):
-        return has_any_permissions_by_action(module_code=module_code, object_code=object_code)
-
 
 cor_visit_observer = DB.Table(
     "cor_visit_observer",
@@ -232,7 +219,7 @@ class TBaseSites(DB.Model):
     )
 
 
-corIndividualModule = DB.Table(
+cor_individual_module = DB.Table(
     "cor_individual_module",
     DB.Column(
         "id_individual",
@@ -293,7 +280,7 @@ class TMarkingEvent(DB.Model):
 
 
 @serializable
-class TIndividuals(DB.Model, PermissionModel):
+class TIndividuals(DB.Model):
     __tablename__ = "t_individuals"
     __table_args__ = {"schema": "gn_monitoring"}
     id_individual = DB.Column(DB.Integer, primary_key=True)
@@ -337,10 +324,10 @@ class TIndividuals(DB.Model, PermissionModel):
     modules = DB.relationship(
         "TModules",
         lazy="joined",
-        secondary=corIndividualModule,
-        primaryjoin=(corIndividualModule.c.id_individual == id_individual),
-        secondaryjoin=(corIndividualModule.c.id_module == TModules.id_module),
-        foreign_keys=[corIndividualModule.c.id_individual, corIndividualModule.c.id_module],
+        secondary=cor_individual_module,
+        primaryjoin=(cor_individual_module.c.id_individual == id_individual),
+        secondaryjoin=(cor_individual_module.c.id_module == TModules.id_module),
+        foreign_keys=[cor_individual_module.c.id_individual, cor_individual_module.c.id_module],
     )
 
     markings = DB.relationship(
@@ -348,51 +335,6 @@ class TIndividuals(DB.Model, PermissionModel):
         primaryjoin=(id_individual == TMarkingEvent.id_individual),
     )
 
-    medias = DB.relationship(
-        TMedias,
-        lazy="joined",
-        primaryjoin=(TMedias.uuid_attached_row == uuid_individual),
-        foreign_keys=[TMedias.uuid_attached_row],
-    )
-
-    @classmethod
-    def filter_by_scope(cls, query, scope, user):
-        if scope == 0:
-            query = query.where(false())
-        elif scope in (1, 2):
-            ors = [
-                cls.id_digitiser == user.id_role,
-            ]
-            # if organism is None => do not filter on id_organism even if level = 2
-            if scope == 2 and user.id_organisme is not None:
-                ors.append(cls.digitiser.has(id_organisme=user.id_organisme))
-            query = query.where(or_(*ors))
-        return query
-
-    @hybrid_property
-    def organism_actors(self):
-        # return self.digitiser.id_organisme
-        actors_organism_list = []
-        if isinstance(self.digitiser, list):
-            for actor in self.digitiser:
-                if actor.id_organisme is not None:
-                    actors_organism_list.append(actor.id_organisme)
-        elif isinstance(self.digitiser, User):
-            actors_organism_list.append(self.digitiser.id_organisme)
-        return actors_organism_list
-
-    def has_instance_permission(self, scope):
-        if scope == 0:
-            return False
-        elif scope in (1, 2):
-            if (
-                g.current_user.id_role == self.id_digitiser
-            ):  # or g.current_user in self.user_actors:
-                return True
-            if scope == 2 and g.current_user.id_organisme in self.organism_actors:
-                return True
-        elif scope == 3:
-            return True
 @serializable
 class TObservations(DB.Model):
     __tablename__ = "t_observations"
