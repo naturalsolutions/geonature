@@ -957,6 +957,72 @@ def general_stats(permissions):
     return data
 
 
+@routes.route("/species_stats/<int:cd_nom>", methods=["GET"])
+@permissions_required("R", module_code="SYNTHESE")
+@json_resp
+def species_stats(permissions, cd_nom):
+    """Return stats about distinct species."""
+    
+    area_type = request.args.get('area_type')
+
+    if not area_type:
+        raise BadRequest("Missing area_type parameter")
+
+    # Ensure area_type is valid
+    valid_area_types = (
+        db.session.query(BibAreasTypes.type_code)
+        .distinct()
+        .filter(BibAreasTypes.type_code == area_type)
+        .scalar()
+    )
+    if not valid_area_types:
+        raise BadRequest("Invalid area_type")
+
+    type_area_name = (
+        db.session.query(BibAreasTypes.type_name)
+        .distinct()
+        .filter(BibAreasTypes.type_code == area_type)
+        .scalar()
+    )
+        # Subquery to fetch areas based on area_type
+    areas_subquery = (
+        select([LAreas.id_area])
+        .where(LAreas.id_type == BibAreasTypes.id_type)
+        .where(BibAreasTypes.type_code == area_type)
+        .alias('areas')
+    )
+    # Main query to fetch stats
+    query = (
+        select([
+            func.count(distinct(Synthese.id_synthese)).label('nb_observation'),
+            func.count(distinct(Synthese.observers)).label('nb_observateurs'),
+            func.count(distinct(areas_subquery.c.id_area)).label('nb_area_type')
+        ])
+        .select_from(
+            sa.join(Synthese, CorAreaSynthese, Synthese.id_synthese == CorAreaSynthese.id_synthese)
+            .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
+            .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
+            .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
+        )
+        .where(Synthese.cd_nom == cd_nom)
+    )
+
+    synthese_query_obj = SyntheseQuery(Synthese, query, {})
+    synthese_query_obj.filter_query_with_cruved(g.current_user, permissions)
+    result = DB.session.execute(synthese_query_obj.query)
+    synthese_counts = result.fetchone()
+
+    data = {
+        "cd_nom": cd_nom,
+        "nb_observation": {"value":synthese_counts['nb_observation'],"label":"Nombre d'observations"},
+        "nb_observateurs": {"value":synthese_counts['nb_observateurs'],"label":"Nombre d'observateurs"},
+        "nb_areas":{"value": synthese_counts[f'nb_area_type'],"label":f"Nombre {type_area_name}"},
+    }
+
+    return data
+
+
+
 @routes.route("/taxons_tree", methods=["GET"])
 @login_required
 @json_resp
