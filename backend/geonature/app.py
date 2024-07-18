@@ -41,6 +41,24 @@ from pypnusershub.db.models import Application
 from pypnusershub.auth import auth_manager
 from pypnusershub.login_manager import login_manager
 
+from jaeger_client import Config
+from flask_opentracing import FlaskTracing
+
+# Configuration de Jaeger
+def init_tracer(service_name='my-flask-app'):
+    config = Config(
+        config={
+            'sampler': {'type': 'const', 'param': 1},
+            'logging': True,
+            'reporter_batch_size': 1,
+        },
+        service_name=service_name,
+        validate=True,
+    )
+    return config.initialize_tracer()
+
+# Initialiser le tracer
+# tracer = init_tracer()
 
 @migrate.configure
 def configure_alembic(alembic_config):
@@ -91,6 +109,9 @@ def create_app(with_external_mods=True):
         template_folder="geonature/templates",
     )
     app.config.update(config)
+    # Initialiser Jaeger et FlaskTracing
+    tracer = init_tracer(service_name=app.config.get('SERVICE_NAME', 'my-flask-app'))
+    tracing = FlaskTracing(tracer, True, app)
 
     # Enable deprecation warnings in debug mode
     if app.debug and not sys.warnoptions:
