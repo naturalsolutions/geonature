@@ -40,6 +40,7 @@ from geonature.utils.utilsgeometrytools import export_as_geo_file
 from geonature.core.gn_meta.models import TDatasets
 from geonature.core.notifications.utils import dispatch_notifications
 
+from geonature.core.gn_profiles.models import VSyntheseForProfiles
 from geonature.core.gn_synthese.models import (
     BibReportsTypes,
     CorAreaSynthese,
@@ -994,29 +995,30 @@ def species_stats(permissions, cd_nom):
     # Main query to fetch stats
     query = (
         select([
-            func.count(distinct(Synthese.id_synthese)).label('nb_observation'),
-            func.count(distinct(Synthese.observers)).label('nb_observateurs'),
+            func.count(distinct(VSyntheseForProfiles.id_synthese)).label('nb_observation'),
+            func.count(func.distinct(Synthese.observers)).label('nb_observateurs'),
             func.count(distinct(areas_subquery.c.id_area)).label('nb_area_type')
         ])
         .select_from(
-            sa.join(Synthese, CorAreaSynthese, Synthese.id_synthese == CorAreaSynthese.id_synthese)
+            sa.join(VSyntheseForProfiles, Synthese, VSyntheseForProfiles.id_synthese == Synthese.id_synthese)
+            .join(CorAreaSynthese, VSyntheseForProfiles.id_synthese == CorAreaSynthese.id_synthese)
             .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
             .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
             .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
         )
-        .where(Synthese.cd_nom == cd_nom)
+        .where(VSyntheseForProfiles.cd_nom == cd_nom)
     )
 
-    synthese_query_obj = SyntheseQuery(Synthese, query, {})
-    synthese_query_obj.filter_query_with_cruved(g.current_user, permissions)
-    result = DB.session.execute(synthese_query_obj.query)
-    synthese_counts = result.fetchone()
+    synthese_profiles_query_obj = SyntheseQuery(Synthese, query, {})
+    synthese_profiles_query_obj.filter_query_with_cruved(g.current_user, permissions)
+    result = DB.session.execute(synthese_profiles_query_obj.query)
+    synthese_profiles_counts = result.fetchone()
 
     data = {
         "cd_nom": cd_nom,
-        "nb_observation": {"value":synthese_counts['nb_observation'],"label":"Nombre d'observations"},
-        "nb_observateurs": {"value":synthese_counts['nb_observateurs'],"label":"Nombre d'observateurs"},
-        "nb_areas":{"value": synthese_counts[f'nb_area_type'],"label":f"Nombre {type_area_name}"},
+        "nb_observation": {"value":synthese_profiles_counts['nb_observation'],"label":"Nombre d'observations"},
+        "nb_observateurs": {"value":synthese_profiles_counts['nb_observateurs'],"label":"Nombre d'observateurs"},
+        "nb_areas":{"value": synthese_profiles_counts[f'nb_area_type'],"label":f"Nombre {type_area_name}"},
     }
 
     return data
