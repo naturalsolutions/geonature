@@ -29,13 +29,13 @@ const routes: Routes = [
     SharedSyntheseModule,
     CommonModule,
     TreeModule,
+    TaxonSheetComponent,
   ],
   declarations: [
     SyntheseComponent,
     SyntheseListComponent,
     SyntheseCarteComponent,
     SyntheseModalDownloadComponent,
-    TaxonSheetComponent,
   ],
   entryComponents: [
     SyntheseInfoObsComponent,

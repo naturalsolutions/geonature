@@ -1,0 +1,14 @@
+<div class="Header">
+  <infos
+    [taxon]="taxon"
+    [mediaUrl]="mediaUrl"
+  />
+  <div class="Header__indicators">
+      <indicator
+        *ngFor="let indicator of indicators"
+        [name]="indicator.name"
+        [matIcon]="indicator.matIcon"
+        [value]="indicator.value"
+      />
+  </div>
+</div>

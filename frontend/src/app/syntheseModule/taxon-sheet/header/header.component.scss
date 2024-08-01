@@ -1,0 +1,47 @@
+.card-deck {
+  text-align: center;
+}
+.card-deck mat-icon {
+  font-size: 40px;
+}
+
+.stat .card {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  display: flex;
+}
+.card-columns .card-body {
+  height: 200px;
+  text-align: center;
+  // margin-right: 10px;
+  padding-top: 15%;
+}
+.cover {
+  background-size: cover;
+}
+
+.card-columns {
+  column-count: 5;
+}
+²
+.card-body.image {
+  background-position: center;
+}
+
+.Header{
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+
+  &__indicators {
+    width: 80%;
+    align-self: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+  }
+}
+
