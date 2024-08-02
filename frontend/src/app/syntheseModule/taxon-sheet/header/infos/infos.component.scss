@@ -1,9 +1,27 @@
-.Indicator{
-  padding: 2rem;
-  border: 2px solid crimson;
-  border-radius: 8px;
-  border: 1px solid coral;
-  * {
-    border: 1px solid red;
+.Infos {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  column-gap: 1rem;
+
+  &__image {
+    $image_size: 50px;
+    border: 2px solid aqua;
+    background-color: coral;
+    align-self: center;
+    width: $image-size;
+    height: $image-size;
+  }
+
+  &__infos {
+    display: flex;
+    flex-flow: column;
+    &Taxonomy {
+      font-weight: bold
+    }
+    &VernacularName {
+      font-size: 1.5rem;
+      font-weight: bold
+    }
   }
 }

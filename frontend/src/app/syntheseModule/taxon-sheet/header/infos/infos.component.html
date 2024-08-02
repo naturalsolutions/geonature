@@ -1,12 +1,18 @@
-<div class="card-body">
-  <h3 class="card-title mb-0">
-    <i>{{ taxon?.nom_complet }}</i>
-    <span *ngIf="taxon?.nom_vern">- {{ taxon?.nom_vern }}</span>
-  </h3>
-  <small class="text-muted">
-    *Le profil est calculé à partir des observations considérées comme valides
-  </small>
+<div class="Infos">
+  <div class="Infos__image">
+  </div>
+  <div class="Infos__infos">
+    <div class="Infos__infosTaxonomy">
+      / exemple / de / taxonomy / {{ taxon?.nom_complet }}
+    </div>
+    <div class="Infos__infosVernacularName" *ngIf="taxon?.nom_vern">
+      {{ taxon?.nom_vern }}
+    </div>
+  </div>
 </div>
+<small class="text-muted">
+  *Le profil est calculé à partir des observations considérées comme valides
+</small>
 <div
   class="card"
   *ngIf="mediaUrl"
