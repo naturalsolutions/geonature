@@ -5,6 +5,7 @@ import { DataFormService } from '@geonature_common/form/data-form.service';
 import { CommonService } from '@geonature_common/service/common.service';
 import { HeaderComponent } from './header/header.component';
 import { GN2CommonModule } from '@geonature_common/GN2Common.module';
+import { Taxon } from '@geonature_common/form/taxonomy/taxonomy.component';
 @Component({
   standalone: true,
   selector: 'pnx-taxon-sheet',
@@ -13,11 +14,10 @@ import { GN2CommonModule } from '@geonature_common/GN2Common.module';
   imports: [
     HeaderComponent,
     GN2CommonModule,
-
   ]
 })
 export class TaxonSheetComponent implements OnInit {
-  public taxon: any;
+  public taxon: Taxon;
   public profile: any;
   public profilArea: any;
   public mediaUrl: any;
@@ -38,6 +38,7 @@ export class TaxonSheetComponent implements OnInit {
             (profil) => {
               this.profile = profil.properties;
               this.profilArea = profil;
+
               this._ds.getTaxonAttributsAndMedia(taxon.cd_ref).subscribe((taxonAttrAndMedias) => {
                 const media = taxonAttrAndMedias.medias.find(
                   (m) => m.id_type == this.config['TAXHUB']['ID_TYPE_MAIN_PHOTO']

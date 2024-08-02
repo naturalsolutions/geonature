@@ -1,0 +1,25 @@
+.Taxonomy{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  &__rank {
+    white-space: nowrap;
+
+    &Label{
+      font-weight: lighter;
+      text-transform: capitalize;
+    }
+
+    &Value{
+      font-style: italic;
+      &--last{
+        font-style: italic;
+        font-weight: bold;
+      }
+    }
+    &Separator{
+      margin: 0.3rem;
+    }
+  }
+
+}

@@ -2,9 +2,7 @@
   <div class="Infos__image">
   </div>
   <div class="Infos__infos">
-    <div class="Infos__infosTaxonomy">
-      / exemple / de / taxonomy / {{ taxon?.nom_complet }}
-    </div>
+    <taxonomy [taxon]="taxon" />
     <div class="Infos__infosVernacularName" *ngIf="taxon?.nom_vern">
       {{ taxon?.nom_vern }}
     </div>

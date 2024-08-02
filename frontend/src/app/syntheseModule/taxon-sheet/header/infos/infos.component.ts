@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Taxon } from '@geonature_common/form/taxonomy/taxonomy.component';
+import { TaxonomyComponent } from './taxonomy/taxonomy.component';
 
 @Component({
   standalone: true,
@@ -7,12 +9,13 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'infos.component.html',
   styleUrls: ['infos.component.scss'],
   imports: [
-    CommonModule
+    CommonModule,
+    TaxonomyComponent
   ]
 })
 export class InfosComponent {
   @Input()
-  taxon: any;
+  taxon: Taxon;
 
   @Input()
   mediaUrl: any;

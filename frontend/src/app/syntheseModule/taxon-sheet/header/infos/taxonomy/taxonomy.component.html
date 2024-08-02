@@ -1,0 +1,17 @@
+<div class="Taxonomy">
+  <div
+    *ngFor="let rank of taxonomy; last as isLast"
+    class="Taxonomy__rank"
+  >
+    <span class="Taxonomy__rankLabel text-secondary">{{ rank.label }}:</span>
+    <span [className]="isLast ? 'Taxonomy__rankValue--last' : 'Taxonomy__rankValue'">
+      {{ rank.value }}
+    </span>
+    <span
+      *ngIf="!isLast"
+      class="Taxonomy__rankSeparator"
+    >
+      >
+    </span>
+  </div>
+</div>
