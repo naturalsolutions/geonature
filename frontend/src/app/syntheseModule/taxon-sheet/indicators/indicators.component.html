@@ -1,8 +1,6 @@
 <div class="Indicators">
   <indicator
     *ngFor="let indicator of indicators"
-    [name]="indicator.name"
-    [matIcon]="indicator.matIcon"
-    [value]="indicator.value"
+    [indicator]="indicator"
   />
 </div>

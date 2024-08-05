@@ -1,12 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { IndicatorComponent } from './indicator/indicator.component';
 import { CommonModule } from '@angular/common';
-
-interface Indicator {
-  name: string;
-  matIcon: string;
-  value: string | null;
-}
+import { ConfigService } from '@geonature/services/config.service';
+import { computeIndicatorFromConfig, Indicator } from './indicator/indicator';
 
 @Component({
   standalone: true,
@@ -16,41 +12,24 @@ interface Indicator {
   imports: [CommonModule, IndicatorComponent],
 })
 export class IndicatorsComponent {
+  indicators: Array<Indicator>;
+  constructor(private _config: ConfigService) {
+    this.indicators = [];
+  }
+
   @Input()
-  profile: any;
-
-  get indicators(): Array<Indicator> {
-    return [
-      {
-        name: 'Test',
-        matIcon: 'search',
-        value: '12',
-      },
-      {
-        name: 'Observations valides',
-        matIcon: 'search',
-        value: this.profile?.count_valid_data,
-      },
-
-      {
-        name: 'Première observation',
-        matIcon: 'schedule',
-        value: this.profile?.first_valid_data,
-      },
-
-      {
-        name: 'Dernière observation',
-        matIcon: 'search',
-        value: this.profile?.last_valid_data,
-      },
-
-      {
-        name: "Plage d'altitude",
-        matIcon: 'terrain',
-        value: this.profile
-          ? this.profile.altitude_min + 'm - ' + this.profile.altitude_max + 'm'
-          : null,
-      },
-    ];
+  set taxonStats(taxonStats: any) {
+    if (
+      this._config &&
+      this._config['SYNTHESE'] &&
+      this._config['SYNTHESE']['SPECIES_SHEET'] &&
+      this._config['SYNTHESE']['SPECIES_SHEET']['LIST_INDICATORS']
+    ) {
+      this.indicators = this._config['SYNTHESE']['SPECIES_SHEET']['LIST_INDICATORS'].map(
+        (indicatorConfig) => computeIndicatorFromConfig(indicatorConfig, taxonStats)
+      );
+    } else {
+      this.indicators = [];
+    }
   }
 }

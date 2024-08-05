@@ -16,6 +16,10 @@
   }
   &__value{
     font-size: 1.5rem;
+
+    &Unit{
+      opacity: 0.5;
+    }
   }
   &__name{
     font-size: 1rem;
