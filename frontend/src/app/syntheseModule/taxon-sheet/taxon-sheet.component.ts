@@ -3,18 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { ConfigService } from '@geonature/services/config.service';
 import { DataFormService } from '@geonature_common/form/data-form.service';
 import { CommonService } from '@geonature_common/service/common.service';
-import { HeaderComponent } from './header/header.component';
+import { IndicatorsComponent } from './indicators/indicators.component';
 import { GN2CommonModule } from '@geonature_common/GN2Common.module';
 import { Taxon } from '@geonature_common/form/taxonomy/taxonomy.component';
+import { InfosComponent } from './infos/infos.component';
 @Component({
   standalone: true,
   selector: 'pnx-taxon-sheet',
   templateUrl: 'taxon-sheet.component.html',
   styleUrls: ['taxon-sheet.component.scss'],
-  imports: [
-    HeaderComponent,
-    GN2CommonModule,
-  ]
+  imports: [GN2CommonModule, IndicatorsComponent, InfosComponent],
 })
 export class TaxonSheetComponent implements OnInit {
   public taxon: Taxon;

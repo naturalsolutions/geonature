@@ -1,10 +1,14 @@
 <div class="container-fluid">
   <div class="card TaxonSheet">
-    <header
+    <infos
+      class="TaxonSheet__infos"
       [taxon]="taxon"
-      [profile]="profile"
       [mediaUrl]="mediaUrl"
-    ></header>
+    />
+    <indicators
+      class="TaxonSheet__indicators"
+      [profile]="profile"
+    />
     <pnx-map height="50vh">
       <pnx-geojson
         [geojson]="profilArea"

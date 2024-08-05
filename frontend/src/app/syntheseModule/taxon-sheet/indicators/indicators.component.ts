@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { IndicatorComponent } from './indicator/indicator.component';
-import { InfosComponent } from './infos/infos.component';
 import { CommonModule } from '@angular/common';
 
 interface Indicator {
@@ -11,24 +10,14 @@ interface Indicator {
 
 @Component({
   standalone: true,
-  selector: 'header',
-  templateUrl: 'header.component.html',
-  styleUrls: ['header.component.scss'],
-  imports: [
-    CommonModule,
-    IndicatorComponent,
-    InfosComponent
-  ],
+  selector: 'indicators',
+  templateUrl: 'indicators.component.html',
+  styleUrls: ['indicators.component.scss'],
+  imports: [CommonModule, IndicatorComponent],
 })
-export class HeaderComponent {
-  @Input()
-  taxon: any;
-
+export class IndicatorsComponent {
   @Input()
   profile: any;
-
-  @Input()
-  mediaUrl: any;
 
   get indicators(): Array<Indicator> {
     return [
@@ -58,7 +47,9 @@ export class HeaderComponent {
       {
         name: "Plage d'altitude",
         matIcon: 'terrain',
-        value: this.profile ? this.profile.altitude_min + 'm - ' + this.profile.altitude_max + 'm' : null,
+        value: this.profile
+          ? this.profile.altitude_min + 'm - ' + this.profile.altitude_max + 'm'
+          : null,
       },
     ];
   }
