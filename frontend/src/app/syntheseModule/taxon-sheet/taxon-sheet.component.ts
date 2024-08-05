@@ -7,12 +7,13 @@ import { IndicatorsComponent } from './indicators/indicators.component';
 import { GN2CommonModule } from '@geonature_common/GN2Common.module';
 import { Taxon } from '@geonature_common/form/taxonomy/taxonomy.component';
 import { InfosComponent } from './infos/infos.component';
+import { LayoutComponent } from './layout/layout.component';
 @Component({
   standalone: true,
   selector: 'pnx-taxon-sheet',
   templateUrl: 'taxon-sheet.component.html',
   styleUrls: ['taxon-sheet.component.scss'],
-  imports: [GN2CommonModule, IndicatorsComponent, InfosComponent],
+  imports: [GN2CommonModule, IndicatorsComponent, InfosComponent, LayoutComponent],
 })
 export class TaxonSheetComponent implements OnInit {
   public taxon: Taxon;
