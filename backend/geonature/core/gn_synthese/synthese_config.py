@@ -101,15 +101,35 @@ DEFAULT_LIST_COLUMN = [
     {"prop": "observers", "name": "observateur", "max_width": 200},
 ]
 
-## DEFAULT SPECIES SHEET INDICATORS
-DEFAULT_SPECIES_SHEET_LIST_INDICATORS = [
-    {"name": "Observations valides", "matIcon": "search", "field": "count_valid_data"},
-    {"name": "Première observation", "matIcon": "schedule", "field": "first_valid_data"},
-    {"name": "Dernière observation", "matIcon": "search", "field": "last_valid_data"},
-    {
-        "name": "Plage d'altitude",
-        "matIcon": "terrain",
-        "field": ["altitude_min", "altitude_max"],
-        "unit": "m",
-    },
-]
+
+class DefaultSpeciesSheet:
+    ## DEFAULT SPECIES SHEET INDICATORS
+    LIST_INDICATORS = [
+        {
+            "name": "Observations valides",
+            "matIcon": "search",
+            "field": "count_valid_data",
+            "type": "number",
+        },
+        {
+            "name": "Première observation",
+            "matIcon": "schedule",
+            "field": "first_valid_data",
+            "type": "date",
+        },
+        {
+            "name": "Dernière observation",
+            "matIcon": "search",
+            "field": "last_valid_data",
+            "type": "date",
+        },
+        {
+            "name": "Plage d'altitude",
+            "matIcon": "terrain",
+            "field": ["altitude_min", "altitude_max"],
+            "unit": "m",
+            "type": "number",
+        },
+    ]
+
+    TAB_MAP = {"enabled": True}

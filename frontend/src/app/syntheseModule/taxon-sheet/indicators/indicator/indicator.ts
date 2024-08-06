@@ -1,3 +1,12 @@
+type IndicatorRawType = 'number' | 'string' | 'date';
+export interface IndicatorRaw {
+  name: string;
+  matIcon: string;
+  field: string | Array<string>;
+  unit?: string;
+  type: IndicatorRawType;
+}
+
 export interface Indicator {
   name: string;
   matIcon: string;
@@ -5,24 +14,44 @@ export interface Indicator {
 }
 
 const DEFAULT_VALUE = '-';
+const DEFAULT_SEPARATOR = ' - ';
 
-function getValue(field: string, unit: string | null, taxonStats: any) {
+function getValue(field: string, indicatorConfig: IndicatorRaw, taxonStats: any) {
   if (taxonStats && taxonStats[field]) {
-    return taxonStats[field] + unit ?? '';
+    let valueAsString = '';
+    switch (indicatorConfig.type) {
+      case 'number':
+        valueAsString = taxonStats[field].toLocaleString();
+        break;
+      case 'date':
+        valueAsString = new Date(taxonStats[field]).toLocaleDateString();
+        break;
+      case 'string':
+      default:
+        valueAsString = taxonStats[field];
+    }
+    return valueAsString + (indicatorConfig.unit ?? '');
   }
   return DEFAULT_VALUE;
 }
 
-export function computeIndicatorFromConfig(indicatorConfig: any, taxonStats: any): Indicator {
+export function computeIndicatorFromConfig(
+  indicatorConfig: IndicatorRaw,
+  taxonStats: any
+): Indicator {
+  let value = DEFAULT_VALUE;
+  if (taxonStats) {
+    if (Array.isArray(indicatorConfig.field)) {
+      value = indicatorConfig.field
+        .map((field) => getValue(field, indicatorConfig, taxonStats))
+        .join(DEFAULT_SEPARATOR);
+    } else {
+      value = getValue(indicatorConfig.field, indicatorConfig, taxonStats);
+    }
+  }
   return {
     name: indicatorConfig.name,
     matIcon: indicatorConfig.matIcon,
-    value: taxonStats
-      ? Array.isArray(indicatorConfig.field)
-        ? indicatorConfig.field
-            .map((field) => getValue(field, indicatorConfig.unit, taxonStats))
-            .join(' - ')
-        : getValue(indicatorConfig.field, indicatorConfig.unit, taxonStats)
-      : DEFAULT_VALUE,
+    value: value,
   };
 }

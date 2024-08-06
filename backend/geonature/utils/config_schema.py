@@ -20,7 +20,7 @@ from marshmallow.validate import OneOf, Regexp, Email, Length
 from geonature.core.gn_synthese.synthese_config import (
     DEFAULT_EXPORT_COLUMNS,
     DEFAULT_LIST_COLUMN,
-    DEFAULT_SPECIES_SHEET_LIST_INDICATORS,
+    DefaultSpeciesSheet,
 )
 from geonature.utils.env import GEONATURE_VERSION, BACKEND_DIR, ROOT_DIR
 from geonature.utils.module import iter_modules_dist, get_module_config
@@ -276,7 +276,8 @@ class ExportObservationSchema(Schema):
 class SpeciesSheet(Schema):
     # --------------------------------------------------------------------
     # SYNTHESE - SPECIES_SHEET
-    LIST_INDICATORS = fields.List(fields.Dict, load_default=DEFAULT_SPECIES_SHEET_LIST_INDICATORS)
+    LIST_INDICATORS = fields.List(fields.Dict, load_default=DefaultSpeciesSheet.LIST_INDICATORS)
+    TAB_MAP = fields.Dict(load_default=DefaultSpeciesSheet.TAB_MAP)
 
 
 class Synthese(Schema):

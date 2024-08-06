@@ -1,27 +1,11 @@
-<div *ngIf="!tabRequired">
-  <pnx-map height="50vh">
-    <pnx-geojson
-      [geojson]="area"
-      [zoomOnFirstTime]="true"
-    ></pnx-geojson>
-  </pnx-map>
-</div>
 <mat-tab-group
-  *ngElse
   [(selectedIndex)]="selectedIndex"
   animationDuration="0ms"
 >
-  <mat-tab>
+  <mat-tab *ngIf="tabsProperties.map.enabled">
     <ng-template mat-tab-label>
       <span>Map</span>
     </ng-template>
-    <div>
-      <pnx-map height="50vh">
-        <pnx-geojson
-          [geojson]="area"
-          [zoomOnFirstTime]="true"
-        ></pnx-geojson>
-      </pnx-map>
-    </div>
+    <tab-map [taxonInfos]="taxonInfos" />
   </mat-tab>
 </mat-tab-group>

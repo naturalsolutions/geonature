@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IndicatorComponent } from './indicator/indicator.component';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from '@geonature/services/config.service';
-import { computeIndicatorFromConfig, Indicator } from './indicator/indicator';
+import { computeIndicatorFromConfig, Indicator, IndicatorRaw } from './indicator/indicator';
 
 @Component({
   standalone: true,
@@ -26,7 +26,7 @@ export class IndicatorsComponent {
       this._config['SYNTHESE']['SPECIES_SHEET']['LIST_INDICATORS']
     ) {
       this.indicators = this._config['SYNTHESE']['SPECIES_SHEET']['LIST_INDICATORS'].map(
-        (indicatorConfig) => computeIndicatorFromConfig(indicatorConfig, taxonStats)
+        (indicatorConfig: IndicatorRaw) => computeIndicatorFromConfig(indicatorConfig, taxonStats)
       );
     } else {
       this.indicators = [];
