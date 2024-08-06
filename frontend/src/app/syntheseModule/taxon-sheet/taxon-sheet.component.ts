@@ -8,17 +8,23 @@ import { GN2CommonModule } from '@geonature_common/GN2Common.module';
 import { Taxon } from '@geonature_common/form/taxonomy/taxonomy.component';
 import { InfosComponent } from './infos/infos.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AdvancedDetailsComponent } from './advanced-infos/advanced-infos.component';
 @Component({
   standalone: true,
   selector: 'pnx-taxon-sheet',
   templateUrl: 'taxon-sheet.component.html',
   styleUrls: ['taxon-sheet.component.scss'],
-  imports: [GN2CommonModule, IndicatorsComponent, InfosComponent, LayoutComponent],
+  imports: [
+    GN2CommonModule,
+    IndicatorsComponent,
+    InfosComponent,
+    LayoutComponent,
+    AdvancedDetailsComponent,
+  ],
 })
 export class TaxonSheetComponent implements OnInit {
   public taxon: Taxon;
-  public profile: any;
-  public profilArea: any;
+  public taxonInfos: any;
   public mediaUrl: any;
   constructor(
     private _route: ActivatedRoute,
@@ -35,8 +41,7 @@ export class TaxonSheetComponent implements OnInit {
           this.taxon = taxon;
           this._ds.getProfile(taxon.cd_ref).subscribe(
             (profil) => {
-              this.profile = profil.properties;
-              this.profilArea = profil;
+              this.taxonInfos = profil;
 
               this._ds.getTaxonAttributsAndMedia(taxon.cd_ref).subscribe((taxonAttrAndMedias) => {
                 const media = taxonAttrAndMedias.medias.find(

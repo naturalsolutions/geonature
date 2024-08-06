@@ -7,13 +7,8 @@
     />
     <indicators
       class="TaxonSheet__indicators"
-      [taxonStats]="profile"
+      [taxonStats]="taxonInfos?.properties"
     />
-    <pnx-map height="50vh">
-      <pnx-geojson
-        [geojson]="profilArea"
-        [zoomOnFirstTime]="true"
-      ></pnx-geojson>
-    </pnx-map>
+    <advanced-infos [taxonInfos]="taxonInfos" />
   </div>
 </layout>
