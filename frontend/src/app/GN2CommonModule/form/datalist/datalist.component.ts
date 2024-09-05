@@ -40,9 +40,12 @@ export class DatalistComponent extends GenericFormComponent implements OnInit {
 
   @Input() dataPath: string; // pour atteindre la liste si elle n'est pas à la racine de la réponse de l'api.
   // si on a 'data/liste' on mettra dataPath='data'
-
   search = '';
   filteredValues;
+
+  loading = false;
+  @Input() reFetchOnSearchInput = false; // pour déclencher la recherche API lors de la saisie
+  @Input() searchParamKey = 'search_name'; // clé pour le paramètre de recherche
 
   constructor(
     private _dfs: DataFormService,
@@ -55,6 +58,7 @@ export class DatalistComponent extends GenericFormComponent implements OnInit {
     super.ngOnInit();
     this.designStyle = this.designStyle || 'material';
     this.formId = `datalist_${Math.ceil(Math.random() * 1e10)}`;
+    this.params = this.params || {};
     this.getData();
   }
 
@@ -65,7 +69,14 @@ export class DatalistComponent extends GenericFormComponent implements OnInit {
 
   searchChanged(event) {
     this.search = event;
-    this.filteredValues = this.getFilteredValues();
+    if (this.reFetchOnSearchInput) {
+      this.filteredValues = [];
+      // Ajout du paramètre de recherche à l'appel API
+      this.params[this.searchParamKey] = this.search;
+      this.getData(); // Relance l'appel API avec le paramètre de recherche mis à jour
+    } else {
+      this.filteredValues = this.getFilteredValues();
+    }
   }
 
   getFilteredValues() {
@@ -152,10 +163,10 @@ export class DatalistComponent extends GenericFormComponent implements OnInit {
   }
 
   getData() {
-    if (!this.values && this.api) {
-      this._dfs
-        .getDataList(this.api, this.application, this.params, this.data)
-        .subscribe((data) => {
+    if ((!this.values && this.api) || (this.filteredValues.length === 0 && this.api !== '')) {
+      this.reFetchOnSearchInput ? (this.loading = true) : null;
+      this._dfs.getDataList(this.api, this.application, this.params, this.data).subscribe(
+        (data) => {
           let values = data;
           if (this.dataPath) {
             const paths = this.dataPath.split('/');
@@ -164,7 +175,13 @@ export class DatalistComponent extends GenericFormComponent implements OnInit {
             }
           }
           this.initValues(values);
-        });
+          this.loading = false;
+        },
+        (error) => {
+          console.error(error);
+          this.loading = false; // Fin du chargement même en cas d'erreur
+        }
+      );
     } else if (this.values) {
       this.initValues(this.values);
     }

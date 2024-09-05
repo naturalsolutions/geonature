@@ -43,9 +43,15 @@
         <mat-option
           *ngIf="filteredValues.length == 0"
           class="not-clickable"
+          *ngIf="filteredValues.length == 0 && loading == false"
         >
           Pas d'élément trouvé
         </mat-option>
+        <mat-spinner
+          *ngIf="loading"
+          diameter="20"
+          matSuffix
+        ></mat-spinner>
         <mat-option
           *ngFor="let value of filteredValues"
           [value]="value[keyValue]"
