@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { TabGeographicOverviewComponent } from './tab-geographic-overview/tab-geographic-overview.component';
 import { TabProfileComponent } from './tab-profile/tab-profile.component';
 import { TabMediaComponent } from './tab-media/tab-media.component';
+import { TabTaxonomyComponent } from './tab-taxonomy/tab-taxonomy.component';
 
 interface Tab {
   label: string;
@@ -24,6 +25,12 @@ export const ALL_TAXON_SHEET_ADVANCED_INFOS_ROUTES: Array<Tab> = [
     path: 'geographic_overview',
     component: TabGeographicOverviewComponent,
     configEnabledField: null, // make it always available !
+  },
+  {
+    label: 'Taxonomie',
+    path: 'taxonomy',
+    configEnabledField: 'ENABLE_TAXONOMY',
+    component: TabTaxonomyComponent,
   },
   {
     label: 'Profil',
