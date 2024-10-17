@@ -447,6 +447,8 @@ MEDIA_CLEAN_CRONTAB = "0 1 * * *"
         ENABLE_PROFILE = true
         # Permet d'activer ou non la section "Taxonomy"
         ENABLE_TAXONOMY = true
+        # Permet d'activer ou non la section "Observers"
+        ENABLE_OBSERVERS = true
 
 # Gestion des demandes d'inscription
 [ACCOUNT_MANAGEMENT]

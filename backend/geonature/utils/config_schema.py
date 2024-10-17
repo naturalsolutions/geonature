@@ -278,6 +278,7 @@ class TaxonSheet(Schema):
     ENABLE_PROFILE = fields.Boolean(load_default=True)
     ENABLE_MEDIA = fields.Boolean(load_default=True)
     ENABLE_TAXONOMY = fields.Boolean(load_default=True)
+    ENABLE_OBSERVERS = fields.Boolean(load_default=True)
 
 
 class Synthese(Schema):
