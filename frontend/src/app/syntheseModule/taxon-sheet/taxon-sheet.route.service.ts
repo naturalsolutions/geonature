@@ -34,10 +34,10 @@ export const ALL_TAXON_SHEET_ADVANCED_INFOS_ROUTES: Array<Tab> = [
     component: TabTaxonomyComponent,
   },
   {
-    label: 'Profil',
-    path: 'profile',
-    configEnabledField: 'ENABLE_PROFILE',
-    component: TabProfileComponent,
+    label: 'Observateurs',
+    path: 'observers',
+    configEnabledField: 'ENABLE_OBSERVERS',
+    component: TabObserversComponent,
   },
   {
     label: 'Médias',
@@ -46,10 +46,10 @@ export const ALL_TAXON_SHEET_ADVANCED_INFOS_ROUTES: Array<Tab> = [
     component: TabMediaComponent,
   },
   {
-    label: 'Observateurs',
-    path: 'observers',
-    configEnabledField: 'ENABLE_OBSERVERS',
-    component: TabObserversComponent,
+    label: 'Profil',
+    path: 'profile',
+    configEnabledField: 'ENABLE_PROFILE',
+    component: TabProfileComponent,
   },
 ];
 
