@@ -77,6 +77,12 @@ export class MediaService {
     return this._http.get(`${this.config.API_ENDPOINT}/gn_commons/medias/${uuidAttachedRow}`);
   }
 
+  getMediasSpecies(cdRef: number, params?: {}): Observable<any> {
+    return this._http.get(`${this.config.API_ENDPOINT}/gn_commons/medias/taxon/${cdRef}`, {
+      params,
+    });
+  }
+
   postMedia(file: File, media): Observable<HttpEvent<any>> {
     const formData = new FormData();
     const postData = media;
@@ -148,7 +154,7 @@ export class MediaService {
     };
   }
 
-  href(media, thumbnail = null) {
+  href(media: Media, thumbnail = null) {
     if (!(media instanceof Media)) {
       media = new Media(media);
     }
