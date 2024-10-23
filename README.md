@@ -1,141 +1,42 @@
 GeoNature
 =========
 
-| branche | backend | frontend |
-|---|---|---|
-| master | [![image](https://github.com/PnX-SI/GeoNature/actions/workflows/pytest.yml/badge.svg?branch=master)](https://github.com/PnX-SI/GeoNature/actions/workflows/pytest.yml) [![image](https://codecov.io/gh/PnX-SI/GeoNature/branch/master/graph/badge.svg?token=L4T1TZIX9Z)](https://codecov.io/gh/PnX-SI/GeoNature) | [![GeoNature](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/r36uo2/master&style=flat)](https://dashboard.cypress.io/projects/r36uo2/runs) |
-| develop | [![image](https://github.com/PnX-SI/GeoNature/actions/workflows/pytest.yml/badge.svg?branch=develop)](https://github.com/PnX-SI/GeoNature/actions/workflows/pytest.yml) [![image](https://codecov.io/gh/PnX-SI/GeoNature/branch/develop/graph/badge.svg?token=L4T1TZIX9Z)](https://codecov.io/gh/PnX-SI/GeoNature) | [![GeoNature](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/r36uo2/develop&style=flat)](https://dashboard.cypress.io/projects/r36uo2/runs) |
+```mermaid
+gantt
+title Import Monitoring Gantt
+dateFormat DD/MM/YYYY
+section START
+    start :s, 23/10/2024, 0d
 
-GeoNature V2 est une refonte complète de la BDD et changement de
-technologies :
+section IM_INIT_FROM_DEST
+    IM_INIT_FROM_DEST_1  :ifd1, after s, 0.5d
+    IM_INIT_FROM_DEST_2  :ifd2, after ifd1, 1.5d
+    IM_INIT_FROM_DEST_3  :ifd3, after ifd2, 0.5d
 
-- Python
-- Flask
-- Leaflet
-- Angular
-- Bootstrap
+section IM_CONSTANTS_DATA
+    IM_CONSTANTS_DATA_1  :cd1, after s, 2d
+    IM_CONSTANTS_DATA_2  :cd2, after cd1, 1d
+    IM_CONSTANTS_DATA_3  :cd3, after cd2, 4d
+    IM_CONSTANTS_DATA_4  :cd4, after cd2, 3d
+    IM_CONSTANTS_DATA_5  :cd5, after cd4 cd3, 3d
 
-Documentation sur <https://docs.geonature.fr>.
+section IM_IMPORT
+    IM_IMPORT_1.0  :i1.0, after s, 2.5d
+    IM_IMPORT_1.1 :i1.1, after i1.0, 4d
+    IM_IMPORT_1.2 :i1.2, after i1.0, 1d
+    IM_IMPORT_2 :i2, after s, 0.5d
+    IM_IMPORT_3 :i3, after s, 1d
+    IM_IMPORT_3.0 :i3.0, after i3, 4d
+    IM_IMPORT_3.1 :i3.1, after i3.0, 4d
+    IM_IMPORT_3.2.1 :i3.2.1, after s, 1d
+    IM_IMPORT_3.2.2 :i3.2.2, after i3.2.1, 1.5d
+    IM_IMPORT_3.3 :i3.3, after i3.2.1, 0.5
+    IM_IMPORT_3.4 :i3.4, after i3.0, 0.5
 
-**Application de saisie, de gestion, de synthèse et de diffusion
-d\'observations faune et flore.**
-
-GeoNature est une application permettant de regrouper l\'ensemble des
-données provenant des **protocoles Faune et Flore**, de saisir dans
-différents protocoles et de consulter l\'ensemble de ces données dans
-une application de **synthèse**.
-
-Celle-ci regroupe toutes les données des différents protocoles FAUNE et
-FLORE en les limitant au niveau QUI QUOI QUAND OU, en s\'appuyant sur
-les référentiels, les standards et les nomenclatures du SINP.
-
-Il est possible d\'ajouter d\'autres protocoles dans GeoNature sous
-forme de modules.
-
-Une instance de démo est disponible sur
-<http://demo.geonature.fr/geonature> (admin / admin).
-
-Présentation de GeoNature sur <http://geonature.fr> et dans
-<http://geonature.fr/documents>
-
-Modules et projets liés
-=======================
-
--   UsersHub (gestion des utilisateurs et de leurs droits) :
-    <https://github.com/PnX-SI/UsersHub>
--   Sous-module d\'authentification UsersHub :
-    <https://github.com/PnX-SI/UsersHub-authentification-module>
--   TaxHub (gestion des taxons) : <https://github.com/PnX-SI/TaxHub>
--   Nomenclature API (gestion des nomenclatures) :
-    <https://github.com/PnX-SI/Nomenclature-api-module>
--   GeoNature-atlas (portail web de diffusion des observations) :
-    <https://github.com/PnX-SI/GeoNature-atlas>
--   GeoNature-mobile (saisie mobile dans les protocoles de GeoNature v1)
-    : <https://github.com/PnEcrins/GeoNature-mobile>
--   Occtax-mobile (saisie mobile dans le module Occtax) :
-    <https://github.com/PnX-SI/gn_mobile_occtax>
--   Sync-mobile (synchronisation des données mobiles) :
-    <https://github.com/PnX-SI/gn_mobile_core>
--   GeoNature module Export :
-    <https://github.com/PnX-SI/gn_module_export>
--   GeoNature module Import :
-    <https://github.com/PnX-SI/gn_module_import>
--   GeoNature module Dashboard :
-    <https://github.com/PnX-SI/gn_module_dashboard>
--   GeoNature module Validation :
-    <https://github.com/PnX-SI/gn_module_validation>
--   GeoNature module Flore prioritaire :
-    <https://github.com/PnX-SI/gn_module_flore_prioritaire>
--   GeoNature module Suivi des habitats :
-    <https://github.com/PnX-SI/gn_module_suivi_habitat_territoire>
--   GeoNature module Suivi des stations d\'habitat :
-    <https://github.com/PnX-SI/gn_module_suivi_habitat_station>
--   GeoNature module Suivi de la flore territoire :
-    <https://github.com/PnX-SI/gn_module_suivi_flore_territoire>
--   Suivi-Flore-Territoire-mobile :
-    <https://github.com/PnX-SI/gn_mobile_sft>
--   API Flask d\'interrogation du référentiel Habref :
-    <https://github.com/PnX-SI/Habref-api-module>
--   GeoNature module générique de suivis :
-    <https://github.com/PnX-SI/gn_module_monitoring>
--   GeoNature module Suivi chiroptères :
-    <https://github.com/PnCevennes/gn_module_suivi_chiro>
--   Protocoles de suivi (frontend) :
-    <https://github.com/PnCevennes/projet_suivis_frontend>
--   GeoNature-citizen (portail de collecte citoyenne) :
-    <https://github.com/PnX-SI/GeoNature-citizen>
-
-Gestion des utilisateurs
-========================
-
-La gestion des utilisateurs est déportée dans l\'application UsersHub
-(<https://github.com/PnX-SI/UsersHub>). Celle-ci permet de centraliser
-les utilisateurs et observateurs, de les ajouter dans un groupe et
-d\'hériter directement de droits dans l\'ensemble des applications
-(GeoNature, Faune, Flore, Geotrek, Police\...).
-
-A chaque ajout ou modification dans l\'application UsersHub, sa base de
-données est mise à jour ainsi que tous les schémas `utilisateurs` des
-applications qui sont connectées à UsersHub.
-
-Ne jamais modifier une donnée dans le schéma `utilisateurs` de
-GeoNature. Celui-ci est synchronisée automatiquement par les
-modifications apportées depuis l\'application UsersHub dans le schéma
-`utilisateurs` de la BDD de UsersHub.
-
-Attention aussi à ne jamais supprimer un utilisateur auquel serait
-associé des observations dans GeoNature. Vous pouvez lui supprimer ses
-identifiants de connexion et ses droits dans UsersHub mais surtout pas
-le supprimer car sinon le lien avec ses observations serait cassé.
-
-Gestion de la taxonomie
-=======================
-
-GeoNature et les protocoles qui y sont intégrés s\'appuient sur
-différentes listes de taxons. Celles-ci sont basées sur le référentiel
-national TAXREF du MNHN.
-
-Pour chaque observation d\'une espèce il est en effet crucial de garder
-un identifiant de référence du taxon pour pouvoir échanger et agglomérer
-les données avec d\'autres structures.
-
-Cependant, il est souvent nécessaire de limiter la liste des taxons à
-certaines espèces ou groupes. Voir d\'ajouter des informations
-spécifiques sur chaque taxons (patrimonialité, statuts\...).
-
-Pour cela GeoNature s\'appuie sur l\'application TaxHub et sa structure
-de BDD qui est dupliquée dans le schéma `taxonomie`. Détails sur
-<https://github.com/PnX-SI/TaxHub>
-
-[![image](https://geonature.fr/documents/logo-geonature.jpg)](https://geonature.fr)
-
-Licence
-=======
-
--   OpenSource - GPL-3.0
--   Copyleft 2014-2023 - Parc National des Écrins - Parc national des
-    Cévennes
-
-[![image](https://geonature.fr/img/logo-pne.jpg)](https://www.ecrins-parcnational.fr)
-
-[![image](https://geonature.fr/img/logo-pnc.jpg)](https://www.cevennes-parcnational.fr)
+section IM_DELETE_IMPORT
+    IM_DELETE_IMPORT_1  :di1, after s, 0.5d
+    IM_DELETE_IMPORT_1.bis  :di1b, after di1, 1d
+    IM_DELETE_IMPORT_2  :di, after s, 2.5d
+    IM_DELETE_IMPORT_3  :di3, after di1b di2 i3.0, 0.5d
+    IM_DELETE_IMPORT_4  :di4, after s, 0.5d
+```
