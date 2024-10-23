@@ -6,7 +6,7 @@ gantt
 title Import Monitoring Gantt
 dateFormat DD/MM/YYYY
 section START
-    start :s, 23/10/2024, 0d
+    start :s, 24/10/2024, 0d
 
 section IM_INIT_FROM_DEST
     IM_INIT_FROM_DEST_1  :ifd1, after s, 0.5d
