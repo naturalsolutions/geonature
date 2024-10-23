@@ -5,6 +5,8 @@ GeoNature
 gantt
 title Import Monitoring Gantt
 dateFormat DD/MM/YYYY
+excludes weekends
+
 section START
     start :s, 24/10/2024, 0d
 
