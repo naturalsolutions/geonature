@@ -1060,10 +1060,19 @@ if app.config["SYNTHESE"]["TAXON_SHEET"]["ENABLE_OBSERVERS"]:
             .outerjoin(TMedias, TMedias.uuid_attached_row == Synthese.unique_id_sinp)
             .where(Synthese.cd_nom.in_(taxref_cd_nom_list))
         )
-        query = TaxonSheetUtils.get_synthese_query_with_scope(g.current_user, scope, query)
-        query = TaxonSheetUtils.update_query_with_sorting(query, sort_by, sort_order)
-        results = TaxonSheetUtils.paginate(query, page, per_page)
+        # query = TaxonSheetUtils.get_synthese_query_with_scope(g.current_user, scope, query)
+        synthese_query_obj = SyntheseQuery(Synthese, query, {})
+        synthese_query_obj.filter_query_with_cruved(g.current_user, scope)
+        query = synthese_query_obj.query
 
+        # query = TaxonSheetUtils.update_query_with_sorting(query, sort_by, sort_order)
+        if sort_order == "asc":
+            query = query.order_by(asc(sort_by))
+        else:
+            query = query.order_by(desc(sort_by))
+
+        # results = TaxonSheetUtils.paginate(query, page, per_page)
+        results = query.paginate(page=page, per_page=per_page, error_out=False)
         return jsonify(
             {
                 "items": results.items,
