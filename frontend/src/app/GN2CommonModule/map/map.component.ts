@@ -7,6 +7,7 @@ import { CommonService } from '../service/common.service';
 
 import 'leaflet-draw';
 import 'leaflet.locatecontrol';
+import 'leaflet.polylinemeasure';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import {
@@ -161,6 +162,12 @@ export class MapComponent implements OnInit {
     if (this.geolocation && this.config.MAPCONFIG.GEOLOCATION) {
       (L.control as any).locate().addTo(this.map);
     }
+
+    (L.control as any)
+      .polylineMeasure({
+        position: 'topright',
+      })
+      .addTo(this.map);
 
     // --- LAYERS CONTROL
     // Baselayers
