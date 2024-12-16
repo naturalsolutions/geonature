@@ -868,11 +868,14 @@ class TestImportsSynthese:
         )
         assert len(r.json) == len(valid_file_expected_errors)
 
-    def test_import_valid_file(self, users, datasets):
+    @pytest.mark.parametrize(
+        "test_file_name",
+        ["valid_file.csv", "valid_file_test_default_values.csv"],
+    )
+    def test_import_valid_file(self, users, datasets, test_file_name):
         set_logged_user(self.client, users["user"])
 
         # Upload step
-        test_file_name = "valid_file.csv"
         with open(tests_path / "files" / "synthese" / test_file_name, "rb") as f:
             test_file_line_count = sum(1 for line in f) - 1  # remove headers
             f.seek(0)

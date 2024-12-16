@@ -315,7 +315,17 @@ def build_fieldmapping(
             column_src = mapping.get("column_src", None)
             default_value = mapping.get("default_value", None)
             if field.multi:
-                correct = list(set(columns) & set(column_src))
+                try:
+                    default_value = json.loads(default_value)
+                except Exception:
+                    default_value = {}
+
+                correct = [
+                    col
+                    for col in column_src
+                    if col in columns or default_value.get(col, None) is not None
+                ]
+
                 if len(correct) > 0:
                     fieldmapping[field.source_column] = {
                         "field": field,
