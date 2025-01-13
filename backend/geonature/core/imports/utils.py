@@ -186,9 +186,8 @@ def preprocess_value(
     """
 
     def build_additional_data(columns: dict):
-        try:
-            default_values = json.loads(default_value)
-        except Exception:
+        default_values = default_value
+        if default_values is None or not isinstance(default_values, dict):
             default_values = {}
         result = {}
         for key, value in columns.items():

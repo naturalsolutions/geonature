@@ -4,6 +4,7 @@ from functools import partial
 from operator import or_
 from functools import reduce
 import csv
+import json
 
 from geonature.core.imports.checks.errors import ImportCodeError
 import pytest
@@ -935,9 +936,24 @@ class TestImportsSynthese:
             .scalar_one()
         )
         fieldmapping_values = fieldmapping.values.copy()
-        fieldmapping_values.update(
-            {"count_max": fieldmapping_values.get("count_max", {}) | {"default_value": 5}}
-        )
+        if test_file_name == "valid_file_test_default_values.csv":
+            additional_data = fieldmapping_values.get("additional_data", {})
+            additional_data_column_src = additional_data.get("column_src", [])
+            if "additional_data_a" not in additional_data_column_src:
+                additional_data_column_src.append("additional_data_a")
+            additional_data_default_value = additional_data.get("default_value", "{}")
+            additional_data_default_value = json.loads(additional_data_default_value)
+            additional_data_default_value["additional_data_a"] = "ok"
+            fieldmapping_values.update(
+                {
+                    "count_max": fieldmapping_values.get("count_max", {}) | {"default_value": 5},
+                    "additional_data": {
+                        "column_src": additional_data_column_src,
+                        "default_value": json.dumps(additional_data_default_value),
+                    },
+                }
+            )
+
         r = self.client.post(
             url_for("import.set_import_field_mapping", import_id=imprt.id_import),
             data=fieldmapping_values,
@@ -1034,6 +1050,14 @@ class TestImportsSynthese:
             Synthese.query.filter_by(id_import=imprt.id_import).count()
             == imprt.statistics["import_count"]
         )
+
+        if test_file_name == "valid_file_test_default_values.csv":
+            imported_rows = Synthese.query.filter_by(id_import=imprt.id_import).all()
+            for row in imported_rows:
+                additional_data = row.additional_data
+                assert isinstance(additional_data, dict) and additional_data.get(
+                    "additional_data_a"
+                ) not in ["", None]
 
         # Delete step
         r = self.client.delete(url_for("import.delete_import", import_id=imprt.id_import))

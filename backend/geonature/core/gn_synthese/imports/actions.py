@@ -348,14 +348,12 @@ class SyntheseImportActions(ImportActions):
                 continue
             field = fields[field_name]
             column_src = source_field.get("column_src", None)
+            default_value = source_field.get("default_value", None)
             if field.multi:
-                if not set(column_src).isdisjoint(imprt.columns):
+                if not set(column_src).isdisjoint(imprt.columns) or default_value is not None:
                     insert_fields |= {field}
             else:
-                if (
-                    column_src in imprt.columns
-                    or source_field.get("default_value", None) is not None
-                ):
+                if column_src in imprt.columns or default_value is not None:
                     insert_fields |= {field}
 
         insert_fields -= {fields["unique_dataset_id"]}  # Column only used for filling `id_dataset`
