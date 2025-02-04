@@ -53,13 +53,14 @@
       flex-flow: column;
       justify-content: flex-start;
       max-width: 100%;
+      --handle-size: 15px;
+      padding-left: var(--handle-size);
+      padding-right: var(--handle-size);
       .DateSlider {
-        --mdc-slider-handle-width: 15px;
-        --mdc-slider-handle-height: 15px;
+        --mdc-slider-handle-width: var(--handle-size);
+        --mdc-slider-handle-height: var(--handle-size);
         --mdc-slider-inactive-track-height: 3px;
         --mdc-slider-active-track-height: var(--mdc-slider-inactive-track-height);
-
-        width: inherit;
       }
     }
   }
