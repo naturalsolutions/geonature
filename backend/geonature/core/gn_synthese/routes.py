@@ -979,6 +979,7 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
         """Return stats for a specific taxon"""
 
         area_type = request.args.get("area_type")
+        include_descendants = True if request.args.get("include_descendants") == "true" else False
 
         if not area_type:
             raise BadRequest("Missing area_type parameter")
@@ -999,38 +1000,44 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
             .where(LAreas.id_type == BibAreasTypes.id_type, BibAreasTypes.type_code == area_type)
             .alias("areas")
         )
-        cd_ref = db.session.scalar(select(Taxref.cd_ref).where(Taxref.cd_nom == cd_nom))
-        taxref_cd_nom_list = db.session.scalars(
-            select(Taxref.cd_nom).where(Taxref.cd_ref == cd_ref)
-        )
+
+        filters = {}
+        if include_descendants:
+            filters["cd_ref_parent"] = [cd_nom]
+        else:
+            cd_ref = db.session.scalar(select(Taxref.cd_ref).where(Taxref.cd_nom == cd_nom))
+            taxref_cd_nom_list = db.session.scalars(
+                select(Taxref.cd_nom).where(Taxref.cd_ref == cd_ref)
+            ).all()
 
         # Main query to fetch stats
-        query = (
-            select(
-                [
-                    func.count(distinct(Synthese.id_synthese)).label("observation_count"),
-                    func.count(distinct(Synthese.observers)).label("observer_count"),
-                    func.count(distinct(areas_subquery.c.id_area)).label("area_count"),
-                    func.min(Synthese.altitude_min).label("altitude_min"),
-                    func.max(Synthese.altitude_max).label("altitude_max"),
-                    func.min(Synthese.date_min).label("date_min"),
-                    func.max(Synthese.date_max).label("date_max"),
-                ]
+        query = select(
+            [
+                func.count(distinct(Synthese.id_synthese)).label("observation_count"),
+                func.count(distinct(Synthese.observers)).label("observer_count"),
+                func.count(distinct(areas_subquery.c.id_area)).label("area_count"),
+                func.min(Synthese.altitude_min).label("altitude_min"),
+                func.max(Synthese.altitude_max).label("altitude_max"),
+                func.min(Synthese.date_min).label("date_min"),
+                func.max(Synthese.date_max).label("date_max"),
+            ]
+        ).select_from(
+            sa.join(
+                Synthese,
+                CorAreaSynthese,
+                Synthese.id_synthese == CorAreaSynthese.id_synthese,
             )
-            .select_from(
-                sa.join(
-                    Synthese,
-                    CorAreaSynthese,
-                    Synthese.id_synthese == CorAreaSynthese.id_synthese,
-                )
-                .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
-                .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
-                .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
-            )
-            .where(Synthese.cd_nom.in_(taxref_cd_nom_list))
+            .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
+            .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
+            .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
         )
 
-        synthese_query_obj = SyntheseQuery(Synthese, query, {})
+        if not include_descendants:
+            query = query.where(Synthese.cd_nom.in_(taxref_cd_nom_list))
+
+        synthese_query_obj = SyntheseQuery(Synthese, query, filters if include_descendants else {})
+        if include_descendants:
+            synthese_query_obj.filter_taxonomy()
         synthese_query_obj.filter_query_with_cruved(g.current_user, scope)
         result = DB.session.execute(synthese_query_obj.query)
         synthese_stats = result.fetchone()
