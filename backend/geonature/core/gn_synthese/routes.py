@@ -995,29 +995,25 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
         taxref_cd_nom_list = TaxonSheetUtils.get_cd_nom_list_from_cd_ref(cd_ref)
 
         # Main query to fetch stats
-        query = (
-            select(
-                [
-                    func.count(distinct(Synthese.id_synthese)).label("observation_count"),
-                    func.count(distinct(Synthese.observers)).label("observer_count"),
-                    func.count(distinct(areas_subquery.c.id_area)).label("area_count"),
-                    func.min(Synthese.altitude_min).label("altitude_min"),
-                    func.max(Synthese.altitude_max).label("altitude_max"),
-                    func.min(Synthese.date_min).label("date_min"),
-                    func.max(Synthese.date_max).label("date_max"),
-                ]
+        query = select(
+            [
+                func.count(distinct(Synthese.id_synthese)).label("observation_count"),
+                func.count(distinct(Synthese.observers)).label("observer_count"),
+                func.count(distinct(areas_subquery.c.id_area)).label("area_count"),
+                func.min(Synthese.altitude_min).label("altitude_min"),
+                func.max(Synthese.altitude_max).label("altitude_max"),
+                func.min(Synthese.date_min).label("date_min"),
+                func.max(Synthese.date_max).label("date_max"),
+            ]
+        ).select_from(
+            sa.join(
+                Synthese,
+                CorAreaSynthese,
+                Synthese.id_synthese == CorAreaSynthese.id_synthese,
             )
-            .select_from(
-                sa.join(
-                    Synthese,
-                    CorAreaSynthese,
-                    Synthese.id_synthese == CorAreaSynthese.id_synthese,
-                )
-                .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
-                .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
-                .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
-            )
-            .where(Synthese.cd_nom.in_(taxref_cd_nom_list))
+            .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
+            .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
+            .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
         )
 
         synthese_query = TaxonSheetUtils.get_synthese_query_with_scope(g.current_user, scope, query)
