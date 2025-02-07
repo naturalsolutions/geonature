@@ -3,7 +3,7 @@ from geonature.utils.env import db
 from ref_geo.models import LAreas, BibAreasTypes
 
 from geonature.core.gn_synthese.models import Synthese
-from sqlalchemy import select, desc, asc
+from sqlalchemy import select, desc, asc, column, func
 from apptax.taxonomie.models import Taxref
 from geonature.core.gn_synthese.utils.query_select_sqla import SyntheseQuery
 from sqlalchemy.orm import Query
@@ -62,3 +62,26 @@ class TaxonSheetUtils:
             .where(LAreas.id_type == BibAreasTypes.id_type, BibAreasTypes.type_code == area_type)
             .alias("areas")
         )
+
+    @staticmethod
+    def get_linnean_descendants(cd_ref_parent: int) -> typing.List[int]:
+        subquery = (
+            select(column("cd_ref"))
+            .select_from(func.taxonomie.find_all_taxons_children(cd_ref_parent))
+            .subquery()
+        )
+
+        query = select(subquery.c.cd_ref).distinct()
+
+        result = db.session.execute(query)
+        return [row[0] for row in result]
+
+    @staticmethod
+    def get_taxon_list(cd_ref: int, has_linnean_descendants: bool) -> typing.List[int]:
+        if has_linnean_descendants:
+            taxref_cd_nom_list = TaxonSheetUtils.get_linnean_descendants(cd_ref)
+            if not taxref_cd_nom_list:
+                taxref_cd_nom_list = TaxonSheetUtils.get_cd_nom_list_from_cd_ref(cd_ref)
+        else:
+            taxref_cd_nom_list = TaxonSheetUtils.get_cd_nom_list_from_cd_ref(cd_ref)
+        return taxref_cd_nom_list

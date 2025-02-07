@@ -245,6 +245,8 @@ class SyntheseQuery:
             result = DB.engine.execute(sql, id_parent=cd_ref_parent_int)
             if result:
                 cd_ref_childs = [r[0] for r in result]
+                if not cd_ref_childs and "linnean_descendants" in self.filters:
+                    self.filters["cd_ref"] = cd_ref_parent_int
 
         cd_ref_selected = []
         if "cd_ref" in self.filters:

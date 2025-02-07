@@ -95,9 +95,10 @@ export class TabGeographicOverviewComponent implements OnInit {
     this._syntheseDataService
       .getSyntheseData(
         {
-          cd_ref: [this.taxon.cd_ref],
+          cd_ref_parent: [this.taxon.cd_ref],
           date_min: date_min,
           date_max: date_max,
+          linnean_descendants: true,
         },
         { format }
       )

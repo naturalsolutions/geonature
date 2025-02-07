@@ -59,7 +59,7 @@ export class SyntheseDataService {
 
   getSyntheseTaxonSheetStat(cd_ref: number, areaType: string = 'COM') {
     return this._api.get<any>(`${this.config.API_ENDPOINT}/synthese/taxon_stats/${cd_ref}`, {
-      params: new HttpParams().append('area_type', areaType).append('include_descendants', 'true'),
+      params: new HttpParams().append('area_type', areaType).append('linnean_descendants', 'true'),
     });
   }
 
@@ -74,6 +74,7 @@ export class SyntheseDataService {
         page: pagination.currentPage,
         sort_by: sort.sortBy,
         sort_order: sort.sortOrder,
+        linnean_descendants: 'true',
       },
     });
   }
