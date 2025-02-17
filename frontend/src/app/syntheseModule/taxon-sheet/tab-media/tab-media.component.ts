@@ -6,6 +6,7 @@ import { GN2CommonModule } from '@geonature_common/GN2Common.module';
 import { CommonModule } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { SyntheseDataService } from '@geonature_common/form/synthese-form/synthese-data.service';
+import { Loadable } from '../loadable';
 
 export interface Pagination {
   totalItems: number;
@@ -31,7 +32,7 @@ export const DEFAULT_PAGINATION: Pagination = {
   styleUrls: ['./tab-media.component.scss'],
   imports: [GN2CommonModule, CommonModule],
 })
-export class TabMediaComponent implements OnInit {
+export class TabMediaComponent extends Loadable implements OnInit {
   public medias: any[] = [];
   public selectedMedia: any = {};
   taxon: Taxon | null = null;
@@ -41,7 +42,9 @@ export class TabMediaComponent implements OnInit {
     public ms: MediaService,
     private _tss: TaxonSheetService,
     private _syntheseDataService: SyntheseDataService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this._tss.taxon.subscribe((taxon) => {
@@ -57,6 +60,7 @@ export class TabMediaComponent implements OnInit {
   }
 
   loadMedias(selectedMediaIndex: number = 0) {
+    this.startLoading();
     this._syntheseDataService
       .getTaxonMedias(this.taxon.cd_ref, {
         page: this.pagination.currentPage + 1,
@@ -73,6 +77,9 @@ export class TabMediaComponent implements OnInit {
         if (!this.medias.some((media) => media.id_media == this.selectedMedia.id_media)) {
           this.selectedMedia = this.medias[selectedMediaIndex];
         }
+        this.stopLoading();
+      }, () => {
+        this.stopLoading();
       });
   }
 
