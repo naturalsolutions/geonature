@@ -45,7 +45,6 @@ import geonature.core.gn_synthese.module
 from geonature.core.gn_synthese.models import (
     BibReportsTypes,
     CorAreaSynthese,
-    CorObserverSynthese,
     DefaultsNomenclaturesValue,
     Synthese,
     TSources,
@@ -79,7 +78,6 @@ from ref_geo.models import LAreas, BibAreasTypes
 from apptax.taxonomie.models import (
     Taxref,
     bdc_statut_cor_text_area,
-    Taxref,
     TaxrefBdcStatutCorTextValues,
     TaxrefBdcStatutTaxon,
     TaxrefBdcStatutText,
@@ -993,7 +991,7 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
 
         areas_subquery = TaxonSheetUtils.get_area_subquery(area_type)
 
-        taxref_subquery = TaxonSheetUtils.get_taxon_list_subquery(cd_ref)
+        taxon_subquery = TaxonSheetUtils.get_taxon_subquery(cd_ref)
 
         # Main query to fetch stats
         query = (
@@ -1017,7 +1015,7 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
                 .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
                 .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
                 .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
-                .join(taxref_subquery, taxref_subquery.c.cd_nom == Synthese.cd_nom)
+                .join(taxon_subquery, taxon_subquery.c.cd_nom == Synthese.cd_nom)
             )
         )
 
@@ -1056,7 +1054,7 @@ if app.config["SYNTHESE"]["TAXON_SHEET"]["ENABLE_TAB_OBSERVERS"]:
         if sort_by not in ["observer", "date_min", "date_max", "observation_count", "media_count"]:
             raise BadRequest(f"The sort_by column {sort_by} is not defined")
 
-        taxref_subquery = TaxonSheetUtils.get_taxon_list_subquery(cd_ref)
+        taxon_subquery = TaxonSheetUtils.get_taxon_subquery(cd_ref)
 
         query = (
             db.session.query(
@@ -1068,7 +1066,7 @@ if app.config["SYNTHESE"]["TAXON_SHEET"]["ENABLE_TAB_OBSERVERS"]:
                 func.count(Synthese.id_synthese).label("observation_count"),
                 func.count(TMedias.id_media).label("media_count"),
             )
-            .join(taxref_subquery, taxref_subquery.c.cd_nom == Synthese.cd_nom)
+            .join(taxon_subquery, taxon_subquery.c.cd_nom == Synthese.cd_nom)
             .group_by("observer")
             .outerjoin(Synthese.medias)
         )
@@ -1527,16 +1525,18 @@ def taxon_medias(cd_ref):
     per_page = request.args.get("per_page", 10, int)
     page = request.args.get("page", 1, int)
 
-    taxref_subquery = TaxonSheetUtils.get_taxon_list_subquery(cd_ref)
+    taxon_subquery = TaxonSheetUtils.get_taxon_subquery(cd_ref)
 
     query = (
         select(TMedias)
-        # .join(Synthese on taxref_subquery, taxref_subquery.c.cd_nom == Synthese.cd_nom)
+        .select_from(Synthese)
         .join(Synthese.medias)
+        .join(taxon_subquery, taxon_subquery.c.cd_nom == Synthese.cd_nom)
         .order_by(TMedias.meta_create_date.desc())
     )
 
     pagination = DB.paginate(query, page=page, per_page=per_page)
+
     return {
         "total": pagination.total,
         "page": pagination.page,

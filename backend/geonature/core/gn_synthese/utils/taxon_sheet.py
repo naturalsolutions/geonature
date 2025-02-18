@@ -55,7 +55,6 @@ class TaxonSheetUtils:
 
     @staticmethod
     def get_area_subquery(area_type: str) -> Query:
-
         # Subquery to fetch areas based on area_type
         return (
             select(LAreas.id_area)
@@ -64,7 +63,7 @@ class TaxonSheetUtils:
         )
 
     @staticmethod
-    def get_taxon_list_subquery(cd_ref: int) -> Query:
+    def get_taxon_subquery(cd_ref: int) -> Query:
         # Subquery to fetch areas based on area_type# Subquery to fetch areas based on area_type
         current = aliased(TaxrefTree)
         return (
@@ -77,4 +76,5 @@ class TaxonSheetUtils:
                     TaxrefTree.path.op("<@")(current.path),
                 ),
             )
+            .alias("taxons")
         )
