@@ -97,8 +97,7 @@ export class TabGeographicOverviewComponent implements OnInit {
         {
           cd_ref_parent: [this.taxon.cd_ref],
           date_min: date_min,
-          date_max: date_max,
-          linnean_descendants: true,
+          date_max: date_max
         },
         { format }
       )

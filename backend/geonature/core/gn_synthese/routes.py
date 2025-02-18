@@ -141,7 +141,6 @@ def get_observations_for_web(permissions):
     :qparam str period_end: *tbd*
     :qparam str area*: Generic filter on area
     :qparam str *: Generic filter, given by colname & value
-    :qparam bool linnean_descendants: *tbd*
     :>jsonarr array data: Array of synthese with geojson key, see above
     :>jsonarr int nb_total: Number of observations
     :>jsonarr bool nb_obs_limited: Is number of observations capped
@@ -986,7 +985,6 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
         """Return stats for a specific taxon"""
 
         area_type = request.args.get("area_type")
-        has_linnean_descendants = request.args.get("linnean_descendants", False, bool)
         if not area_type:
             raise BadRequest("Missing area_type parameter")
 
@@ -995,7 +993,7 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
 
         areas_subquery = TaxonSheetUtils.get_area_subquery(area_type)
 
-        taxref_cd_nom_list = TaxonSheetUtils.get_taxon_list(cd_ref, has_linnean_descendants)
+        taxref_subquery = TaxonSheetUtils.get_taxon_list_subquery(cd_ref)
 
         # Main query to fetch stats
         query = (
@@ -1019,8 +1017,8 @@ if app.config["SYNTHESE"]["ENABLE_TAXON_SHEETS"]:
                 .join(areas_subquery, CorAreaSynthese.id_area == areas_subquery.c.id_area)
                 .join(LAreas, CorAreaSynthese.id_area == LAreas.id_area)
                 .join(BibAreasTypes, LAreas.id_type == BibAreasTypes.id_type)
+                .join(taxref_subquery, taxref_subquery.c.cd_nom == Synthese.cd_nom)
             )
-            .where(Synthese.cd_nom.in_(taxref_cd_nom_list))
         )
 
         synthese_query = TaxonSheetUtils.get_synthese_query_with_scope(g.current_user, scope, query)
@@ -1053,13 +1051,12 @@ if app.config["SYNTHESE"]["TAXON_SHEET"]["ENABLE_TAB_OBSERVERS"]:
         field_separator = request.args.get(
             "field_separator", app.config["SYNTHESE"]["FIELD_OBSERVERS_SEPARATOR"]
         )
-        has_linnean_descendants = request.args.get("linnean_descendants", False, bool)
 
         # Handle sorting
         if sort_by not in ["observer", "date_min", "date_max", "observation_count", "media_count"]:
             raise BadRequest(f"The sort_by column {sort_by} is not defined")
 
-        taxref_cd_nom_list = TaxonSheetUtils.get_taxon_list(cd_ref, has_linnean_descendants)
+        taxref_subquery = TaxonSheetUtils.get_taxon_list_subquery(cd_ref)
 
         query = (
             db.session.query(
@@ -1071,9 +1068,9 @@ if app.config["SYNTHESE"]["TAXON_SHEET"]["ENABLE_TAB_OBSERVERS"]:
                 func.count(Synthese.id_synthese).label("observation_count"),
                 func.count(TMedias.id_media).label("media_count"),
             )
+            .join(taxref_subquery, taxref_subquery.c.cd_nom == Synthese.cd_nom)
             .group_by("observer")
             .outerjoin(Synthese.medias)
-            .where(Synthese.cd_nom.in_(taxref_cd_nom_list))
         )
         query = TaxonSheetUtils.get_synthese_query_with_scope(g.current_user, scope, query)
         query = TaxonSheetUtils.update_query_with_sorting(query, sort_by, sort_order)
@@ -1529,12 +1526,15 @@ def notify_new_report_change(synthese, user, id_roles, content):
 def taxon_medias(cd_ref):
     per_page = request.args.get("per_page", 10, int)
     page = request.args.get("page", 1, int)
-    has_linnean_descendants = request.args.get("linnean_descendants", False, bool)
 
-    query = select(TMedias).join(Synthese.medias).order_by(TMedias.meta_create_date.desc())
+    taxref_subquery = TaxonSheetUtils.get_taxon_list_subquery(cd_ref)
 
-    taxref_cd_nom_list = TaxonSheetUtils.get_taxon_list(cd_ref, has_linnean_descendants)
-    query = query.where(Synthese.cd_nom.in_(taxref_cd_nom_list))
+    query = (
+        select(TMedias)
+        # .join(Synthese on taxref_subquery, taxref_subquery.c.cd_nom == Synthese.cd_nom)
+        .join(Synthese.medias)
+        .order_by(TMedias.meta_create_date.desc())
+    )
 
     pagination = DB.paginate(query, page=page, per_page=per_page)
     return {

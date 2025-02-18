@@ -64,8 +64,7 @@ export class TabMediaComponent extends Loadable implements OnInit {
     this._syntheseDataService
       .getTaxonMedias(this.taxon.cd_ref, {
         page: this.pagination.currentPage + 1,
-        per_page: this.pagination.perPage,
-        linnean_descendants: 'true',
+        per_page: this.pagination.perPage
       })
       .subscribe((response) => {
         this.medias = response.items;
