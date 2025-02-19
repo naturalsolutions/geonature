@@ -11,7 +11,7 @@ import { UserManagementGuard } from '@geonature/modules/login/routes-guard.servi
 import { NewPasswordComponent } from '../modules/login/new-password/new-password.component';
 
 import { LoginComponent } from '../modules/login/login/login.component';
-import { NavHomeComponent } from '../components/nav-home/nav-home.component';
+import { NavHomeComponent } from '../components/app-home/app-home.component';
 import { NotificationComponent } from '../components/notification/notification.component';
 import { RulesComponent } from '../components/notification/rules/rules.component';
 

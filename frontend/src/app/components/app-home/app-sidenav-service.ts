@@ -4,7 +4,7 @@ import { Module } from '@geonature/models/module.model';
 import { Subject } from 'rxjs';
 
 @Injectable()
-export class SideNavService {
+export class AppSideNavService {
   sidenav: MatSidenav;
   opened: boolean;
   private _module = new Subject<any>();

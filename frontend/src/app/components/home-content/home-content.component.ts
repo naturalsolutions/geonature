@@ -5,7 +5,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { MapService } from '@geonature_common/map/map.service';
 import { SyntheseDataService } from '@geonature_common/form/synthese-form/synthese-data.service';
 
-import { SideNavService } from '../sidenav-items/sidenav-service';
+import { AppSideNavService } from '../app-home/app-sidenav-service';
 import { ModuleService } from '../../services/module.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class HomeContentComponent implements OnInit, AfterViewInit {
 
   params: URLSearchParams = new URLSearchParams();
   constructor(
-    private _SideNavService: SideNavService,
+    private _SideNavService: AppSideNavService,
     private _syntheseApi: SyntheseDataService,
     private _mapService: MapService,
     private _moduleService: ModuleService,

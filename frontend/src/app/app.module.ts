@@ -21,9 +21,8 @@ import { HomeDiscussionsTableComponent } from './components/home-content/home-di
 import { HomeDiscussionsComponent } from './components/home-content/home-discussions/home-discussions.component';
 import { HomeDiscussionsToggleComponent } from './components/home-content/home-discussions/home-discussions-toggle/home-discussions-toggle.component';
 
-import { SidenavItemsComponent } from './components/sidenav-items/sidenav-items.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { NavHomeComponent } from './components/nav-home/nav-home.component';
+import { NavHomeComponent } from './components/app-home/app-home.component';
 import { LoginModule } from './modules/login/login.module';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RulesComponent } from './components/notification/rules/rules.component';
@@ -43,7 +42,6 @@ import { AuthGuard } from '@geonature/routing/auth-guard.service';
 import { ModuleGuardService } from '@geonature/routing/module-guard.service';
 import { ModuleService } from './services/module.service';
 import { CruvedStoreService } from './GN2CommonModule/service/cruved-store.service';
-import { SideNavService } from './components/sidenav-items/sidenav-service';
 import { ConfigService } from './services/config.service';
 
 import { MyCustomInterceptor } from './services/http.interceptor';
@@ -102,13 +100,12 @@ export function initApp(injector) {
     }),
     LoginModule,
     HomeDiscussionsComponent,
+    NavHomeComponent,
   ],
   declarations: [
     AppComponent,
     HomeContentComponent,
-    SidenavItemsComponent,
     PageNotFoundComponent,
-    NavHomeComponent,
     FooterComponent,
     IntroductionComponent,
     NotificationComponent,
@@ -124,7 +121,6 @@ export function initApp(injector) {
     HttpClient,
     ModuleGuardService,
     UserPublicGuard,
-    SideNavService,
     CruvedStoreService,
     UserDataService,
     NotificationDataService,
