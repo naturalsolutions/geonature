@@ -1245,7 +1245,7 @@ Par exemple, pour remplacer la couleur de fond du bandeau de navigation par une 
 
 .. code-block:: css
 
-    html body pnx-root pnx-nav-home mat-sidenav-container.sidenav-container.mat-drawer-container.mat-sidenav-container mat-sidenav-content.mat-drawer-content.mat-sidenav-content mat-toolbar#app-toolbar.row.mat-toolbar
+    html body pnx-app pnx-nav-home mat-sidenav-container.sidenav-container.mat-drawer-container.mat-sidenav-container mat-sidenav-content.mat-drawer-content.mat-sidenav-content mat-toolbar#app-toolbar.row.mat-toolbar
    {
       background :
       url(../images/bandeau_test.jpg)

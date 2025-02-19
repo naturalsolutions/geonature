@@ -450,7 +450,7 @@ ng-select.ng-invalid .ng-select-container,
   z-index: -1;
 }
 
-pnx-root:empty + #cover-spin-removable {
+pnx-app:empty + #cover-spin-removable {
   opacity: 1;
   z-index: 110;
 }

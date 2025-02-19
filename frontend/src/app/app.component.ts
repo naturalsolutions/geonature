@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './services/config.service';
 
 @Component({
-  selector: 'pnx-root',
+  selector: 'pnx-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
