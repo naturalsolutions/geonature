@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '@geonature/services/config.service';
 import { ModuleService } from '@geonature/services/module.service';
-import { AppSideNavService } from '../../app-sidenav-service'
+import { AppSideNavService } from '../app-sidenav-service'
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@librairies/@angular/router';

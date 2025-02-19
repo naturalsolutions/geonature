@@ -1,5 +1,12 @@
 <mat-sidenav-container class="sidenav-container">
-  <pnx-app-sidenav />
+  <mat-sidenav
+      id="app-sidenav"
+      #sidenav
+      mode="side"
+      [opened]="sideNavService.opened"
+    >
+    <pnx-app-sidenav-items data-qa="gn-sidenav"></pnx-app-sidenav-items>
+  </mat-sidenav>
   <mat-sidenav-content>
     <pnx-app-toolbar />
     <pnx-app-content />
