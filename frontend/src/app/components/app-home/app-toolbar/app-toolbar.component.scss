@@ -1,0 +1,21 @@
+#app-toolbar {
+  [mat-raised-button],
+  [mat-icon-button] {
+    background-color: white !important;
+    outline: none;
+  }
+  .user-name {
+    font-size: 15px;
+  }
+  #documentation_link {
+    color: black !important;
+  }
+}
+
+.home-link {
+  text-decoration: none;
+  color: black;
+}
+#logo-structure {
+  max-height: 60px;
+}
