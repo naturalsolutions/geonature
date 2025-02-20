@@ -16,10 +16,6 @@ import { GN2CommonModule } from '@geonature_common/GN2Common.module';
 // Angular created components/modules
 import { AppComponent } from './app.component';
 import { routing } from './routing/app-routing.module'; // RoutingModule
-import { HomeContentComponent } from './components/home-content/home-content.component';
-import { HomeDiscussionsTableComponent } from './components/home-content/home-discussions/home-discussions-table/home-discussions-table.component';
-import { HomeDiscussionsComponent } from './components/home-content/home-discussions/home-discussions.component';
-import { HomeDiscussionsToggleComponent } from './components/home-content/home-discussions/home-discussions-toggle/home-discussions-toggle.component';
 
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavHomeComponent } from './components/app-home/app-home.component';
@@ -29,7 +25,6 @@ import { RulesComponent } from './components/notification/rules/rules.component'
 
 // Custom component (footer, presentation etc...)
 import { FooterComponent } from './components/footer/footer.component';
-import { IntroductionComponent } from './components/introduction/introduction.component';
 
 // Service
 import { AuthService } from './components/auth/auth.service';
@@ -99,15 +94,12 @@ export function initApp(injector) {
       },
     }),
     LoginModule,
-    HomeDiscussionsComponent,
     NavHomeComponent,
   ],
   declarations: [
     AppComponent,
-    HomeContentComponent,
     PageNotFoundComponent,
     FooterComponent,
-    IntroductionComponent,
     NotificationComponent,
     RulesComponent,
   ],

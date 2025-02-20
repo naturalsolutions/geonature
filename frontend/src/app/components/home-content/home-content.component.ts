@@ -12,11 +12,17 @@ import { takeUntil } from 'rxjs/operators';
 import * as L from 'leaflet';
 import { ConfigService } from '@geonature/services/config.service';
 import { HomeDiscussionsService } from './home-discussions/home-discussions.service';
+import { IntroductionComponent } from './introduction/introduction.component';
+import { CommonModule } from '@angular/common';
+import { GN2CommonModule } from '@geonature_common/GN2Common.module';
+import { HomeDiscussionsComponent } from './home-discussions/home-discussions.component';
 
 @Component({
+  standalone: true,
   selector: 'pnx-home-content',
   templateUrl: './home-content.component.html',
   styleUrls: ['./home-content.component.scss'],
+  imports: [IntroductionComponent, HomeDiscussionsComponent, CommonModule, GN2CommonModule],
   providers: [MapService, SyntheseDataService, HomeDiscussionsService],
 })
 export class HomeContentComponent implements OnInit, AfterViewInit {

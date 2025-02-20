@@ -11,13 +11,14 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { GN2CommonModule } from "@geonature_common/GN2Common.module";
 import { Subscription } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   standalone: true,
   selector: 'pnx-app-toolbar',
   templateUrl: './app-toolbar.component.html',
   styleUrls: ['./app-toolbar.component.scss'],
-  imports: [GN2CommonModule, MatToolbarModule, MatIconModule, MatTooltipModule, RouterModule],
+  imports: [GN2CommonModule, MatToolbarModule, MatIconModule, MatTooltipModule, RouterModule, CommonModule],
 })
 export class AppToolbarComponent implements OnInit {
   private subscription: Subscription;

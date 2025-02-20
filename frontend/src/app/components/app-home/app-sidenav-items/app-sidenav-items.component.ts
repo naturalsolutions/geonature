@@ -4,13 +4,15 @@ import { ModuleService } from '@geonature/services/module.service';
 import { AppSideNavService } from '../app-sidenav-service'
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@librairies/@angular/router';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 @Component({
   standalone: true,
   selector: 'pnx-app-sidenav-items',
   templateUrl: './app-sidenav-items.component.html',
   styleUrls: ['./app-sidenav-items.component.scss'],
-  imports: [MatCardModule, MatListModule, RouterModule],
+  imports: [MatCardModule, MatListModule, RouterModule, CommonModule],
 })
 export class AppSidenavItemsComponent implements OnInit {
   public nav = [{}];

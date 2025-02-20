@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '@geonature/services/config.service';
 
 @Component({
+  standalone: true,
   selector: 'pnx-introduction',
   styleUrls: ['introduction.component.scss'],
   templateUrl: 'introduction.component.html',

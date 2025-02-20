@@ -31,13 +31,9 @@ export class AuthService {
   public isLoading = false;
   private prefix: string = 'gn_';
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private _http: HttpClient,
     private _cookie: CookieService,
     private cruvedService: CruvedStoreService,
-    private _routingService: RoutingService,
-    private moduleService: ModuleService,
     public config: ConfigService
   ) {
     this.refreshCurrentUserData();
