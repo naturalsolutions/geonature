@@ -17,7 +17,7 @@ PG_USER_PASSWD ?= gn_passwd
 
 GEONATURE_APP_NAME ?= 'DEV'
 
-WITH_SAMPLE_DATA ?= true
+WITH_SAMPLE_DATA ?= false
 
 MODULE_DASHBOARD_TAG ?= 1.5.0
 MODULE_EXPORT_TAG ?= 1.7.2
@@ -38,7 +38,9 @@ GEONATURE_LOCAL_CONFIG_FILE = config/geonature_config.toml
 
 GEONATURE_DEFAULT_SETTING_FILE = config/settings.ini.sample
 GEONATURE_LOCAL_SETTING_FILE = config/settings.ini
-GEONATURE_APP_SECRET_KEY ?= '8551a7a-64a4-4216-bda4-9a919fcc7a27'
+GEONATURE_APP_SECRET_KEY ?= 'yoursecretkey'
+
+SUPERGRANT_GROUP ?= "Grp_admin"
 
 default: help
 
@@ -141,7 +143,7 @@ back:
 	source backend/venv/bin/activate && geonature dev-back --port ${PORT_GN_BACKEND}
 
 front:
-	. ${NVM_DIR}/nvm.sh && cd frontend; nvm use; npm run start -- --port ${PORT_GN_FRONTEND}
+	. ${NVM_DIR}/nvm.sh; cd frontend; nvm use; npm run start -- --port ${PORT_GN_FRONTEND}
 
 celery:
 	source backend/venv/bin/activate && celery -A geonature.celery_app:app worker -c ${NB_CONCURRENT_WORKER_CELERY}
@@ -152,15 +154,21 @@ db_status:
 autoupgrade:
 	source backend/venv/bin/activate && geonature db autoupgrade
 
+compile_requirements:
+	source backend/venv/bin/activate && cd backend && piptools compile requirements.in
+	source backend/venv/bin/activate && cd backend && piptools compile requirements-dev.in
+
 test_frontend:
-	cd frontend && source ~/.nvm/nvm.sh && nvm use && npm run cypress:run
+	. ${NVM_DIR}/nvm.sh; cd frontend; nvm use && npm run cypress:run
 
 lint_frontend:
-	cd frontend && source ~/.nvm/nvm.sh && nvm use && npm run format
+	. ${NVM_DIR}/nvm.sh; cd frontend; nvm use; npm run format
 
 lint_backend:
 	source backend/venv/bin/activate && black .
 
+supergrant:
+	source backend/venv/bin/activate && geonature permissions supergrant --group --nom ${SUPERGRANT_GROUP} --yes
 
 # Add other targets in a Makefile.local file if you wish to extend the make file
 -include Makefile.local

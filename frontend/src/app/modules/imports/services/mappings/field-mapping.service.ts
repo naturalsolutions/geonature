@@ -340,6 +340,7 @@ export class FieldMappingService {
 
     this.currentFieldMappingSubscription = this.currentFieldMapping.subscribe((fieldMapping) => {
       this.fieldMappingStatus.unmapped = new Set(this.sourceFields);
+      this.fieldMappingStatus.mapped = new Set();
 
       if (fieldMapping === null) {
         this.mappingFormGroup.reset();
