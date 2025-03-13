@@ -103,10 +103,16 @@ export class DatalistComponent extends GenericFormComponent implements OnInit {
   displayLabel(value) {
     let label = '';
     for (const key of this.keyLabel.split(',')) {
-      label = label || value[key.trim()];
+      const trimmedKey = key.trim();
+      label = label || this.getNestedValue(value, trimmedKey);
     }
     return label;
   }
+  
+  getNestedValue(obj, path, defaultValue = 'Inconnu') {
+    return path.split('.').reduce((acc, part) => (acc && acc[part] !== undefined ? acc[part] : defaultValue), obj);
+  }
+  
 
   displayLabelFromValue(value) {
     if (!value) {
