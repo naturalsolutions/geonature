@@ -58,10 +58,15 @@ else
   echo "Préparation du fichier de configuration..."
   sed -i "s|^SQLALCHEMY_DATABASE_URI = .*$|SQLALCHEMY_DATABASE_URI = \"postgresql:\/\/$user_pg:$user_pg_pass@$db_host:$db_port\/$db_name?application_name=geonature\"|" config/geonature_config.toml
   sed -i "s|^URL_APPLICATION = .*$|URL_APPLICATION = '${my_url}geonature'|" config/geonature_config.toml
+  if [[ "${MODE}" == "dev" ]]; then
+  sed -i "s|^URL_APPLICATION = .*$|URL_APPLICATION = 'http:\/\/localhost:${port_frontend}'|" config/geonature_config.toml
+  sed -i "s|^API_ENDPOINT = .*$|API_ENDPOINT = 'http:\/\/localhost:${port_api}'|" config/geonature_config.toml
+  else
   sed -i "s|^API_ENDPOINT = .*$|API_ENDPOINT = '${my_url}geonature\/api'|" config/geonature_config.toml 
   sed -i "s|^SECRET_KEY = .*$|SECRET_KEY = '`openssl rand -hex 16`'|" config/geonature_config.toml
   sed -i "s|^DEFAULT_LANGUAGE = .*$|DEFAULT_LANGUAGE = '${default_language}'|" config/geonature_config.toml
   sed -i "s|^SECRET_KEY = .*$|SECRET_KEY = '`openssl rand -hex 32`'|" config/geonature_config.toml
+  fi
 fi
 
 cd "${BASE_DIR}"/backend
