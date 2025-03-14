@@ -480,6 +480,9 @@ export class FieldMappingService {
       // Using the nomenclature's label instead of the ID allows us to avoid modifying the content mapping step.
       return typeof default_value === 'string' ? default_value : default_value?.label_default;
     }
+    if (formDef.type_widget === 'observers') {
+      return typeof default_value === 'string' ? default_value : default_value?.id_role;
+    }
     if (formDef.type_widget === 'taxonomy') {
       return default_value?.cd_nom;
     }
