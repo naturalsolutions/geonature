@@ -211,11 +211,13 @@ def preprocess_value(
                 dataframe[col] = None
         col = dataframe[source_col].apply(build_additional_data, axis=1)
     else:
-        if source_col not in dataframe.columns:
-            dataframe[source_col] = None
-        col = dataframe[source_col]
+        # source_col can be none when there is a default value
+        source_field = source_col if source_col is not None else field.source_field
+        if source_field not in dataframe.columns:
+            dataframe[source_field] = None
+        col = dataframe[source_field]
         if default_value is not None:
-            col = col.replace({"": default_value, None: default_value})
+            col = col.apply(lambda x: default_value if x in ["", None] else x)
 
     return col
 
