@@ -18,13 +18,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { Loadable } from '../loadable';
 import { finalize } from 'rxjs/operators';
 import { CommonService } from '@geonature_common/service/common.service';
-
-interface MapAreasStyle {
-  color: string;
-  weight: number;
-  fillOpacity: number;
-  fillColor?: string;
-}
+import { AreasService } from '@geonature/syntheseModule/synthese-results/synthese-carte/areas-service/areas.service';
 
 interface YearInterval {
   min: number;
@@ -37,31 +31,16 @@ interface YearInterval {
   templateUrl: 'tab-observations.component.html',
   styleUrls: ['tab-observations.component.scss'],
   imports: [GN2CommonModule, CommonModule, MatSliderModule],
+  providers: [AreasService],
 })
 export class TabObservationsComponent extends Loadable implements OnInit {
   observations: FeatureCollection | null = null;
-  areasEnable: boolean;
-  areasLegend: any;
   taxon: Taxon | null = null;
-  private _areasLabelSwitchBtn;
-  styleTabGeoJson: {};
 
   yearIntervalBoundaries: YearInterval | null = null;
   yearInterval: YearInterval | null = null;
 
   private isSuperiorToSyntheseLimit: Boolean = false;
-
-  mapAreasStyle: MapAreasStyle = {
-    color: '#FFFFFF',
-    weight: 0.4,
-    fillOpacity: 0.8,
-  };
-
-  mapAreasStyleActive: MapAreasStyle = {
-    color: '#FFFFFF',
-    weight: 0.4,
-    fillOpacity: 0.3,
-  };
 
   constructor(
     private _syntheseDataService: SyntheseDataService,
@@ -71,11 +50,10 @@ export class TabObservationsComponent extends Loadable implements OnInit {
     public formService: SyntheseFormService,
     public translateService: TranslateService,
     private _ms: MapService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _areasService: AreasService
   ) {
     super();
-
-    this.areasEnable = true;
   }
 
   formatLabel(value: number): string {
@@ -88,14 +66,17 @@ export class TabObservationsComponent extends Loadable implements OnInit {
       if (!taxon) {
         return;
       }
-      this.updateTabGeographic();
+      this.updateTabObservations();
     });
+
+    this._areasService.areasEnable.subscribe((enable: boolean) => {
+      this.updateTabObservations();
+    });
+
 
     this._tss.taxonStats.subscribe((stats: TaxonStats | null) => {
       this.updateTaxonStats(stats);
-      console.log(stats);
     });
-    this.initializeFormWithMapParams();
   }
 
   updateTaxonStats(stats: TaxonStats | null) {
@@ -115,10 +96,12 @@ export class TabObservationsComponent extends Loadable implements OnInit {
     this.yearInterval = { ...this.yearIntervalBoundaries };
   }
 
-  updateTabGeographic() {
+  updateTabObservations() {
+    if (!this.taxon) {
+      return;
+    }
     this.startLoading();
-
-    const format = this.areasEnable ? 'grouped_geom_by_areas' : 'grouped_geom';
+    const areasEnable = this._areasService.areasEnable.value;
 
     const filter: {
       cd_ref: number[];
@@ -133,19 +116,20 @@ export class TabObservationsComponent extends Loadable implements OnInit {
       filter.date_min = `${this.yearInterval.min}-01-01`;
       filter.date_max = `${this.yearInterval.max}-12-31`;
     }
-    const limit = this.areasEnable ? -1 : undefined;
+    const limit = areasEnable ? -1 : undefined;
+    const format = this._areasService.format;
 
     this._syntheseDataService
       .getSyntheseData({ filter }, { format, limit })
       .pipe(finalize(() => this.stopLoading()))
       .subscribe((data) => {
-        if (!this.areasEnable && this.isSuperiorToSyntheseLimit) {
+        if (!areasEnable && this.isSuperiorToSyntheseLimit) {
           this._commonService.regularToaster(
             'warning',
             `Pour des raisons de performances, le nombre d'observations affichées est limité à ${this.config['SYNTHESE']['NB_MAX_OBS_MAP']}`
           );
         }
-        this.styleTabGeoJson = undefined;
+        this._areasService.styleTabGeoJson = undefined;
         const map = this._ms.map;
 
         map.eachLayer((layer) => {
@@ -176,9 +160,9 @@ export class TabObservationsComponent extends Loadable implements OnInit {
     let popupContent = '';
 
     if (observations && observations.length > 0) {
-      if (this.areasEnable && feature.geometry.type === 'MultiPolygon') {
+      if (this._areasService.areasEnable && feature.geometry.type === 'MultiPolygon') {
         const obsCount = observations.length;
-        this.setAreasStyle(layer as L.Path, obsCount);
+        this._areasService.setAreasStyle(layer as L.Path, obsCount);
         popupContent = `${obsCount} observations`;
       } else {
         popupContent = `
@@ -196,124 +180,11 @@ export class TabObservationsComponent extends Loadable implements OnInit {
     }
   }
 
-  private initializeFormWithMapParams() {
-    this.formService.searchForm.patchValue({
-      format: this.areasEnable ? 'grouped_geom_by_areas' : 'grouped_geom',
-    });
+  get styleTabGeoJson() {
+    return this._areasService.styleTabGeoJson
   }
 
   ngAfterViewInit() {
-    this.addAreasButton();
-    if (this.areasEnable) {
-      this.addAreasLegend();
-    }
-  }
-
-  addAreasButton() {
-    const LayerControl = L.Control.extend({
-      options: {
-        position: 'topright',
-      },
-      onAdd: (map) => {
-        let switchBtnContainer = L.DomUtil.create(
-          'div',
-          'leaflet-bar custom-control custom-switch leaflet-control-custom tab-geographic-overview'
-        );
-
-        let switchBtn = L.DomUtil.create('input', 'custom-control-input', switchBtnContainer);
-        switchBtn.id = 'toggle-areas-btn';
-        switchBtn.type = 'checkbox';
-        switchBtn.checked = this.areasEnable;
-
-        switchBtn.onclick = () => {
-          this.areasEnable = switchBtn.checked;
-          this.updateTabGeographic();
-
-          if (this.areasEnable) {
-            this.addAreasLegend();
-          } else {
-            this.removeAreasLegend();
-          }
-        };
-
-        this._areasLabelSwitchBtn = L.DomUtil.create(
-          'label',
-          'custom-control-label',
-          switchBtnContainer
-        );
-        this._areasLabelSwitchBtn.setAttribute('for', 'toggle-areas-btn');
-        this._areasLabelSwitchBtn.innerText = this.translateService.instant(
-          'Synthese.Map.AreasToggleBtn'
-        );
-
-        return switchBtnContainer;
-      },
-    });
-
-    const map = this._ms.getMap();
-    map.addControl(new LayerControl());
-  }
-
-  private addAreasLegend() {
-    if (this.areasLegend) return;
-    this.areasLegend = new (L.Control.extend({
-      options: { position: 'bottomright' },
-    }))();
-
-    this.areasLegend.onAdd = (map: L.Map): HTMLElement => {
-      let div: HTMLElement = L.DomUtil.create('div', 'info legend');
-      let grades: number[] = this.config['SYNTHESE']['AREA_AGGREGATION_LEGEND_CLASSES']
-        .map((legendClass: { min: number; color: string }) => legendClass.min)
-        .reverse();
-      let labels: string[] = ["<strong> Nombre <br> d'observations </strong> <br>"];
-
-      for (let i = 0; i < grades.length; i++) {
-        labels.push(
-          '<i style="background:' +
-            this.getColor(grades[i] + 1) +
-            '"></i> ' +
-            grades[i] +
-            (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+')
-        );
-      }
-      div.innerHTML = labels.join('<br>');
-
-      return div;
-    };
-
-    const map = this._ms.getMap();
-    this.areasLegend.addTo(map);
-  }
-
-  private removeAreasLegend() {
-    if (this.areasLegend) {
-      const map = this._ms.getMap();
-      map.removeControl(this.areasLegend);
-      this.areasLegend = null;
-    }
-  }
-
-  private setAreasStyle(layer: L.Layer, obsNbr: number) {
-    if (layer instanceof L.Path) {
-      this.mapAreasStyle['fillColor'] = this.getColor(obsNbr);
-      layer.setStyle(this.mapAreasStyle);
-      delete this.mapAreasStyle['fillColor'];
-      this.styleTabGeoJson = this.mapAreasStyleActive;
-    }
-  }
-
-  private getColor(obsNbr: number) {
-    let classesNbr = this.config['SYNTHESE']['AREA_AGGREGATION_LEGEND_CLASSES'].length;
-    let lastIndex = classesNbr - 1;
-    for (let i = 0; i < classesNbr; i++) {
-      let legendClass = this.config['SYNTHESE']['AREA_AGGREGATION_LEGEND_CLASSES'][i];
-      if (i != lastIndex) {
-        if (obsNbr > legendClass.min) {
-          return legendClass.color;
-        }
-      } else {
-        return legendClass.color;
-      }
-    }
+    this._areasService.updateView();
   }
 }

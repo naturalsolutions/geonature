@@ -15,10 +15,9 @@ import { leafletDrawOption } from '@geonature_common/map/leaflet-draw.options';
 import { SyntheseFormService } from '@geonature_common/form/synthese-form/synthese-form.service';
 import { CommonService } from '@geonature_common/service/common.service';
 import * as L from 'leaflet';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ConfigService } from '@geonature/services/config.service';
+import { AreasService } from './areas-service/areas.service';
 
 export type EventToggle = 'grid' | 'point';
 
@@ -37,10 +36,10 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  private areasEnable;
-  private areasLegend;
+  // private areasEnable;
+  // private areasLegend;
   private enableFitBounds = true;
-  private areasLabelSwitchBtn;
+  // private areasLabelSwitchBtn;
   public selectedLayers: Array<L.Layer> = [];
   public layersDict: object = {};
 
@@ -88,17 +87,17 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
     private _ms: MapService,
     public formService: SyntheseFormService,
     private _commonService: CommonService,
-    private translateService: TranslateService,
-    public config: ConfigService
+    public config: ConfigService,
+    private _areasService: AreasService
   ) {
     this.SYNTHESE_CONFIG = this.config.SYNTHESE;
     // set a new featureGroup - cluster or not depending of the synthese config
     this.cluserOrSimpleFeatureGroup = this.config.SYNTHESE.ENABLE_LEAFLET_CLUSTER
       ? (L as any).markerClusterGroup()
       : new L.FeatureGroup();
-    this.areasEnable =
-      this.config.SYNTHESE.AREA_AGGREGATION_ENABLED &&
-      this.config.SYNTHESE.AREA_AGGREGATION_BY_DEFAULT;
+    // this.areasEnable =
+    //   this.config.SYNTHESE.AREA_AGGREGATION_ENABLED &&
+    //   this.config.SYNTHESE.AREA_AGGREGATION_BY_DEFAULT;
   }
 
   ngOnInit() {
@@ -111,7 +110,7 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
 
   private initializeFormWithMapParams() {
     this.formService.searchForm.patchValue({
-      format: this.areasEnable ? 'grouped_geom_by_areas' : 'grouped_geom',
+      format: this._areasService.format,
     });
   }
 
@@ -145,118 +144,61 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
 
     // Handle areas button and legend
     if (this.config.SYNTHESE.AREA_AGGREGATION_ENABLED) {
-      this.addAreasButton();
-      this.onLanguageChange();
-      if (this.areasEnable) {
-        this.addAreasLegend();
-      }
+      this._areasService.updateView()
     }
   }
 
-  private onLanguageChange() {
-    // don't forget to unsubscribe!
-    this.translateService.onLangChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((langChangeEvent: LangChangeEvent) => {
-        this.defineI18nMessages();
-      });
-  }
+  // addAreasButton() {
+  //   const LayerControl = L.Control.extend({
+  //     options: {
+  //       position: 'topright',
+  //     },
+  //     onAdd: (map) => {
+  //       let switchBtnContainer = L.DomUtil.create(
+  //         'div',
+  //         'leaflet-bar custom-control custom-switch leaflet-control-custom synthese-map-areas'
+  //       );
 
-  private defineI18nMessages() {
-    // Define default messages for datatable
-    this.translateService
-      .get('Synthese.Map.AreasToggleBtn')
-      .subscribe((translatedTxt: string[]) => {
-        this.areasLabelSwitchBtn.innerText = translatedTxt;
-      });
-  }
+  //       let switchBtn = L.DomUtil.create('input', 'custom-control-input', switchBtnContainer);
+  //       switchBtn.id = 'toggle-areas-btn';
+  //       switchBtn.type = 'checkbox';
+  //       switchBtn.checked = this.config.SYNTHESE.AREA_AGGREGATION_BY_DEFAULT;
 
-  addAreasButton() {
-    const LayerControl = L.Control.extend({
-      options: {
-        position: 'topright',
-      },
-      onAdd: (map) => {
-        let switchBtnContainer = L.DomUtil.create(
-          'div',
-          'leaflet-bar custom-control custom-switch leaflet-control-custom synthese-map-areas'
-        );
+  //       switchBtn.onclick = () => {
+  //         this.areasEnable = switchBtn.checked;
 
-        let switchBtn = L.DomUtil.create('input', 'custom-control-input', switchBtnContainer);
-        switchBtn.id = 'toggle-areas-btn';
-        switchBtn.type = 'checkbox';
-        switchBtn.checked = this.config.SYNTHESE.AREA_AGGREGATION_BY_DEFAULT;
-        switchBtn.onclick = () => {
-          this.areasEnable = switchBtn.checked;
-          this.formService.selectors = this.formService.selectors.set(
-            'format',
-            switchBtn.checked ? 'grouped_geom_by_areas' : 'grouped_geom'
-          );
-          this.onAreasToggle.emit(switchBtn.checked ? 'grid' : 'point');
+  //         this.formService.selectors = this.formService.selectors.set(
+  //           'format',
+  //           switchBtn.checked ? 'grouped_geom_by_areas' : 'grouped_geom'
+  //         );
+  //         this.onAreasToggle.emit(switchBtn.checked ? 'grid' : 'point');
 
-          // Show areas legend if areas toggle button is enable
-          if (this.areasEnable) {
-            this.addAreasLegend();
-          } else {
-            this.removeAreasLegend();
-            this.enableFitBounds = false;
-          }
-        };
+  //         // Show areas legend if areas toggle button is enable
+  //         if (this.areasEnable) {
+  //           this.addAreasLegend();
+  //         } else {
+  //           this.removeAreasLegend();
+  //           this.enableFitBounds = false;
+  //         }
+  //       };
 
-        this.areasLabelSwitchBtn = L.DomUtil.create(
-          'label',
-          'custom-control-label',
-          switchBtnContainer
-        );
-        this.areasLabelSwitchBtn.setAttribute('for', 'toggle-areas-btn');
-        this.areasLabelSwitchBtn.innerText = this.translateService.instant(
-          'Synthese.Map.AreasToggleBtn'
-        );
+  //       this.areasLabelSwitchBtn = L.DomUtil.create(
+  //         'label',
+  //         'custom-control-label',
+  //         switchBtnContainer
+  //       );
+  //       this.areasLabelSwitchBtn.setAttribute('for', 'toggle-areas-btn');
+  //       this.areasLabelSwitchBtn.innerText = this.translateService.instant(
+  //         'Synthese.Map.AreasToggleBtn'
+  //       );
 
-        return switchBtnContainer;
-      },
-    });
+  //       return switchBtnContainer;
+  //     },
+  //   });
 
-    const map = this._ms.getMap();
-    map.addControl(new LayerControl());
-  }
-
-  private addAreasLegend() {
-    this.areasLegend = new (L.Control.extend({
-      options: { position: 'bottomright' },
-    }))();
-
-    const vm = this;
-    this.areasLegend.onAdd = (map) => {
-      let div = L.DomUtil.create('div', 'info legend');
-      let grades = this.config['SYNTHESE']['AREA_AGGREGATION_LEGEND_CLASSES']
-        .map((legendClass) => legendClass.min)
-        .reverse();
-      let labels = ["<strong> Nombre <br> d'observations </strong> <br>"];
-
-      // loop through our density intervals and generate a label with a colored square for each interval
-      for (var i = 0; i < grades.length; i++) {
-        labels.push(
-          '<i style="background:' +
-            vm.getColor(grades[i] + 1) +
-            '"></i> ' +
-            grades[i] +
-            (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+')
-        );
-      }
-      div.innerHTML = labels.join('<br>');
-
-      return div;
-    };
-
-    const map = this._ms.getMap();
-    this.areasLegend.addTo(map);
-  }
-
-  private removeAreasLegend() {
-    const map = this._ms.getMap();
-    this.areasLegend.remove(map);
-  }
+  //   const map = this._ms.getMap();
+  //   map.addControl(new LayerControl());
+  // }
 
   layerDictCache(idSyntheseList, layer) {
     for (let id of idSyntheseList) {
@@ -269,9 +211,9 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
       click: (e) => {
         this.toggleStyleFromMap(feature, layer);
         this.mapListService.mapSelected.next(idSyntheseIds);
-        if (this.areasEnable) {
-          this.bindAreasPopup(layer, idSyntheseIds);
-        }
+        // if (this.areasEnable) {
+        //   this.bindAreasPopup(layer, idSyntheseIds);
+        // }
       },
     });
   }
@@ -280,8 +222,8 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
     // make a cache a layers in a dict with id key
     this.layerDictCache(feature.properties.observations.id_synthese, layer);
     // set style
-    if (this.areasEnable) {
-      this.setAreasStyle(layer, feature.properties.observations.id_synthese.length);
+    if (this._areasService.areasEnable) {
+      this._areasService.setAreasStyle(layer, feature.properties.observations.id_synthese.length);
     }
     this.layerEvent(feature, layer, feature.properties.observations.id_synthese);
   }
@@ -375,8 +317,12 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
 
   toggleStyleFromMap(feature, layer) {
     // restore initial style
-    let originStyle = this.areasEnable ? this.originAreasStyle : this.originDefaultStyle;
-    let selectedStyle = this.areasEnable ? this.selectedAreasStyle : this.selectedDefaultStyle;
+    let originStyle = this._areasService.areasEnable
+      ? this._areasService.MAP_AREA_STYLE
+      : this.originDefaultStyle;
+      let selectedStyle = this._areasService.areasEnable
+        ? this._areasService.MAP_AREA_STYLE
+        : this.selectedDefaultStyle;
 
     if (this.selectedLayers.length > 0) {
       this.selectedLayers.forEach((layer) => {
@@ -391,7 +337,8 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
 
   private toggleStyleFromList(currentSelectedLayers) {
     // restore inital style
-    let originStyle = this.areasEnable ? this.originAreasStyle : this.originDefaultStyle;
+
+    let originStyle = this._areasService.areasEnable ? this._areasService.MAP_AREA_STYLE : this.originDefaultStyle;
     if (this.selectedLayers.length > 0) {
       this.selectedLayers.forEach((layer) => {
         (layer as L.GeoJSON).setStyle(originStyle);
@@ -400,7 +347,9 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
     // Apply new selected layer
     this.selectedLayers = currentSelectedLayers;
 
-    let selectedStyle = this.areasEnable ? this.selectedAreasStyle : this.selectedDefaultStyle;
+    let selectedStyle = this._areasService.areasEnable
+      ? this._areasService.MAP_AREA_STYLE
+      : this.selectedDefaultStyle;
     this.selectedLayers.forEach((layer) => {
       (layer as L.GeoJSON).setStyle(selectedStyle);
     });
