@@ -129,9 +129,6 @@ npm ci --only=prod
 echo "Mise à jour du backend …"
 cd "${newdir}/install"
 ./01_install_backend.sh
-source "${newdir}/backend/venv/bin/activate"
-
-
 
 # before 2.15 - If gn_module_import module previously installed
 if [ -d ${olddir}/frontend/external_modules/import ];then
@@ -140,6 +137,8 @@ if [ -d ${olddir}/frontend/external_modules/import ];then
     rm ${olddir}/frontend/external_modules/import
     source deactivate
 fi
+
+source "${newdir}/backend/venv/bin/activate"
 
 echo "Installation des modules externes …"
 # Modules before 2.11
