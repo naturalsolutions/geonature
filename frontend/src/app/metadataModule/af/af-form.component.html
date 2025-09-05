@@ -16,6 +16,24 @@
       <div class="card">
         <div class="card-body">
           <h3>Cadre d'acquisition</h3>
+          
+          <div class="map-section">
+            <small>Geométrie</small>
+            <pnx-map height="100%" class="map-card" [geolocation]="true">
+              <pnx-marker [coordinates]="afFormS.markerCoordinates"></pnx-marker>
+          
+              <pnx-leaflet-draw [geojson]="afFormS.leafletDrawGeoJson" [options]="leafletDrawOptions"></pnx-leaflet-draw>
+          
+              <pnx-leaflet-filelayer *ngIf="config.OCCTAX.ENABLE_UPLOAD_TOOL" [editMode]="true" (onLoad)="infoMessageFileLayer()"
+                [style]="{ color: 'green' }"></pnx-leaflet-filelayer>
+          
+              <pnx-gps *ngIf="config.OCCTAX.ENABLE_GPS_TOOL"></pnx-gps>
+          
+              <pnx-places *ngIf="config.OCCTAX.ENABLE_MY_PLACES"></pnx-places>
+          
+              <pnx-placesList *ngIf="config.OCCTAX.ENABLE_MY_PLACES"></pnx-placesList>
+            </pnx-map>
+          </div>
 
           <div>
             <small>Nom</small>

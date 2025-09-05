@@ -6,6 +6,9 @@ import { of, Observable } from 'rxjs';
 import { switchMap, tap, map } from 'rxjs/operators';
 
 import { DataFormService } from '@geonature_common/form/data-form.service';
+import { ConfigService } from '@geonature/services/config.service';
+import { leafletDrawOption } from '@geonature_common/map/leaflet-draw.options';
+import { MapService } from '@geonature_common/map/map.service';
 import { CommonService } from '@geonature_common/service/common.service';
 import { ActorFormService } from '../services/actor-form.service';
 import { AcquisitionFrameworkFormService } from '../services/af-form.service';
@@ -23,6 +26,12 @@ export class AfFormComponent implements OnInit {
   //observable pour la liste déroulantes HTML des AF parents
   public acquisitionFrameworkParents: Observable<any>;
 
+  public leafletDrawOptions: any;
+  public firstFileLayerMessage = true;
+  public coordinates = null;
+  public geometry = null;
+  public firstGeom = true;
+
   constructor(
     private _dfs: DataFormService,
     private _commonService: CommonService,
@@ -32,9 +41,18 @@ export class AfFormComponent implements OnInit {
     public afFormS: AcquisitionFrameworkFormService,
     private actorFormS: ActorFormService,
     public metadataS: MetadataService,
-    private metadataDataS: MetadataDataService
+    private metadataDataS: MetadataDataService,
+    private _mapService: MapService,
+    public config: ConfigService
   ) {}
   ngOnInit() {
+    leafletDrawOption.draw.circle = false;
+    leafletDrawOption.draw.rectangle = false;
+    leafletDrawOption.draw.marker = false;
+    leafletDrawOption.draw.polyline = true;
+    leafletDrawOption.edit.remove = false;
+    this.leafletDrawOptions = leafletDrawOption;
+
     // get the id from the route
     this._route.params
       .pipe(
@@ -52,6 +70,35 @@ export class AfFormComponent implements OnInit {
     this._dfs.getAcquisitionFrameworks({ is_parent: 'true' }).subscribe((afParent) => {
       this.acquisitionFrameworkParents = afParent;
     });
+  }
+
+  ngAfterViewInit() {
+    if (this._mapService.currentExtend) {
+      this._mapService.map.setView(
+        this._mapService.currentExtend.center,
+        this._mapService.currentExtend.zoom
+      );
+    }
+    let filelayerFeatures = this._mapService.fileLayerFeatureGroup.getLayers();
+    // si il y a encore des filelayer -> on désactive le marker par defaut
+    if (filelayerFeatures.length > 0) {
+      this._mapService.setEditingMarker(false);
+      this._mapService.fileLayerEditionMode = true;
+    }
+
+    filelayerFeatures.forEach((el) => {
+      if ((el as any).getLayers()[0].options.color == 'red') {
+        (el as any).setStyle({ color: 'green', opacity: 0.2 });
+      }
+    });
+  }
+
+  // display help toaster for filelayer
+  infoMessageFileLayer() {
+    if (this.firstFileLayerMessage) {
+      this._commonService.translateToaster('info', 'Map.Messages.FileLayerInfo');
+    }
+    this.firstFileLayerMessage = false;
   }
 
   getAcquisitionFramework(id_af, param) {
@@ -76,6 +123,10 @@ export class AfFormComponent implements OnInit {
     this.afFormS.addActor(formArray, value);
   }
 
+  /* postAf() {
+    console.log(this.form.value);  
+  } */
+
   postAf() {
     if (!this.form.valid) return;
 
@@ -96,6 +147,8 @@ export class AfFormComponent implements OnInit {
       api = this.metadataDataS.updateAF(af.id_acquisition_framework, af);
     } else {
       //si creation on envoie le contenu du formulaire
+      console.log('af', af);
+
       api = this.metadataDataS.createAF(af);
     }
 
@@ -108,11 +161,14 @@ export class AfFormComponent implements OnInit {
         })
       )
       .subscribe(
-        (acquisition_framework: any) =>
-          this._router.navigate([
+        (acquisition_framework: any) => {
+          console.log("res", acquisition_framework);
+          
+          /* this._router.navigate([
             '/metadata/af_detail',
             acquisition_framework.id_acquisition_framework,
-          ]),
+          ]); */
+        },
         (error) => {
           if (error.status === 403) {
             this._commonService.translateToaster('error', 'Errors.NotAllowed');
