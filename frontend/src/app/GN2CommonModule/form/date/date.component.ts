@@ -38,6 +38,15 @@ export interface DateStruc {
   providers: [{ provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
 })
 export class DateComponent implements OnInit, OnDestroy {
+  public today: DateStruc = (() => {
+    const today = new Date();
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      day: today.getDate(),
+    };
+  })();
+
   public elementRef: ElementRef;
   @Input() label: string;
   @Input() isInvalid: string;
@@ -45,26 +54,22 @@ export class DateComponent implements OnInit, OnDestroy {
   @Input() parentFormControl: UntypedFormControl;
   @Input() defaultToday = false;
   @Input() minDate = { year: 1735, month: 1, day: 1 };
-  @Input() maxDate;
-  @Input() disableMaxDate: boolean = false;
+  @Input() maxDate = this.today;
   @Output() onChange = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
   /**Event fired on datepicker click on or keyboard date change */
   @Output() onSelectOrKeyIn = new EventEmitter<any>();
   dynamicId;
   public changeSub: Subscription;
-  public today: DateStruc;
 
   constructor(
     myElement: ElementRef,
     private _dateParser: NgbDateParserFormatter
   ) {
     this.elementRef = myElement;
-    // this.initializeDates();
   }
 
   ngOnInit() {
-    this.initializeDates();
     // Set a default value to form control
     if (!this.parentFormControl.value) {
       if (this.defaultToday) {
@@ -83,14 +88,6 @@ export class DateComponent implements OnInit, OnDestroy {
         this.onDelete.emit(null);
       }
     });
-  }
-
-  private initializeDates() {
-    const today = new Date();
-    this.today = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
-    if (!this.maxDate && !this.disableMaxDate) {
-      this.maxDate = this.today;
-    }
   }
 
   openDatepicker(id) {
