@@ -1,0 +1,40 @@
+<div class="chatbot-widget" [class.open]="isOpen">
+  <button type="button" class="chatbot-toggle" (click)="toggleWidget()" aria-label="Ouvrir le chatbot">
+    <span *ngIf="!isOpen">💬</span>
+    <span *ngIf="isOpen">×</span>
+  </button>
+
+  <div class="chatbot-panel" *ngIf="isOpen">
+    <div class="chatbot-header">
+      <div class="title">Assistant GeoNature</div>
+      <button type="button" class="close" (click)="closeWidget()" aria-label="Fermer">×</button>
+    </div>
+    <div class="chatbot-messages" [class.loading]="isLoading">
+      <div
+        *ngFor="let message of messages"
+        class="message"
+        [ngClass]="message.role"
+      >
+        <ng-container [ngSwitch]="message.role">
+          <pre *ngSwitchCase="'tool'" class="tool-output">
+{{ message.name ? (message.name + '\n') : '' }}{{ message.content }}
+          </pre>
+          <span *ngSwitchDefault>{{ message.content }}</span>
+        </ng-container>
+      </div>
+      <div class="thinking" *ngIf="isLoading">L'assistant réfléchit…</div>
+    </div>
+    <div class="chatbot-error" *ngIf="lastError">{{ lastError }}</div>
+    <div class="chatbot-input">
+      <textarea
+        [(ngModel)]="inputValue"
+        (keydown)="handleEnter($event)"
+        placeholder="Posez une question sur vos données..."
+        rows="3"
+      ></textarea>
+      <button type="button" (click)="sendMessage()" [disabled]="isLoading || !inputValue.trim()">
+        Envoyer
+      </button>
+    </div>
+  </div>
+</div>

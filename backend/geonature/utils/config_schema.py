@@ -222,6 +222,7 @@ class GnPySchemaConf(Schema):
     AUTHENTICATION = fields.Nested(
         AuthenticationConfig, load_default=AuthenticationConfig().load({}), unknown=INCLUDE
     )
+    OPENAI_API_KEY=fields.String()
 
     @post_load()
     def folders(self, data, **kwargs):

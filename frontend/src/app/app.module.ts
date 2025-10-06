@@ -1,6 +1,7 @@
 // Angular core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -27,6 +28,7 @@ import { LoginModule } from './modules/login/login.module';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RulesComponent } from './components/notification/rules/rules.component';
 import { CustomTranslateLoader } from './shared/translate/custom-loader';
+import { ChatbotWidgetComponent } from './components/chatbot-widget/chatbot-widget.component';
 
 // Custom component (footer, presentation etc...)
 import { FooterComponent } from './components/footer/footer.component';
@@ -82,6 +84,7 @@ export function initApp(injector) {
 @NgModule({
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     routing,
@@ -115,6 +118,7 @@ export function initApp(injector) {
     IntroductionComponent,
     NotificationComponent,
     RulesComponent,
+    ChatbotWidgetComponent,
   ],
   providers: [
     AuthService,
