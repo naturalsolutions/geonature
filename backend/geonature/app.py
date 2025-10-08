@@ -29,6 +29,7 @@ from geonature.utils.module import iter_modules_dist
 from geonature.utils.json import MyJSONProvider
 from geonature.core.admin.admin import admin
 from geonature.middlewares import SchemeFix, RequestID
+from geonature.core.chatbot import chatbot_routes
 
 
 from pypnusershub.db.models import Application
@@ -204,6 +205,7 @@ def create_app(with_external_mods=True):
         ("geonature.core.sensitivity.routes:routes", None),
         ("geonature.core.notifications.routes:routes", "/notifications"),
         ("geonature.core.imports.blueprint:blueprint", "/import"),
+        ("geonature.core.chatbot.routes:chatbot_routes", "/chatbot"),
     ]:
         module_name, blueprint_name = blueprint_path.split(":")
         blueprint = getattr(import_module(module_name), blueprint_name)

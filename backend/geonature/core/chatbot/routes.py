@@ -4,20 +4,21 @@ from __future__ import annotations
 
 from typing import Optional
 
-from flask import request
+from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from flask_smorest import Blueprint as SmorestBlueprint
+from marshmallow import ValidationError
 
 from .agent import run_assistant
 from .schemas import ChatRequestSchema, ChatResponseSchema
 
-chatbot_routes = SmorestBlueprint(
+chatbot_routes = Blueprint(
     "chatbot",
     __name__,
     url_prefix="/chatbot",
-    description="Assistant conversationnel GeoNature",
 )
-chatbot_routes.DOC_TAGS = ["Assistant"]
+
+_request_schema = ChatRequestSchema()
+_response_schema = ChatResponseSchema()
 
 
 def _extract_token(auth_header: Optional[str]) -> Optional[str]:
@@ -30,12 +31,21 @@ def _extract_token(auth_header: Optional[str]) -> Optional[str]:
 
 @chatbot_routes.route("/message", methods=["POST"])
 @login_required
-@chatbot_routes.arguments(ChatRequestSchema)
-@chatbot_routes.response(200, ChatResponseSchema)
-def post_message(payload):
+def post_message() -> tuple[dict, int]:
     """Génère une réponse à partir de l'historique fourni."""
+    try:
+        payload = _request_schema.load(request.get_json(force=True))
+    except ValidationError as exc:
+        return {"errors": exc.messages}, 400
 
     auth_header = request.headers.get("Authorization")
     user_token = _extract_token(auth_header)
     result = run_assistant(history=payload["messages"], user_token=user_token)
-    return result
+
+    return jsonify(_response_schema.dump(result)), 200
+
+
+@chatbot_routes.route("/message", methods=["OPTIONS"])
+def options_message() -> tuple[str, int]:
+    """Répond aux pré-vols CORS du frontend."""
+    return "", 204

@@ -36,3 +36,6 @@ weasyprint
 wtforms==3.1.2
 wtforms-sqlalchemy
 xmltodict
+anyio>=4.11
+httpx>=0.28.1
+mcp[cli]>=1.16.0
