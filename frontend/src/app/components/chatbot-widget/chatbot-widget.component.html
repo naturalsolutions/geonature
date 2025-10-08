@@ -1,7 +1,6 @@
 <div class="chatbot-widget" [class.open]="isOpen">
-  <button type="button" class="chatbot-toggle" (click)="toggleWidget()" aria-label="Ouvrir le chatbot">
+  <button *ngIf='!isOpen' type="button" class="chatbot-toggle" (click)="toggleWidget()" aria-label="Ouvrir le chatbot">
     <span *ngIf="!isOpen">💬</span>
-    <span *ngIf="isOpen">×</span>
   </button>
 
   <div class="chatbot-panel" *ngIf="isOpen">
