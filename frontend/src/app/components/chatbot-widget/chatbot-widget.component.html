@@ -15,9 +15,25 @@
         [ngClass]="message.role"
       >
         <ng-container [ngSwitch]="message.role">
-          <pre *ngSwitchCase="'tool'" class="tool-output">
+          <div *ngSwitchCase="'tool'" class="tool-output">
+            <ng-container *ngIf="message.downloadUrl; else rawTool">
+              <div class="tool-title">{{ message.name || 'generate_report' }}</div>
+              <a
+                class="tool-link"
+                [href]="message.downloadUrl"
+                target="_blank"
+                rel="noopener"
+              >
+                Télécharger {{ message.filename || 'le rapport' }}
+              </a>
+              <div *ngIf="message.content" class="tool-meta">{{ message.content }}</div>
+            </ng-container>
+            <ng-template #rawTool>
+              <pre class="tool-raw">
 {{ message.name ? (message.name + '\n') : '' }}{{ message.content }}
-          </pre>
+              </pre>
+            </ng-template>
+          </div>
           <span *ngSwitchDefault>{{ message.content }}</span>
         </ng-container>
       </div>

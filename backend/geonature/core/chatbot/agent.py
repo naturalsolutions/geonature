@@ -13,9 +13,9 @@ LOGGER = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = (
     "Tu es l'assistant GeoNature. Réponds en français. "
-    "Tu disposes des outils `fetch_synthese_for_web` et `fetch_info_geo` pour récupérer des "
-    "données précises. Utilise un ton professionnel et cite les limites de connaissance "
-    "si nécessaire."
+    "Tu disposes des outils `fetch_synthese_for_web`, `fetch_info_geo` et `generate_report` "
+    "pour récupérer ou exporter des données. Tu peux produire des rapports JSON ou PDF. "
+    "Utilise un ton professionnel et cite les limites de connaissance si nécessaire."
 )
 
 
@@ -64,6 +64,36 @@ FUNCTIONS = [
             "additionalProperties": False,
         },
     },
+    {
+        "name": "generate_report",
+        "description": (
+            "Génère un rapport téléchargeable dans MinIO à partir des données synthèse et "
+            "retourne les métadonnées nécessaires au téléchargement."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filters": {
+                    "type": "object",
+                    "description": "Filtres JSON à transmettre à la route synthèse.",
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Nombre maximal de résultats à inclure dans le rapport.",
+                },
+                "report_type": {
+                    "type": "string",
+                    "description": "Étiquette humaine du rapport (ex: synthese_site).",
+                },
+                "format": {
+                    "type": "string",
+                    "enum": ["json", "pdf"],
+                    "description": "Format de sortie souhaité (JSON par défaut, PDF disponible).",
+                },
+            },
+            "additionalProperties": False,
+        },
+    },
 ]
 
 
@@ -96,6 +126,8 @@ def _handle_tool_call(
         return mcp_client.call_synthese_for_web(user_token=user_token, **arguments)
     if name == "fetch_info_geo":
         return mcp_client.call_geo_info(user_token=user_token, **arguments)
+    if name == "generate_report":
+        return mcp_client.generate_report(user_token=user_token, **arguments)
     raise ValueError(f"Outil inconnu: {name}")
 
 

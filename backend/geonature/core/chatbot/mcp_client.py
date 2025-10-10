@@ -184,6 +184,32 @@ def call_geo_info(
     return result
 
 
+def generate_report(
+    *,
+    user_token: Optional[str],
+    filters: Optional[Dict[str, Any]] = None,
+    limit: Optional[int] = None,
+    report_type: Optional[str] = None,
+    format: Optional[str] = None,
+) -> Dict[str, Any]:
+    args: Dict[str, Any] = {}
+    if filters:
+        args["filters"] = json.dumps(filters, ensure_ascii=False)
+    if limit is not None:
+        args["limit"] = limit
+    if report_type:
+        args["report_type"] = report_type
+    if format:
+        args["format"] = format
+    if user_token:
+        args["api_token"] = user_token
+
+    result = _call_tool("generate_report", args, user_token=user_token)
+    if not isinstance(result, dict):
+        raise MCPClientError("Réponse inattendue de generate_report")
+    return result
+
+
 def list_geonature_docs(
     query: Optional[str] = None,
     limit: int = 50,
