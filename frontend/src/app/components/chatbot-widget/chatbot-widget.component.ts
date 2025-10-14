@@ -58,17 +58,18 @@ export class ChatbotWidgetComponent {
     this.isLoading = true;
     this.lastError = null;
 
-    const payload: ChatMessage[] = this.messages.map((msg) => ({
-      role: msg.role,
-      content: msg.content,
-      name: msg.name,
-    }));
+    const payload: ChatMessage[] = this.messages
+      .filter((msg) => msg.role !== 'tool')
+      .map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+        name: msg.name,
+      }));
 
     this.chatbotService.sendConversation(payload).subscribe({
       next: (response) => {
         response.tool_calls.forEach((toolCall) => {
-          if (toolCall.result) {
-            if (toolCall.name === 'generate_report' && toolCall.result.download_url) {
+          if (toolCall.result && toolCall.name === 'generate_report' && toolCall.result.download_url) {
               const itemCount = toolCall.result.meta?.item_count;
               const limit = toolCall.result.meta?.limit;
               const format = toolCall.result.meta?.format;
@@ -92,13 +93,6 @@ export class ChatbotWidgetComponent {
                 contentType: toolCall.result.content_type,
                 meta: toolCall.result.meta,
               });
-            } else {
-              this.messages.push({
-                role: 'tool',
-                name: toolCall.name,
-                content: JSON.stringify(toolCall.result, null, 2),
-              });
-            }
           } else if (toolCall.error) {
             this.messages.push({
               role: 'tool',
