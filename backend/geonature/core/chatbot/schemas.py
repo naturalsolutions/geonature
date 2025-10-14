@@ -17,7 +17,7 @@ class ChatRequestSchema(Schema):
 
 class ToolCallSchema(Schema):
     name = fields.String(required=True)
-    result = fields.Dict(required=False)
+    result = fields.Raw(required=False)
     error = fields.String(required=False)
 
 

@@ -13,8 +13,9 @@ LOGGER = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = (
     "Tu es l'assistant GeoNature. Réponds en français. "
-    "Tu disposes des outils `fetch_synthese_for_web`, `fetch_info_geo` et `generate_report` "
-    "pour récupérer ou exporter des données. Tu peux produire des rapports JSON ou PDF. "
+    "Tu disposes des outils `fetch_synthese_for_web`, `fetch_info_geo`, `generate_report`, "
+    "`list_geonature_docs` et `read_geonature_doc` pour récupérer ou exporter des données "
+    "ou consulter la documentation GeoNature. Tu peux produire des rapports JSON ou PDF. "
     "Utilise un ton professionnel et cite les limites de connaissance si nécessaire."
 )
 
@@ -94,6 +95,43 @@ FUNCTIONS = [
             "additionalProperties": False,
         },
     },
+    {
+        "name": "list_geonature_docs",
+        "description": "Liste les pages de la documentation GeoNature disponibles côté serveur MCP.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Terme de recherche facultatif pour filtrer les pages.",
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Nombre maximal de résultats (défaut 50).",
+                },
+            },
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "read_geonature_doc",
+        "description": "Récupère le contenu d'une page de documentation GeoNature.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "target": {
+                    "type": "string",
+                    "description": "URI de ressource ou chemin relatif retourné par list_geonature_docs.",
+                },
+                "as_text": {
+                    "type": "boolean",
+                    "description": "Retourner le contenu brut texte (défaut true).",
+                },
+            },
+            "required": ["target"],
+            "additionalProperties": False,
+        },
+    },
 ]
 
 
@@ -105,12 +143,11 @@ def _prepare_messages(history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         role = item.get("role")
         content = item.get("content")
         name = item.get("name")
-        if role not in {"user", "assistant", "tool"}:
+        tool_call_id = item.get("tool_call_id")
+        if role not in {"user", "assistant"}:
             LOGGER.warning("Role inconnu dans l'historique: %s", role)
             continue
         message: Dict[str, Any] = {"role": role, "content": content}
-        if role == "tool" and name:
-            message["name"] = name
         messages.append(message)
     return messages
 
@@ -128,6 +165,10 @@ def _handle_tool_call(
         return mcp_client.call_geo_info(user_token=user_token, **arguments)
     if name == "generate_report":
         return mcp_client.generate_report(user_token=user_token, **arguments)
+    if name == "list_geonature_docs":
+        return mcp_client.list_geonature_docs(**arguments)
+    if name == "read_geonature_doc":
+        return mcp_client.read_geonature_doc(**arguments)
     raise ValueError(f"Outil inconnu: {name}")
 
 
@@ -166,10 +207,13 @@ def run_assistant(
 
     # Gestion des tool calls
     if finish_reason == "tool_calls" and message.get("tool_calls"):
+        # On conserve le message assistant initial contenant la requête d'outils
+        messages.append(message)
         for tool_call in message["tool_calls"]:
             function = tool_call.get("function", {})
             name = function.get("name")
             arguments_raw = function.get("arguments")
+            tool_call_id = tool_call.get("id")
             try:
                 arguments = json.loads(arguments_raw) if arguments_raw else {}
             except json.JSONDecodeError:
@@ -193,7 +237,8 @@ def run_assistant(
                     {
                         "role": "tool",
                         "name": name,
-                        "content": json.dumps({"error": str(exc)})
+                        "tool_call_id": tool_call_id,
+                        "content": json.dumps({"error": str(exc)}),
                     }
                 )
             else:
@@ -202,6 +247,7 @@ def run_assistant(
                     {
                         "role": "tool",
                         "name": name,
+                        "tool_call_id": tool_call_id,
                         "content": json.dumps(tool_result),
                     }
                 )

@@ -88,8 +88,7 @@ async def _open_session(user_token: Optional[str]) -> AsyncIterator[ClientSessio
 async def _call_tool_async(
     tool_name: str,
     arguments: Dict[str, Any],
-    *,
-    user_token: Optional[str],
+    user_token: Optional[str] = None,
 ) -> Any:
     async with _open_session(user_token) as session:
         try:
@@ -137,7 +136,7 @@ def _call_tool(
     *,
     user_token: Optional[str],
 ) -> Any:
-    return anyio.run(_call_tool_async, tool_name, arguments, user_token=user_token)
+    return anyio.run(_call_tool_async, tool_name, arguments, user_token)
 
 
 def call_synthese_for_web(
