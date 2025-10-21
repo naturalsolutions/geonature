@@ -96,6 +96,7 @@ import { ReadablePropertiePipe } from './pipe/readable-propertie.pipe';
 import { SafeHtmlPipe } from './pipe/sanitizer.pipe';
 import { SafeStripHtmlPipe } from './pipe/strip-html.pipe';
 import { StripHtmlPipe } from './pipe/strip-html.pipe';
+import { MarkdownPipe } from './pipe/markdown.pipe';
 
 // Services
 import { CommonService } from './service/common.service';
@@ -208,6 +209,7 @@ import { IndividualsCreateComponent } from './form/individuals/create/individual
     UUIDComponent,
     IndividualsComponent,
     IndividualsCreateComponent,
+    MarkdownPipe,
   ],
   providers: [
     CommonService,
@@ -317,6 +319,7 @@ import { IndividualsCreateComponent } from './form/individuals/create/individual
     TranslateModule,
     UUIDComponent,
     IndividualsComponent,
+    MarkdownPipe,
   ],
 })
 export class GN2CommonModule {

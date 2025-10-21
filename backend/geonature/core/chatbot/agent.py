@@ -11,13 +11,55 @@ from .llm import llm_completion, LLMConfigurationError
 
 LOGGER = logging.getLogger(__name__)
 
+_JSON_DECODER = json.JSONDecoder()
+
 SYSTEM_PROMPT = (
-    "Tu es l'assistant GeoNature. Réponds en français. "
-    "Tu disposes des outils `fetch_synthese_for_web`, `fetch_info_geo`, `generate_report`, "
-    "`list_geonature_docs` et `read_geonature_doc` pour récupérer ou exporter des données "
-    "ou consulter la documentation GeoNature. Tu peux produire des rapports JSON ou PDF. "
-    "Utilise un ton professionnel et cite les limites de connaissance si nécessaire."
+    "Tu es l'assistant GeoNature. Réponds en français.\n"
+    "- Tu peux appeler les outils `fetch_synthese_for_web`, `fetch_info_geo`, `generate_report`, "
+    "`list_geonature_docs`, `read_geonature_doc` pour récupérer/expliquer des données ou générer un rapport.\n"
+    "- IMPORTANT : la réponse **affichée à l’utilisateur** doit être un texte naturel en français, jamais du JSON brut "
+    "(sauf si l’utilisateur le demande explicitement).\n"
+    "- Style : clair, concis, pro et chaleureux. Quand il y a des chiffres, reformule en phrase ou en tableau Markdown.\n"
+    "- Structure par défaut :\n"
+    "  1) TL;DR (1 phrase), 2) Détails (2–6 puces), 3) Prochaines étapes (facultatif).\n"
+    "- Lorsque l’utilisateur veut un rapport PDF personnalisé, utilise le paramètre `layout` de l’outil `generate_report` pour décrire titres, sections, tableau, notes, etc., ou pose les questions nécessaires.\n"
+    "- Si une valeur est incertaine, dis-le. Si des limites s’appliquent (périmètre d’accès, échantillon), indique-les."
 )
+
+COMPOSE_SYSTEM = (
+    "Tu vas maintenant FORMULER la réponse utilisateur en français naturel, sans exposer de JSON brut.\n"
+    "- Ne montre pas les objets/structures JSON ; utilise des phrases et, si utile, un petit tableau Markdown.\n"
+    "- Style : clair, concis, pro et chaleureux.\n"
+    "- Structure : TL;DR, puis puces de détails, puis prochaines étapes (si utile).\n"
+    "- Si l’utilisateur a demandé un rapport JSON/PDF, confirme le lien ou l’état, mais ne colle pas le JSON."
+)
+
+
+
+def _extract_layout_from_text(text: str) -> Optional[Dict[str, Any]]:
+    """Tente d'extraire un objet JSON représentant un layout depuis un texte libre."""
+
+    if not text:
+        return None
+
+    idx = 0
+    length = len(text)
+    while idx < length:
+        char = text[idx]
+        if char not in "{[":
+            idx += 1
+            continue
+        try:
+            obj, end = _JSON_DECODER.raw_decode(text, idx)
+        except json.JSONDecodeError:
+            idx += 1
+            continue
+        idx = end
+        if isinstance(obj, dict):
+            keys = set(obj.keys())
+            if keys & {"header", "summary", "table", "notes", "footnote", "sections"}:
+                return obj
+    return None
 
 
 FUNCTIONS = [
@@ -85,6 +127,13 @@ FUNCTIONS = [
                 "report_type": {
                     "type": "string",
                     "description": "Étiquette humaine du rapport (ex: synthese_site).",
+                },
+                "layout": {
+                    "type": "object",
+                    "description": (
+                        "Options de mise en page pour un rapport PDF (sections, tableau, notes, etc.)."
+                    ),
+                    "additionalProperties": True,
                 },
                 "format": {
                     "type": "string",
@@ -164,6 +213,13 @@ def _handle_tool_call(
     if name == "fetch_info_geo":
         return mcp_client.call_geo_info(user_token=user_token, **arguments)
     if name == "generate_report":
+        layout_arg = arguments.get("layout")
+        if layout_arg is not None and not isinstance(layout_arg, str):
+            try:
+                arguments["layout"] = json.dumps(layout_arg, ensure_ascii=False)
+            except (TypeError, ValueError) as exc:
+                LOGGER.warning("Layout non sérialisable ignoré: %s", exc)
+                arguments.pop("layout", None)
         return mcp_client.generate_report(user_token=user_token, **arguments)
     if name == "list_geonature_docs":
         return mcp_client.list_geonature_docs(**arguments)
@@ -179,11 +235,17 @@ def run_assistant(
 ) -> Dict[str, Any]:
     """Boucle principale agent + outils."""
 
+    last_user_message = ""
+    for item in reversed(history):
+        if item.get("role") == "user":
+            last_user_message = item.get("content", "")
+            break
+
     messages = _prepare_messages(history)
     tool_events: List[Dict[str, Any]] = []
 
     try:
-        response = llm_completion(messages, functions=FUNCTIONS)
+        response = llm_completion(messages, functions=FUNCTIONS, temperature=0.3)
     except LLMConfigurationError as exc:
         LOGGER.warning("LLM non disponible: %s", exc)
         return {
@@ -219,12 +281,60 @@ def run_assistant(
             except json.JSONDecodeError:
                 LOGGER.error("Arguments outil invalides: %s", arguments_raw)
                 continue
+
             try:
-                tool_result = _handle_tool_call(
-                    user_token=user_token,
-                    name=name,
-                    arguments=arguments,
-                )
+                if name == "generate_report":
+                    layout_arg = arguments.pop("layout", None)
+                    layout_obj: Optional[Dict[str, Any]] = None
+                    if isinstance(layout_arg, str):
+                        try:
+                            parsed_layout = json.loads(layout_arg)
+                        except json.JSONDecodeError:
+                            LOGGER.debug("Layout fourni non JSON: %s", layout_arg)
+                        else:
+                            if isinstance(parsed_layout, dict):
+                                layout_obj = parsed_layout
+                    elif isinstance(layout_arg, dict):
+                        layout_obj = layout_arg
+
+                    if layout_obj is None:
+                        extracted_layout = _extract_layout_from_text(last_user_message)
+                        if extracted_layout is not None:
+                            layout_obj = extracted_layout
+                            LOGGER.debug(
+                                "Layout extrait automatiquement depuis la requête utilisateur (%s clés)",
+                                len(extracted_layout),
+                            )
+
+                    layout_payload: Optional[str]
+                    if layout_obj is None:
+                        layout_payload = None
+                    else:
+                        try:
+                            layout_payload = json.dumps(layout_obj, ensure_ascii=False)
+                        except (TypeError, ValueError) as exc:
+                            LOGGER.warning("Impossible de sérialiser le layout en JSON: %s", exc)
+                            layout_payload = None
+
+                    LOGGER.info(
+                        "Layout préparé pour generate_report: %s",
+                        "string" if layout_payload is not None else "none",
+                    )
+
+                    if layout_payload is not None:
+                        arguments["layout"] = layout_payload
+
+                    tool_result = _handle_tool_call(
+                        user_token=user_token,
+                        name=name,
+                        arguments=arguments,
+                    )
+                else:
+                    tool_result = _handle_tool_call(
+                        user_token=user_token,
+                        name=name,
+                        arguments=arguments,
+                    )
             except Exception as exc:  # pragma: no cover - dépend d'API externe
                 LOGGER.exception("Erreur outil %s", name)
                 tool_events.append(
@@ -252,22 +362,26 @@ def run_assistant(
                     }
                 )
         try:
-            followup = llm_completion(messages)
+                # 2) Passe COMPOSE : forcer la rédaction texte
+                messages.append({"role": "system", "content": COMPOSE_SYSTEM})
+                followup = llm_completion(messages, temperature=0.7)
         except LLMConfigurationError as exc:
-            LOGGER.warning("LLM indisponible après tool call: %s", exc)
-            return {
-                "answer": "Impossible de finaliser la réponse (LLM indisponible).",
-                "tool_calls": tool_events,
-                "error": str(exc),
-            }
+                LOGGER.warning("LLM indisponible après tool call: %s", exc)
+                return {"answer": "Impossible de finaliser la réponse (LLM indisponible).", "tool_calls": tool_events, "error": str(exc)}
         follow_choice = followup.get("choices", [{}])[0]
         final_message = follow_choice.get("message", {})
-        return {
-            "answer": final_message.get("content", ""),
-            "tool_calls": tool_events,
-        }
+        return {"answer": final_message.get("content", ""), "tool_calls": tool_events}
 
-    return {
-        "answer": message.get("content", ""),
-        "tool_calls": tool_events,
-    }
+    # Pas de tool calls : si la réponse ressemble à du JSON, on compose en texte
+    raw_answer = (message.get("content", "") or "").strip()
+    if raw_answer.startswith("{") or raw_answer.startswith("["):
+        messages.append({"role": "assistant", "content": raw_answer})
+        messages.append({"role": "system", "content": COMPOSE_SYSTEM})
+        try:
+            composed = llm_completion(messages,temperature=0.7)
+            composed_msg = composed.get("choices", [{}])[0].get("message", {})
+            return {"answer": composed_msg.get("content", "") or raw_answer, "tool_calls": tool_events}
+        except Exception:
+            return {"answer": raw_answer, "tool_calls": tool_events}
+
+    return {"answer": raw_answer, "tool_calls": tool_events}

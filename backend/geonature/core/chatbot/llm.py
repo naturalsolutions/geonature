@@ -32,6 +32,7 @@ class LLMClient:
         messages: Iterable[Dict[str, Any]],
         *,
         functions: Optional[Iterable[Dict[str, Any]]] = None,
+        temperature: float= 0.3,
     ) -> Dict[str, Any]:
         api_key = os.getenv("OPENAI_API_KEY", current_app.config.get("OPENAI_API_KEY"))
         if not api_key:
@@ -42,6 +43,7 @@ class LLMClient:
         payload: Dict[str, Any] = {
             "model": model,
             "messages": list(messages),
+            "temperature": temperature,
         }
         if functions:
             payload["tools"] = [
@@ -74,9 +76,10 @@ class LLMClient:
         messages: Iterable[Dict[str, Any]],
         *,
         functions: Optional[Iterable[Dict[str, Any]]] = None,
+        temperature: float = 0.3,
     ) -> Dict[str, Any]:
         if self.provider == "openai":
-            return self._call_openai(messages, functions=functions)
+            return self._call_openai(messages, functions=functions, temperature=temperature)
 
         raise LLMConfigurationError(f"Provider LLM inconnu: {self.provider}")
 
@@ -88,7 +91,8 @@ def llm_completion(
     messages: Iterable[Dict[str, Any]],
     *,
     functions: Optional[Iterable[Dict[str, Any]]] = None,
+    temperature: float = 0.3,
 ) -> Dict[str, Any]:
     """Wrapper pratique autour du client global."""
 
-    return llm_client.invoke(messages, functions=functions)
+    return llm_client.invoke(messages, functions=functions, temperature=temperature)

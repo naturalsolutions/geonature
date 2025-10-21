@@ -1,21 +1,46 @@
-<div class="chatbot-widget" [class.open]="isOpen">
-  <button *ngIf='!isOpen' type="button" class="chatbot-toggle" (click)="toggleWidget()" aria-label="Ouvrir le chatbot">
+<div
+  class="chatbot-widget"
+  [class.open]="isOpen"
+>
+  <button
+    *ngIf="!isOpen"
+    type="button"
+    class="chatbot-toggle"
+    (click)="toggleWidget()"
+    aria-label="Ouvrir le chatbot"
+  >
     <span *ngIf="!isOpen">💬</span>
   </button>
 
-  <div class="chatbot-panel" *ngIf="isOpen">
+  <div
+    class="chatbot-panel"
+    *ngIf="isOpen"
+  >
     <div class="chatbot-header">
       <div class="title">Assistant GeoNature</div>
-      <button type="button" class="close" (click)="closeWidget()" aria-label="Fermer">×</button>
+      <button
+        type="button"
+        class="close"
+        (click)="closeWidget()"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
     </div>
-    <div class="chatbot-messages" [class.loading]="isLoading">
+    <div
+      class="chatbot-messages"
+      [class.loading]="isLoading"
+    >
       <div
         *ngFor="let message of messages"
         class="message"
         [ngClass]="message.role"
       >
         <ng-container [ngSwitch]="message.role">
-          <div *ngSwitchCase="'tool'" class="tool-output">
+          <div
+            *ngSwitchCase="'tool'"
+            class="tool-output"
+          >
             <ng-container *ngIf="message.downloadUrl; else rawTool">
               <div class="tool-title">{{ message.name || 'generate_report' }}</div>
               <a
@@ -26,20 +51,38 @@
               >
                 Télécharger {{ message.filename || 'le rapport' }}
               </a>
-              <div *ngIf="message.content" class="tool-meta">{{ message.content }}</div>
+              <div
+                *ngIf="message.content"
+                class="tool-meta"
+              >
+                {{ message.content }}
+              </div>
             </ng-container>
             <ng-template #rawTool>
-              <pre class="tool-raw">
-{{ message.name ? (message.name + '\n') : '' }}{{ message.content }}
+              <pre class="tool-raw"
+                >{{ message.name ? message.name + '\n' : '' }}{{ message.content }}
               </pre>
             </ng-template>
           </div>
-          <span *ngSwitchDefault>{{ message.content }}</span>
+          <span
+            *ngSwitchDefault
+            [innerHTML]="message.content | markdown"
+          ></span>
         </ng-container>
       </div>
-      <div class="thinking" *ngIf="isLoading">L'assistant réfléchit…</div>
+      <div
+        class="thinking"
+        *ngIf="isLoading"
+      >
+        L'assistant réfléchit…
+      </div>
     </div>
-    <div class="chatbot-error" *ngIf="lastError">{{ lastError }}</div>
+    <div
+      class="chatbot-error"
+      *ngIf="lastError"
+    >
+      {{ lastError }}
+    </div>
     <div class="chatbot-input">
       <textarea
         [(ngModel)]="inputValue"
@@ -47,7 +90,11 @@
         placeholder="Posez une question sur vos données..."
         rows="3"
       ></textarea>
-      <button type="button" (click)="sendMessage()" [disabled]="isLoading || !inputValue.trim()">
+      <button
+        type="button"
+        (click)="sendMessage()"
+        [disabled]="isLoading || !inputValue.trim()"
+      >
         Envoyer
       </button>
     </div>

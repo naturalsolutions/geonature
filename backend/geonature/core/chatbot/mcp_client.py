@@ -190,6 +190,7 @@ def generate_report(
     limit: Optional[int] = None,
     report_type: Optional[str] = None,
     format: Optional[str] = None,
+    layout: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     args: Dict[str, Any] = {}
     if filters:
@@ -200,6 +201,12 @@ def generate_report(
         args["report_type"] = report_type
     if format:
         args["format"] = format
+    if layout is not None:
+        LOGGER.info("generate_report: layout fourni (%s)", type(layout).__name__)
+        if isinstance(layout, str):
+            args["layout"] = layout
+        else:
+            args["layout"] = json.dumps(layout, ensure_ascii=False)
     if user_token:
         args["api_token"] = user_token
 

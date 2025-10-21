@@ -69,30 +69,34 @@ export class ChatbotWidgetComponent {
     this.chatbotService.sendConversation(payload).subscribe({
       next: (response) => {
         response.tool_calls.forEach((toolCall) => {
-          if (toolCall.result && toolCall.name === 'generate_report' && toolCall.result.download_url) {
-              const itemCount = toolCall.result.meta?.item_count;
-              const limit = toolCall.result.meta?.limit;
-              const format = toolCall.result.meta?.format;
-              const parts: string[] = [];
-              if (typeof format === 'string') {
-                parts.push(format.toUpperCase());
-              }
-              if (typeof itemCount === 'number') {
-                parts.push(`${itemCount} enregistrements`);
-              }
-              if (typeof limit === 'number') {
-                parts.push(`limite ${limit}`);
-              }
-              const details = parts.length ? `(${parts.join(', ')})` : '';
-              this.messages.push({
-                role: 'tool',
-                name: toolCall.name,
-                content: `Rapport généré ${details}`.trim(),
-                downloadUrl: toolCall.result.download_url,
-                filename: toolCall.result.filename,
-                contentType: toolCall.result.content_type,
-                meta: toolCall.result.meta,
-              });
+          if (
+            toolCall.result &&
+            toolCall.name === 'generate_report' &&
+            toolCall.result.download_url
+          ) {
+            const itemCount = toolCall.result.meta?.item_count;
+            const limit = toolCall.result.meta?.limit;
+            const format = toolCall.result.meta?.format;
+            const parts: string[] = [];
+            if (typeof format === 'string') {
+              parts.push(format.toUpperCase());
+            }
+            if (typeof itemCount === 'number') {
+              parts.push(`${itemCount} enregistrements`);
+            }
+            if (typeof limit === 'number') {
+              parts.push(`limite ${limit}`);
+            }
+            const details = parts.length ? `(${parts.join(', ')})` : '';
+            this.messages.push({
+              role: 'tool',
+              name: toolCall.name,
+              content: `Rapport généré ${details}`.trim(),
+              downloadUrl: toolCall.result.download_url,
+              filename: toolCall.result.filename,
+              contentType: toolCall.result.content_type,
+              meta: toolCall.result.meta,
+            });
           } else if (toolCall.error) {
             this.messages.push({
               role: 'tool',

@@ -18,7 +18,10 @@ export interface ChatResponse {
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotService {
-  constructor(private http: HttpClient, private config: ConfigService) {}
+  constructor(
+    private http: HttpClient,
+    private config: ConfigService
+  ) {}
 
   sendConversation(messages: ChatMessage[]): Observable<ChatResponse> {
     const url = `${this.config.API_ENDPOINT}/chatbot/message`;
