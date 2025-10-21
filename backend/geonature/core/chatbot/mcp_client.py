@@ -92,7 +92,9 @@ async def _call_tool_async(
 ) -> Any:
     async with _open_session(user_token) as session:
         try:
-            result = await session.call_tool(tool_name, arguments or None, read_timeout_seconds=None)
+            result = await session.call_tool(
+                tool_name, arguments or None, read_timeout_seconds=None
+            )
         except Exception as exc:  # pragma: no cover - dépend de la stack MCP
             raise MCPClientError(f"Echec appel outil {tool_name}: {exc}") from exc
 
@@ -113,7 +115,11 @@ async def _call_tool_async(
 
         payload = []
         for block in getattr(result, "content", []):
-            block_dict = block.model_dump(mode="json", by_alias=True) if hasattr(block, "model_dump") else block
+            block_dict = (
+                block.model_dump(mode="json", by_alias=True)
+                if hasattr(block, "model_dump")
+                else block
+            )
             if isinstance(block_dict, dict) and block_dict.get("type") == "text":
                 text = block_dict.get("text", "")
                 try:

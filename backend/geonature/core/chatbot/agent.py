@@ -35,7 +35,6 @@ COMPOSE_SYSTEM = (
 )
 
 
-
 def _extract_layout_from_text(text: str) -> Optional[Dict[str, Any]]:
     """Tente d'extraire un objet JSON représentant un layout depuis un texte libre."""
 
@@ -362,12 +361,16 @@ def run_assistant(
                     }
                 )
         try:
-                # 2) Passe COMPOSE : forcer la rédaction texte
-                messages.append({"role": "system", "content": COMPOSE_SYSTEM})
-                followup = llm_completion(messages, temperature=0.7)
+            # 2) Passe COMPOSE : forcer la rédaction texte
+            messages.append({"role": "system", "content": COMPOSE_SYSTEM})
+            followup = llm_completion(messages, temperature=0.7)
         except LLMConfigurationError as exc:
-                LOGGER.warning("LLM indisponible après tool call: %s", exc)
-                return {"answer": "Impossible de finaliser la réponse (LLM indisponible).", "tool_calls": tool_events, "error": str(exc)}
+            LOGGER.warning("LLM indisponible après tool call: %s", exc)
+            return {
+                "answer": "Impossible de finaliser la réponse (LLM indisponible).",
+                "tool_calls": tool_events,
+                "error": str(exc),
+            }
         follow_choice = followup.get("choices", [{}])[0]
         final_message = follow_choice.get("message", {})
         return {"answer": final_message.get("content", ""), "tool_calls": tool_events}
@@ -378,9 +381,12 @@ def run_assistant(
         messages.append({"role": "assistant", "content": raw_answer})
         messages.append({"role": "system", "content": COMPOSE_SYSTEM})
         try:
-            composed = llm_completion(messages,temperature=0.7)
+            composed = llm_completion(messages, temperature=0.7)
             composed_msg = composed.get("choices", [{}])[0].get("message", {})
-            return {"answer": composed_msg.get("content", "") or raw_answer, "tool_calls": tool_events}
+            return {
+                "answer": composed_msg.get("content", "") or raw_answer,
+                "tool_calls": tool_events,
+            }
         except Exception:
             return {"answer": raw_answer, "tool_calls": tool_events}
 

@@ -32,7 +32,7 @@ class LLMClient:
         messages: Iterable[Dict[str, Any]],
         *,
         functions: Optional[Iterable[Dict[str, Any]]] = None,
-        temperature: float= 0.3,
+        temperature: float = 0.3,
     ) -> Dict[str, Any]:
         api_key = os.getenv("OPENAI_API_KEY", current_app.config.get("OPENAI_API_KEY"))
         if not api_key:
@@ -46,9 +46,7 @@ class LLMClient:
             "temperature": temperature,
         }
         if functions:
-            payload["tools"] = [
-                {"type": "function", "function": fn} for fn in functions
-            ]
+            payload["tools"] = [{"type": "function", "function": fn} for fn in functions]
             payload["tool_choice"] = "auto"
 
         headers = {

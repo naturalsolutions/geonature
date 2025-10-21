@@ -12,7 +12,9 @@ class ChatMessageSchema(Schema):
 
 
 class ChatRequestSchema(Schema):
-    messages = fields.List(fields.Nested(ChatMessageSchema), required=True, validate=validate.Length(min=1))
+    messages = fields.List(
+        fields.Nested(ChatMessageSchema), required=True, validate=validate.Length(min=1)
+    )
 
 
 class ToolCallSchema(Schema):
