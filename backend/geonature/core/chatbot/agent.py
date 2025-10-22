@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, List, Optional
+import re
+import unicodedata
+from copy import deepcopy
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from . import mcp_client
 from .llm import llm_completion, LLMConfigurationError
@@ -59,6 +62,231 @@ def _extract_layout_from_text(text: str) -> Optional[Dict[str, Any]]:
             if keys & {"header", "summary", "table", "notes", "footnote", "sections"}:
                 return obj
     return None
+
+
+def _normalize_key(value: str) -> str:
+    """Normalise une étiquette pour la comparaison (sans accents, minuscule)."""
+    decomposed = unicodedata.normalize("NFKD", value or "")
+    stripped = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+    lowered = stripped.lower()
+    return re.sub(r"[^a-z0-9]+", " ", lowered).strip()
+
+
+_COLUMN_ALIASES: Dict[str, Dict[str, str]] = {
+    "espece": {"field": "lb_nom", "label": "Espèce"},
+    "especes": {"field": "lb_nom", "label": "Espèces"},
+    "taxon": {"field": "lb_nom", "label": "Taxon"},
+    "taxons": {"field": "lb_nom", "label": "Taxons"},
+    "nom latin": {"field": "lb_nom", "label": "Nom latin"},
+    "nom scientifique": {"field": "lb_nom", "label": "Nom scientifique"},
+    "date": {"field": "dateobs", "label": "Date"},
+    "date observation": {"field": "dateobs", "label": "Date d'observation"},
+    "date d observation": {"field": "dateobs", "label": "Date d'observation"},
+    "date des observation": {"field": "dateobs", "label": "Date d'observation"},
+    "date dobservation": {"field": "dateobs", "label": "Date d'observation"},
+    "date d observation (iso)": {"field": "dateobs", "label": "Date d'observation"},
+    "date d observations": {"field": "dateobs", "label": "Date d'observation"},
+    "observateur": {"field": "observateurs", "label": "Observateurs"},
+    "observateurs": {"field": "observateurs", "label": "Observateurs"},
+    "participant": {"field": "observateurs", "label": "Observateurs"},
+    "participants": {"field": "observateurs", "label": "Observateurs"},
+    "observateur principal": {"field": "observateurs", "label": "Observateurs"},
+    "nb individus": {"field": "nombre", "label": "Nombre d'individus"},
+    "nombre": {"field": "nombre", "label": "Nombre"},
+    "effectif": {"field": "nombre", "label": "Effectif"},
+    "code taxon": {"field": "cd_nom", "label": "Code taxon"},
+    "code inpn": {"field": "cd_nom", "label": "Code INPN"},
+    "cd nom": {"field": "cd_nom", "label": "Code taxon"},
+}
+
+
+def _canonicalize_column(value: str) -> Dict[str, Any]:
+    """Retourne champ/label canonique pour une colonne potentielle."""
+    raw = (value or "").strip()
+    if not raw:
+        return {}
+
+    changed = False
+    if raw.startswith("properties."):
+        raw = raw.split(".", 1)[1]
+        changed = True
+
+    key = _normalize_key(raw)
+    alias = _COLUMN_ALIASES.get(key)
+    if alias:
+        return {"path": alias["field"], "label": alias.get("label"), "changed": True}
+
+    return {"path": raw, "label": None, "changed": changed}
+
+
+def _infer_limit_from_text(text: str) -> Optional[int]:
+    """Renvoie le premier entier positif trouvé dans la requête (limite potentielle)."""
+    match = re.search(r"\b(\d{1,3})\b", text)
+    if not match:
+        return None
+    try:
+        value = int(match.group(1))
+    except ValueError:
+        return None
+    return value if value > 0 else None
+
+
+def _infer_layout_from_text(text: str) -> Tuple[Optional[Dict[str, Any]], Optional[int]]:
+    """Construit un layout minimal (table) à partir d'un texte libre."""
+    normalized_text = _normalize_key(text)
+    inferred_limit = _infer_limit_from_text(text)
+    if not normalized_text:
+        return None, inferred_limit
+
+    selected: List[Dict[str, Any]] = []
+    seen_fields: Set[str] = set()
+    for alias_key, alias_info in _COLUMN_ALIASES.items():
+        alias_norm = _normalize_key(alias_key)
+        if alias_norm and alias_norm in normalized_text:
+            field = alias_info.get("field")
+            if not field or field in seen_fields:
+                continue
+            seen_fields.add(field)
+            col_entry: Dict[str, Any] = {"path": field}
+            label = alias_info.get("label")
+            if label:
+                col_entry["label"] = label
+            selected.append(col_entry)
+
+    if not selected:
+        return None, inferred_limit
+
+    table_conf: Dict[str, Any] = {
+        "title": "Observations demandées",
+        "columns": selected,
+        "include_index": True,
+    }
+    if inferred_limit:
+        table_conf["max_rows"] = inferred_limit
+
+    layout = {"table": table_conf}
+    LOGGER.debug(
+        "Layout inféré automatiquement depuis le texte (%d colonnes, limit=%s).",
+        len(selected),
+        inferred_limit,
+    )
+    return layout, inferred_limit
+
+
+def _normalize_report_layout(layout: Dict[str, Any]) -> Dict[str, Any]:
+    """Adapte le layout pour mapper les colonnes vers les champs GeoNature connus."""
+    if not isinstance(layout, dict):
+        return layout
+
+    layout_copy = deepcopy(layout)
+    table_conf = layout_copy.get("table")
+    if not isinstance(table_conf, dict):
+        return layout
+
+    columns = table_conf.get("columns")
+    if not isinstance(columns, list):
+        return layout
+
+    normalized_columns: List[Any] = []
+    seen_fields: Set[str] = set()
+    layout_changed = False
+
+    for entry in columns:
+        if isinstance(entry, str):
+            canonical = _canonicalize_column(entry)
+            field_name = canonical.get("path")
+            if not field_name:
+                layout_changed = True
+                continue
+            label = canonical.get("label") or entry.strip()
+            if field_name in seen_fields:
+                layout_changed = True
+                continue
+            seen_fields.add(field_name)
+            if canonical.get("changed"):
+                column_payload: Dict[str, Any] = {"path": field_name}
+                if label and _normalize_key(label) != _normalize_key(field_name):
+                    column_payload["label"] = label
+                normalized_columns.append(column_payload)
+                layout_changed = True
+            else:
+                normalized_columns.append(field_name)
+        elif isinstance(entry, dict):
+            entry_copy = deepcopy(entry)
+            field_raw = (
+                entry_copy.get("field") or entry_copy.get("path") or entry_copy.get("name")
+            )
+            if isinstance(field_raw, str):
+                canonical = _canonicalize_column(field_raw)
+                field_name = canonical.get("path")
+                if not field_name:
+                    layout_changed = True
+                    continue
+                if field_name in seen_fields:
+                    layout_changed = True
+                    continue
+                seen_fields.add(field_name)
+                entry_copy.pop("path", None)
+                entry_copy.pop("field", None)
+                entry_copy.pop("name", None)
+                entry_copy["path"] = field_name
+                if not entry_copy.get("label") and canonical.get("label"):
+                    entry_copy["label"] = canonical["label"]
+                if canonical.get("changed") or field_name != field_raw:
+                    layout_changed = True
+                normalized_columns.append(entry_copy)
+            else:
+                normalized_columns.append(entry_copy)
+        else:
+            normalized_columns.append(entry)
+
+    if layout_changed:
+        table_conf = deepcopy(table_conf)
+        table_conf["columns"] = normalized_columns
+        layout_copy["table"] = table_conf
+        return layout_copy
+
+    return layout
+
+
+def _summarize_report_meta(meta: Any) -> Optional[str]:
+    """Construit un rappel pour l'assistant selon les avertissements de génération."""
+    if not isinstance(meta, dict):
+        return None
+
+    warnings: List[str] = []
+    raw_warnings = meta.get("warnings")
+    if isinstance(raw_warnings, list):
+        warnings.extend(str(item) for item in raw_warnings if item)
+    elif isinstance(raw_warnings, str):
+        warnings.append(raw_warnings)
+
+    missing = meta.get("missing_columns") or []
+    if isinstance(missing, list) and missing:
+        warnings.append(
+            "Colonnes introuvables: " + ", ".join(str(col) for col in missing) + "."
+        )
+
+    invalid = meta.get("invalid_layout_columns")
+    if invalid:
+        warnings.append("Configuration de colonnes invalide renvoyée par le serveur.")
+
+    if not warnings:
+        return None
+
+    suggestions_source = meta.get("column_suggestions") or meta.get("available_columns")
+    suggestion_text = ""
+    if isinstance(suggestions_source, list) and suggestions_source:
+        preview = ", ".join(str(item) for item in suggestions_source[:8])
+        if len(suggestions_source) > 8:
+            preview += ", …"
+        suggestion_text = f" Colonnes disponibles suggérées: {preview}."
+
+    details = " ".join(warnings) + suggestion_text
+    return (
+        "IMPORTANT: le serveur MCP signale un problème sur le rapport PDF. "
+        f"{details} Explique-le clairement à l'utilisateur et propose d'ajuster le layout."
+    )
 
 
 FUNCTIONS = [
@@ -215,6 +443,8 @@ def _handle_tool_call(
         layout_arg = arguments.get("layout")
         if layout_arg is not None and not isinstance(layout_arg, str):
             try:
+                if isinstance(layout_arg, dict):
+                    layout_arg = _normalize_report_layout(layout_arg)
                 arguments["layout"] = json.dumps(layout_arg, ensure_ascii=False)
             except (TypeError, ValueError) as exc:
                 LOGGER.warning("Layout non sérialisable ignoré: %s", exc)
@@ -285,6 +515,9 @@ def run_assistant(
                 if name == "generate_report":
                     layout_arg = arguments.pop("layout", None)
                     layout_obj: Optional[Dict[str, Any]] = None
+                    layout_origin = "none"
+                    detected_limit: Optional[int] = None
+                    layout_followup_note: Optional[str] = None
                     if isinstance(layout_arg, str):
                         try:
                             parsed_layout = json.loads(layout_arg)
@@ -293,17 +526,37 @@ def run_assistant(
                         else:
                             if isinstance(parsed_layout, dict):
                                 layout_obj = parsed_layout
+                                layout_origin = "function"
                     elif isinstance(layout_arg, dict):
                         layout_obj = layout_arg
+                        layout_origin = "function"
 
                     if layout_obj is None:
                         extracted_layout = _extract_layout_from_text(last_user_message)
                         if extracted_layout is not None:
                             layout_obj = extracted_layout
+                            layout_origin = "extracted"
                             LOGGER.debug(
                                 "Layout extrait automatiquement depuis la requête utilisateur (%s clés)",
                                 len(extracted_layout),
                             )
+                    if layout_obj is None:
+                        inferred_layout, inferred_limit = _infer_layout_from_text(last_user_message)
+                        if inferred_layout is not None:
+                            layout_obj = inferred_layout
+                            layout_origin = "inferred"
+                        detected_limit = inferred_limit
+                    else:
+                        detected_limit = _infer_limit_from_text(last_user_message)
+
+                    if layout_obj is not None:
+                        normalized_layout = _normalize_report_layout(layout_obj)
+                        if normalized_layout is not layout_obj:
+                            LOGGER.debug("Layout enrichi après normalisation des colonnes.")
+                            layout_obj = normalized_layout
+
+                    if detected_limit is not None and "limit" not in arguments:
+                        arguments["limit"] = detected_limit
 
                     layout_payload: Optional[str]
                     if layout_obj is None:
@@ -315,13 +568,32 @@ def run_assistant(
                             LOGGER.warning("Impossible de sérialiser le layout en JSON: %s", exc)
                             layout_payload = None
 
+                    if layout_payload is None:
+                        layout_origin = "default"
+
                     LOGGER.info(
                         "Layout préparé pour generate_report: %s",
-                        "string" if layout_payload is not None else "none",
+                        layout_origin,
                     )
 
                     if layout_payload is not None:
                         arguments["layout"] = layout_payload
+
+                    if layout_origin in {"inferred", "default"}:
+                        layout_followup_note = (
+                            "IMPORTANT: aucune mise en page personnalisée fournie. "
+                            "Le rapport PDF sera généré avec "
+                        )
+                        if layout_origin == "default":
+                            layout_followup_note += (
+                                "le format par défaut du serveur. Informe l'utilisateur et propose de préciser "
+                                "les colonnes/titres souhaités."
+                            )
+                        else:
+                            layout_followup_note += (
+                                "un layout déduit automatiquement (colonnes identifiées dans la demande). "
+                                "Confirme les colonnes retenues et propose de les ajuster si besoin."
+                            )
 
                     tool_result = _handle_tool_call(
                         user_token=user_token,
@@ -360,6 +632,24 @@ def run_assistant(
                         "content": json.dumps(tool_result),
                     }
                 )
+                if name == "generate_report" and isinstance(tool_result, dict):
+                    if layout_origin in {"inferred", "default"} and layout_followup_note:
+                        messages.append({"role": "system", "content": layout_followup_note})
+                    download_url = tool_result.get("download_url")
+                    if download_url:
+                        messages.append(
+                            {
+                                "role": "system",
+                                "content": (
+                                    "IMPORTANT: mentionne explicitement le lien de téléchargement du rapport "
+                                    f"en Markdown, par exemple [Télécharger le rapport]({download_url}). "
+                                    "Précise également la date d'expiration si elle est disponible."
+                                ),
+                            }
+                        )
+                    summary_note = _summarize_report_meta(tool_result.get("meta"))
+                    if summary_note:
+                        messages.append({"role": "system", "content": summary_note})
         try:
             # 2) Passe COMPOSE : forcer la rédaction texte
             messages.append({"role": "system", "content": COMPOSE_SYSTEM})
