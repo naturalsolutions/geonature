@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
+import logging
 
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
@@ -19,6 +20,7 @@ chatbot_routes = Blueprint(
 
 _request_schema = ChatRequestSchema()
 _response_schema = ChatResponseSchema()
+LOGGER = logging.getLogger(__name__)
 
 
 def _extract_token(auth_header: Optional[str]) -> Optional[str]:
@@ -40,7 +42,19 @@ def post_message() -> tuple[dict, int]:
 
     auth_header = request.headers.get("Authorization")
     user_token = _extract_token(auth_header)
-    result = run_assistant(history=payload["messages"], user_token=user_token)
+    try:
+        result = run_assistant(history=payload["messages"], user_token=user_token)
+    except Exception as exc:  # pragma: no cover - dépend d'intégrations externes
+        LOGGER.exception("Erreur inattendue lors du traitement du chatbot")
+        details = str(exc).strip()
+        message = (
+            "Le service chatbot a rencontré une erreur interne. "
+            "Consultez les logs serveur pour plus de détails."
+        )
+        response_payload = {"message": message}
+        if details:
+            response_payload["details"] = f"{type(exc).__name__}: {details}"
+        return jsonify(response_payload), 500
 
     return jsonify(_response_schema.dump(result)), 200
 

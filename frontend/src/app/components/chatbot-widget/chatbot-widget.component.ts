@@ -68,6 +68,7 @@ export class ChatbotWidgetComponent {
 
     this.chatbotService.sendConversation(payload).subscribe({
       next: (response) => {
+        this.lastError = null;
         response.tool_calls.forEach((toolCall) => {
           if (
             toolCall.result &&

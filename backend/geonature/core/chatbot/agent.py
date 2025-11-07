@@ -9,6 +9,8 @@ import unicodedata
 from copy import deepcopy
 from typing import Any, Dict, List, Optional, Set, Tuple
 
+from requests import RequestException
+
 from . import mcp_client
 from .llm import llm_completion, LLMConfigurationError
 
@@ -36,6 +38,16 @@ COMPOSE_SYSTEM = (
     "- Structure : TL;DR, puis puces de détails, puis prochaines étapes (si utile).\n"
     "- Si l’utilisateur a demandé un rapport JSON/PDF, confirme le lien ou l’état, mais ne colle pas le JSON."
 )
+
+
+def _format_llm_error(exc: Exception) -> str:
+    """Construit un message explicite pour diagnostiquer l'erreur LLM côté admin."""
+
+    label = type(exc).__name__
+    details = str(exc).strip()
+    if details:
+        return f"Erreur de communication avec le fournisseur LLM ({label}): {details}"
+    return f"Erreur de communication avec le fournisseur LLM ({label})."
 
 
 def _extract_layout_from_text(text: str) -> Optional[Dict[str, Any]]:
@@ -485,6 +497,16 @@ def run_assistant(
             "tool_calls": tool_events,
             "error": str(exc),
         }
+    except RequestException as exc:
+        LOGGER.exception("Erreur de communication avec le fournisseur LLM")
+        return {
+            "answer": (
+                "Le service d'intelligence artificielle est momentanément indisponible. "
+                "Merci de réessayer dans quelques instants."
+            ),
+            "tool_calls": tool_events,
+            "error": _format_llm_error(exc),
+        }
 
     choices = response.get("choices", [])
     if not choices:
@@ -661,6 +683,16 @@ def run_assistant(
                 "tool_calls": tool_events,
                 "error": str(exc),
             }
+        except RequestException as exc:
+            LOGGER.exception("Erreur de communication avec le fournisseur LLM (post tool call)")
+            return {
+                "answer": (
+                    "Impossible de finaliser la réponse car le fournisseur d'IA ne répond pas "
+                    "correctement. Merci de réessayer plus tard."
+                ),
+                "tool_calls": tool_events,
+                "error": _format_llm_error(exc),
+            }
         follow_choice = followup.get("choices", [{}])[0]
         final_message = follow_choice.get("message", {})
         return {"answer": final_message.get("content", ""), "tool_calls": tool_events}
@@ -677,7 +709,15 @@ def run_assistant(
                 "answer": composed_msg.get("content", "") or raw_answer,
                 "tool_calls": tool_events,
             }
-        except Exception:
-            return {"answer": raw_answer, "tool_calls": tool_events}
+        except LLMConfigurationError as exc:
+            LOGGER.warning("LLM indisponible lors de la composition finale: %s", exc)
+            return {"answer": raw_answer, "tool_calls": tool_events, "error": str(exc)}
+        except RequestException as exc:
+            LOGGER.exception("Erreur de communication avec le fournisseur LLM (composition finale)")
+            return {
+                "answer": raw_answer,
+                "tool_calls": tool_events,
+                "error": _format_llm_error(exc),
+            }
 
     return {"answer": raw_answer, "tool_calls": tool_events}
