@@ -77,6 +77,8 @@ MEDIA_CLEAN_CRONTAB = "0 1 * * *"
 # Configuration de l'envoi d'email pour FlaskMail et l'envoi par email des logs d'erreur
 # Cf. https://flask-mail.readthedocs.io/en/latest/#configuring-flask-mail
 [MAIL_CONFIG]
+    # Choisir "graph" pour utiliser Microsoft Graph (client credentials OAuth2)
+    PROVIDER = "smtp"
     MAIL_SERVER = "my_email_server"
     MAIL_PORT = 465
     MAIL_USE_TLS = false
@@ -98,6 +100,12 @@ MEDIA_CLEAN_CRONTAB = "0 1 * * *"
     # Les espaces présents en début et fin de chaine ainsi qu'avant et
     # après les virgules sont ignorés.
     ERROR_MAIL_TO = ["Prénom NOM <email@email.com>", "email2@email.com"]
+    # Paramètres pour Microsoft Graph (PROVIDER="graph")
+    # GRAPH_TENANT_ID = "<votre-tenant-id>"
+    # GRAPH_CLIENT_ID = "<client-id>"
+    # GRAPH_CLIENT_SECRET = "<secret>"
+    # GRAPH_SCOPE = "https://graph.microsoft.com/.default"
+    # GRAPH_SENDER = "expediteur@domaine.fr"
 
 [BDD]
     id_area_type_municipality = 25

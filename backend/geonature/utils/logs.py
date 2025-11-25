@@ -28,16 +28,18 @@ def config_loggers(config):
     root_logger.setLevel(config["SERVER"]["LOG_LEVEL"])
     if config["MAIL_ON_ERROR"] and config["MAIL_CONFIG"]:
         MAIL_CONFIG = config["MAIL_CONFIG"]
-        mail_handler = SMTPHandler(
-            mailhost=(MAIL_CONFIG["MAIL_SERVER"], MAIL_CONFIG["MAIL_PORT"]),
-            fromaddr=MAIL_CONFIG["MAIL_USERNAME"],
-            toaddrs=MAIL_CONFIG["ERROR_MAIL_TO"],
-            subject="GeoNature error",
-            credentials=(MAIL_CONFIG["MAIL_USERNAME"], MAIL_CONFIG["MAIL_PASSWORD"]),
-            secure=(),
-        )
-        mail_handler.setLevel(logging.ERROR)
-        root_logger.addHandler(mail_handler)
+        provider = MAIL_CONFIG.get("PROVIDER", "smtp")
+        if provider == "smtp" and MAIL_CONFIG.get("MAIL_SERVER") and MAIL_CONFIG.get("MAIL_PORT"):
+            mail_handler = SMTPHandler(
+                mailhost=(MAIL_CONFIG["MAIL_SERVER"], MAIL_CONFIG["MAIL_PORT"]),
+                fromaddr=MAIL_CONFIG["MAIL_USERNAME"],
+                toaddrs=MAIL_CONFIG["ERROR_MAIL_TO"],
+                subject="GeoNature error",
+                credentials=(MAIL_CONFIG["MAIL_USERNAME"], MAIL_CONFIG["MAIL_PASSWORD"]),
+                secure=(),
+            )
+            mail_handler.setLevel(logging.ERROR)
+            root_logger.addHandler(mail_handler)
     logging.getLogger("fiona").setLevel(config["SERVER"]["LOG_LEVEL"])
     if os.environ.get("FLASK_ENV") == "development":
         warnings.simplefilter("always", DeprecationWarning)

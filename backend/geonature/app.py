@@ -130,10 +130,11 @@ def create_app(with_external_mods=True):
 
         celery_app.init_app(app)
 
-    # Emails configuration
-    if app.config["MAIL_CONFIG"]:
+    # Emails configuration (SMTP only; Graph handled directly in utilsmails)
+    mail_config = app.config.get("MAIL_CONFIG")
+    if mail_config and mail_config.get("PROVIDER", "smtp") == "smtp":
         conf = app.config.copy()
-        conf.update(app.config["MAIL_CONFIG"])
+        conf.update(mail_config)
         app.config = conf
         MAIL.init_app(app)
 

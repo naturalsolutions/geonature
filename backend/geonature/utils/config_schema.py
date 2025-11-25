@@ -60,6 +60,7 @@ class RightsSchemaConf(Schema):
 
 
 class MailConfig(Schema):
+    PROVIDER = fields.String(load_default="smtp", validate=OneOf(["smtp", "graph"]))
     MAIL_SERVER = fields.String(required=False)
     MAIL_PORT = fields.Integer(required=False)
     MAIL_USE_TLS = fields.Boolean(required=False)
@@ -71,6 +72,31 @@ class MailConfig(Schema):
     MAIL_SUPPRESS_SEND = fields.Boolean(required=False)
     MAIL_ASCII_ATTACHMENTS = fields.Boolean(required=False)
     ERROR_MAIL_TO = EmailStrOrListOfEmailStrField(load_default=None)
+    GRAPH_TENANT_ID = fields.String(required=False)
+    GRAPH_CLIENT_ID = fields.String(required=False)
+    GRAPH_CLIENT_SECRET = fields.String(required=False)
+    GRAPH_SCOPE = fields.String(load_default="https://graph.microsoft.com/.default")
+    GRAPH_SENDER = fields.String(required=False)
+
+    @validates_schema
+    def _check_mail_provider(self, data, **kwargs):
+        provider = data.get("PROVIDER", "smtp")
+        if provider == "graph":
+            missing = [
+                key
+                for key in [
+                    "GRAPH_TENANT_ID",
+                    "GRAPH_CLIENT_ID",
+                    "GRAPH_CLIENT_SECRET",
+                    "GRAPH_SENDER",
+                ]
+                if not data.get(key)
+            ]
+            if missing:
+                raise ValidationError(
+                    "Missing Microsoft Graph mail configuration entries",
+                    missing,
+                )
 
 
 class CeleryConfig(Schema):

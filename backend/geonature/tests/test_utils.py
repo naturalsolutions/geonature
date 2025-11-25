@@ -134,6 +134,35 @@ class TestUtils:
                     == expected_enable_tab_profile
                 )
 
+    def test_config_mail_graph_requires_keys(self):
+        base = TEMPLATE_CONFIG_FILE.format(language="fr")
+        graph_config_missing = (
+            base
+            + """
+[MAIL_CONFIG]
+PROVIDER = "graph"
+"""
+        )
+        with tempfile.NamedTemporaryFile(mode="w") as f:
+            f.write(graph_config_missing)
+            with pytest.raises(ConfigError):
+                load_and_validate_toml(f.name, GnPySchemaConf)
+
+        graph_config_full = (
+            base
+            + """
+[MAIL_CONFIG]
+PROVIDER = "graph"
+GRAPH_TENANT_ID = "tenant"
+GRAPH_CLIENT_ID = "client"
+GRAPH_CLIENT_SECRET = "secret"
+GRAPH_SENDER = "sender@example.com"
+"""
+        )
+        with tempfile.NamedTemporaryFile(mode="w") as f:
+            f.write(graph_config_full)
+            load_and_validate_toml(f.name, GnPySchemaConf)
+
 
 pagination_schema = {
     "type": "object",
