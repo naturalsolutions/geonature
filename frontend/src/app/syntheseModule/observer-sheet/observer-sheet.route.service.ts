@@ -15,7 +15,6 @@ import { ChildRouteDescription } from '@geonature/routing/childRouteDescription'
 import { ObservationsComponent } from '../sheets/observations/observations.component';
 import { ObserverSheetService } from './observer-sheet.service';
 import { Observer } from './observer';
-import { UserDataService } from '@geonature/userModule/services';
 
 export function getObserverSheetRoute(observer: string): [string] {
   return [`/synthese/observer/${encodeURIComponent(observer)}`];
@@ -50,8 +49,7 @@ export class ObserverSheetRouteService implements CanActivate, CanActivateChild 
   constructor(
     private _config: ConfigService,
     private _router: Router,
-    private _oss: ObserverSheetService,
-    private _userDataService: UserDataService
+    private _oss: ObserverSheetService
   ) {
     if (
       this._config['SYNTHESE']?.['ENABLE_OBSERVER_SHEETS'] &&
@@ -92,19 +90,6 @@ export class ObserverSheetRouteService implements CanActivate, CanActivateChild 
       return throwError(() => new Error('Missing observer param'));
     }
 
-    const observerId = Number(observerParam);
-
-    if (Number.isNaN(observerId)) {
-      return of({ nom_complet: observerParam });
-    }
-
-    return this._userDataService.getRole(observerId).pipe(
-      map((role: Observer) => {
-        if (role?.groupe) {
-          throw new Error('Observer is a group');
-        }
-        return role;
-      })
-    );
+    return of({ nom_complet: observerParam });
   }
 }

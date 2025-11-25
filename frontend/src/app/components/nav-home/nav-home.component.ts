@@ -101,6 +101,6 @@ export class NavHomeComponent implements OnInit {
   }
 
   getObserverSheetUrl(): [string] {
-    return getObserverSheetRoute(this.currentUser.id_role);
+    return getObserverSheetRoute(this.currentUser.nom_complet);
   }
 }
