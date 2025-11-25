@@ -21,19 +21,6 @@
   </ng-template>
 
   <ng-template
-    #cellObserverTemplate
-    let-value="value"
-  >
-    <a
-      *ngIf="hasObserverSheet(); else cellNameTemplate"
-      class="Link"
-      [routerLink]="getObserverSheetUrl(value)"
-    >
-      {{ value | titlecase }}
-    </a>
-  </ng-template>
-
-  <ng-template
     #cellDefaultTemplate
     let-value="value"
   >
@@ -66,7 +53,7 @@
         let-row="row"
       >
         <ng-template
-          *ngTemplateOutlet="cellObserverTemplate; context: { value: row[PROP_OBSERVER] }"
+          *ngTemplateOutlet="cellNameTemplate; context: { value: row[PROP_OBSERVER] }"
         ></ng-template>
       </ng-template>
     </ngx-datatable-column>

@@ -75,7 +75,6 @@ import { MunicipalitiesComponent } from '@geonature_common/form/municipalities/m
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NomenclatureComponent } from './form/nomenclature/nomenclature.component';
 import { ObserversComponent } from './form/observers/observers.component';
-import { ObserversWithLinkComponent } from './components/observers-with-link/observers-with-link.component';
 import { ObserversTextComponent } from '@geonature_common/form/observers-text/observers-text.component';
 import { PeriodComponent } from '@geonature_common/form/date/period.component';
 import { PlacesComponent } from './map/places/places.component';
@@ -223,7 +222,6 @@ import { IndividualsCreateComponent } from './form/individuals/create/individual
     UUIDComponent,
     IndividualsComponent,
     IndividualsCreateComponent,
-    ObserversWithLinkComponent,
   ],
   providers: [
     CommonService,
@@ -313,7 +311,6 @@ import { IndividualsCreateComponent } from './form/individuals/create/individual
     NomenclatureComponent,
     ObserversComponent,
     ObserversTextComponent,
-    ObserversWithLinkComponent,
     PeriodComponent,
     AutoCompleteComponent,
     SafeStripHtmlPipe,

@@ -95,7 +95,7 @@ export class ObserverSheetRouteService implements CanActivate, CanActivateChild 
     const observerId = Number(observerParam);
 
     if (Number.isNaN(observerId)) {
-      return of({ nom_complet: observerParam });
+      throw new Error('Observer is a not a valid id');
     }
 
     return this._userDataService.getRole(observerId).pipe(
