@@ -90,6 +90,6 @@ export class ObserverSheetRouteService implements CanActivate, CanActivateChild 
       return throwError(() => new Error('Missing observer param'));
     }
 
-    return of({ nom_complet: observerParam });
+    return of({ nom_complet: decodeURIComponent(observerParam) });
   }
 }
