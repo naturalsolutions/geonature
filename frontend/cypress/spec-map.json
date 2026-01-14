@@ -1,0 +1,30 @@
+{
+  "defaultSpecs": ["cypress/e2e/**/*.js"],
+  "mappings": [
+    {
+      "paths": [
+        "frontend/src/app/modules/imports/",
+        "frontend/cypress/fixtures/import/",
+        "frontend/cypress/support/import/",
+        "frontend/cypress/e2e/import/"
+      ],
+      "specs": ["cypress/e2e/import/*.js"]
+    },
+    {
+      "paths": ["frontend/src/app/modules/occtax/", "frontend/cypress/e2e/occtax-"],
+      "specs": ["cypress/e2e/occtax-*.js"]
+    },
+    {
+      "paths": ["frontend/src/app/GN2CommonModule/form/synthese-form/"],
+      "specs": ["cypress/e2e/synthese-spec.js"]
+    },
+    {
+      "paths": ["frontend/src/app/metadataModule/"],
+      "specs": ["cypress/e2e/metadata-spec.js"]
+    },
+    {
+      "paths": ["frontend/cypress/support/", "frontend/cypress/e2e/"],
+      "specs": ["cypress/e2e/**/*.js"]
+    }
+  ]
+}

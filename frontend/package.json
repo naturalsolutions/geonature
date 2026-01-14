@@ -10,6 +10,7 @@
     "format:check": "prettier --config .prettierrc --ignore-path .prettierignore --check '**/*.{js,ts,html,scss}' '../contrib/*/frontend/**/*.{js, ts,html,scss}'",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "cypress:run:affected": "cypress run --spec \"$(node scripts/select-cypress-specs.js)\"",
     "docBuild": "npx compodoc -p tsconfig.doc.json -d ../docs/build/html/documentation_js/"
   },
   "private": true,
