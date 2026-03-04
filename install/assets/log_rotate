@@ -15,8 +15,15 @@
     rotate 8
     size 100M
     create
+    copytruncate
     compress
-    postrotate
-    systemctl reload geonature-worker || true
-    endscript
+}
+/var/log/geonature/geonature-beat.log {
+    su ${USER} ${USER}
+    daily
+    rotate 8
+    size 100M
+    create
+    copytruncate
+    compress
 }

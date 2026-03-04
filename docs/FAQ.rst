@@ -50,12 +50,14 @@ Vous pouvez essayer de stopper les backends durant le build du frontend :
 
     $ sudo systemctl stop geonature
     $ sudo systemctl stop geonature-worker
+    $ sudo systemctl stop geonature-beat
     $ sudo systemctl stop usershub
     $ cd frontend
     $ nvm use
     $ npm run build
     $ sudo systemctl start geonature
     $ sudo systemctl start geonature-worker
+    $ sudo systemctl start geonature-beat
     $ sudo systemctl start usershub
 
 

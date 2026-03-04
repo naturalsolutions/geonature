@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-SERVICES=("geonature" "geonature-worker" "usershub")
+SERVICES=("geonature" "geonature-worker" "geonature-beat" "usershub")
 
 newdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." &> /dev/null && pwd )"
 if (($# > 0)); then

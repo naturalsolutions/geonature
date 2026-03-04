@@ -54,7 +54,7 @@ Rendez vous dans le dossier ``install`` et lancez successivement dans l’ordre 
 
 * ``00_install_nvm.sh`` : Installation de NVM
 * ``01_install_backend.sh`` : Création du virtualenv python, installation des dépendances et du backend de GeoNature dans celui-ci.
-* ``02_configure_systemd.sh`` : Création des services systemd ``geonature`` et ``geonature-worker``, configuration de ``logrotate``, création des dossiers ``/run/geonature`` et ``/var/log/geonature``.
+* ``02_configure_systemd.sh`` : Création des services systemd ``geonature``, ``geonature-worker`` et ``geonature-beat``, configuration de ``logrotate``, création des dossiers ``/run/geonature`` et ``/var/log/geonature``.
 * ``03_create_db.sh`` : Création du role PostgreSQL, de la base de données, ajout des extensions nécessaires (PostGIS, …), création des schémas nécessaires à GeoNature et ajout des données métiers.
 * ``04_install_gn_modules.sh`` : Installation des modules Occtax, Occhab et Validation (si activé dans le fichier `settings.ini`).
 * ``05_install_frontend.sh`` : Création des dossiers et liens symboliques nécessaires, création des fichiers custom à partir des fichiers d’exemple, génération des fichiers de configuration grâce à la commande ``geonature``, installation de nvm, npm et node ainsi que toutes les dépendances javascript nécessaires puis build du frontend, génération du fichier ``src/assets/config.json`` qui permet de connecter le frontend au backend.

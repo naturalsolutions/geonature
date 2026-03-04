@@ -1,0 +1,27 @@
+[Unit]
+Description=GeoNature Celery Beat Service
+After=redis-server.service
+After=postgresql.service
+After=geonature-worker.service
+PartOf=geonature-worker.service
+
+[Service]
+Type=simple
+User=${USER}
+Group=${USER}
+WorkingDirectory=${BASE_DIR}/
+Environment=CELERY_APP="geonature.celery_app:app"
+Environment=CELERYBEAT_LOG_FILE="/var/log/geonature/%N%I.log"
+Environment=CELERYBEAT_LOG_LEVEL="INFO"
+Environment=CELERYBEAT_SCHEDULE_FILENAME="/var/lib/geonature/celerybeat-schedule.db"
+EnvironmentFile=-${BASE_DIR}/environ
+ExecStart=${BASE_DIR}/backend/venv/bin/celery -A ${CELERY_APP} beat \
+                        --schedule=${CELERYBEAT_SCHEDULE_FILENAME} \
+                        --logfile=${CELERYBEAT_LOG_FILE} \
+                        --loglevel=${CELERYBEAT_LOG_LEVEL} \
+                        $CELERYBEAT_OPTS
+KillMode=mixed
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

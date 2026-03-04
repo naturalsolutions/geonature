@@ -139,8 +139,10 @@ echo "Installation de la config Apache pour GeoNature"
 if [ "${mode}" != dev ]; then
     sudo systemctl start geonature || exit 1
     sudo systemctl start geonature-worker || exit 1
+    sudo systemctl start geonature-beat || exit 1
     sudo systemctl enable geonature || exit 1
     sudo systemctl enable geonature-worker || exit 1
+    sudo systemctl enable geonature-beat || exit 1
 fi
 
 

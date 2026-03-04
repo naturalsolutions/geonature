@@ -108,6 +108,7 @@ Si vous rencontrez une erreur, se reporter aux fichiers de logs ``/home/`whoami`
 
         sudo systemctl restart geonature
         sudo systemctl restart geonature-worker
+        sudo systemctl restart geonature-beat
         sudo systemctl restart usershub
 
 .. note::

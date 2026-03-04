@@ -971,6 +971,7 @@ Logs
 * Logs d’installation de GeoNature : ``geonature/install/install.log``
 * Logs de GeoNature : ``/var/log/geonature/geonature.log``
 * Logs du worker Celery : ``/var/log/geonature/geonature-worker.log``
+* Logs du scheduler Celery Beat : ``/var/log/geonature/geonature-beat.log``
 * Logs de UsersHub : ``/var/log/usershub.log``
 
 Commandes GeoNature
