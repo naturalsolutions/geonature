@@ -86,6 +86,7 @@ import { TaxonAdvancedModalComponent } from '@geonature_common/form/synthese-for
 import { TaxonomyComponent } from './form/taxonomy/taxonomy.component';
 import { TogglableFormControlComponent } from '@geonature_common/form/togglable-form-control/togglable-form-control.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LeafletLocalizationService } from './map/leaflet-localization.service';
 import { UUIDComponent } from '@geonature_common/form/uuid/uuid.component';
 
 // Layouts
@@ -239,6 +240,7 @@ import { IndividualsCreateComponent } from './form/individuals/create/individual
     NgbDatePeriodParserFormatter,
     SyntheseDataService,
     TranslateService,
+    LeafletLocalizationService,
     IndividualsService,
   ],
   exports: [

@@ -14,6 +14,7 @@ import * as L from 'leaflet';
 import * as ToGeojson from '@tmcw/togeojson';
 import * as FileLayer from '@geonature/utils/filelayer';
 import { ToastrService } from 'ngx-toastr';
+import { LeafletLocalizationService } from '../leaflet-localization.service';
 
 @Component({
   selector: 'pnx-leaflet-filelayer',
@@ -37,7 +38,8 @@ export class LeafletFileLayerComponent implements OnInit, AfterViewInit, OnChang
   @Output() onGeomChange = new EventEmitter<any>();
   constructor(
     public mapService: MapService,
-    private _toasterService: ToastrService
+    private _toasterService: ToastrService,
+    private leafletLocalization: LeafletLocalizationService
   ) {}
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class LeafletFileLayerComponent implements OnInit, AfterViewInit, OnChang
     FileLayer(null, L, ToGeojson);
     (L.Control as any).FileLayerLoad.LABEL =
       '<img class="icon" width="15" src="assets/images/folder.svg" alt="file icon"/>';
+    this.leafletLocalization.initializeFileLayer();
     this.fileLayerControl = (L.Control as any)
       .fileLayerLoad({
         layer: (L as any).geoJson,

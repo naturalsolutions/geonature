@@ -9,6 +9,7 @@ import { CustomIcon } from '@geonature/utils/leaflet-icon';
 import 'leaflet-draw';
 import * as L from 'leaflet';
 import { ConfigService } from '@geonature/services/config.service';
+import { LeafletLocalizationService } from '../leaflet-localization.service';
 
 delete L.Icon.Default.prototype['_getIconUrl'];
 
@@ -54,8 +55,11 @@ export class LeafletDrawComponent implements OnInit, OnChanges {
   constructor(
     public mapservice: MapService,
     private _commonService: CommonService,
-    public config: ConfigService
-  ) {}
+    public config: ConfigService,
+    private leafletLocalization: LeafletLocalizationService
+  ) {
+    this.leafletLocalization.initializeDraw();
+  }
 
   ngOnInit() {
     // HACK for leaflet draw compatibility

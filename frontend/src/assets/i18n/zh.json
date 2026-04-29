@@ -32,6 +32,41 @@
       "AddPoint": "找到观察点 (点)",
       "AddLine": "找到观察 (线)",
       "AddPolygon": "定位观察 (多边形)"
+    },
+    "Zoom": { "ZoomIn": "放大", "ZoomOut": "缩小" },
+    "Locate": {
+      "title": "显示我的位置",
+      "metersUnit": "米",
+      "feetUnit": "英尺",
+      "popup": "您距离此点 {distance} {unit}",
+      "outsideMapBoundsMsg": "您似乎位于地图范围之外"
+    },
+    "FileLayer": { "Title": "加载本地文件 (GPX、KML、GeoJSON)" },
+    "LeafletDraw": {
+      "draw": {
+        "toolbar": {
+          "actions": { "title": "取消绘制", "text": "取消" },
+          "buttons": { "polyline": "绘制折线", "polygon": "绘制多边形", "rectangle": "绘制矩形", "circle": "绘制圆形", "marker": "放置标记", "circlemarker": "放置圆形标记" },
+          "finish": { "title": "完成绘制", "text": "完成" },
+          "undo": { "title": "删除最后一个点", "text": "删除最后一个点" }
+        },
+        "handlers": {
+          "circle": { "tooltip": { "start": "点击并拖动以绘制圆形。" }, "radius": "半径" },
+          "circlemarker": { "tooltip": { "start": "点击地图放置圆形标记。" } },
+          "marker": { "tooltip": { "start": "点击地图放置标记。" } },
+          "polygon": { "allowIntersection": false, "tooltip": { "start": "点击开始绘制形状。", "cont": "点击继续绘制形状。", "end": "点击第一个点闭合形状。" } },
+          "polyline": { "error": "<strong>错误：</strong>形状边界不能相交！", "tooltip": { "start": "点击开始绘制线条。", "cont": "点击继续绘制线条。", "end": "点击最后一个点完成线条。" } },
+          "rectangle": { "tooltip": { "start": "点击并拖动以绘制矩形。" } },
+          "simpleshape": { "tooltip": { "end": "松开鼠标完成绘制。" } }
+        }
+      },
+      "edit": {
+        "toolbar": {
+          "actions": { "save": { "title": "保存修改", "text": "保存" }, "cancel": { "title": "取消修改并放弃所有更改", "text": "取消" }, "clearAll": { "title": "清除所有图层", "text": "全部清除" }, "remove": { "title": "删除图层", "text": "删除" } },
+          "buttons": { "edit": "编辑图层", "editDisabled": "没有可编辑的图层", "remove": "删除图层", "removeDisabled": "没有可删除的图层" }
+        },
+        "handlers": { "edit": { "tooltip": { "text": "拖动点或形状进行编辑。", "subtext": "点击取消以撤销修改。" } }, "remove": { "tooltip": { "text": "点击形状将其删除" } } }
+      }
     }
   }
 }

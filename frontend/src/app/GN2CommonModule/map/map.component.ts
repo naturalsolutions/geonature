@@ -18,6 +18,7 @@ import {
   map,
 } from 'rxjs/operators';
 import { ConfigService } from '@geonature/services/config.service';
+import { LeafletLocalizationService } from './leaflet-localization.service';
 
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
 
@@ -89,7 +90,8 @@ export class MapComponent implements OnInit {
     private mapService: MapService,
     private _commonService: CommonService,
     private _nominatim: NominatimService,
-    public config: ConfigService
+    public config: ConfigService,
+    private leafletLocalization: LeafletLocalizationService
   ) {
     this.searchLocation = '';
     this.zoom = this.config.MAPCONFIG.ZOOM_LEVEL;
@@ -152,6 +154,7 @@ export class MapComponent implements OnInit {
 
     // --- MAP CONTROLS
     // ZOOM CONTROL
+    this.leafletLocalization.initializeZoom();
     L.control.zoom({ position: 'topright' }).addTo(this.map);
 
     // SCALE
@@ -159,6 +162,7 @@ export class MapComponent implements OnInit {
 
     //  GEOLOCATION
     if (this.geolocation && this.config.MAPCONFIG.GEOLOCATION) {
+      this.leafletLocalization.initializeLocate();
       (L.control as any).locate().addTo(this.map);
     }
 

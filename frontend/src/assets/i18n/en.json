@@ -259,6 +259,41 @@
       "AddLine": "Locate the observation (line)",
       "AddPolygon": "Locate the observation (polygon)"
     },
+    "Zoom": { "ZoomIn": "Zoom in", "ZoomOut": "Zoom out" },
+    "Locate": {
+      "title": "Show my location",
+      "metersUnit": "meters",
+      "feetUnit": "feet",
+      "popup": "You are {distance} {unit} from this point",
+      "outsideMapBoundsMsg": "You appear to be located outside the map bounds"
+    },
+    "FileLayer": { "Title": "Load a local file (GPX, KML, GeoJSON)" },
+    "LeafletDraw": {
+      "draw": {
+        "toolbar": {
+          "actions": { "title": "Cancel drawing", "text": "Cancel" },
+          "buttons": { "polyline": "Draw a polyline", "polygon": "Draw a polygon", "rectangle": "Draw a rectangle", "circle": "Draw a circle", "marker": "Place a marker", "circlemarker": "Place a circle marker" },
+          "finish": { "title": "Finish drawing", "text": "Finish" },
+          "undo": { "title": "Delete last point", "text": "Delete last point" }
+        },
+        "handlers": {
+          "circle": { "tooltip": { "start": "Click and drag to draw a circle." }, "radius": "Radius" },
+          "circlemarker": { "tooltip": { "start": "Click on the map to place a circle marker." } },
+          "marker": { "tooltip": { "start": "Click on the map to place a marker." } },
+          "polygon": { "allowIntersection": false, "tooltip": { "start": "Click to start drawing a shape.", "cont": "Click to continue drawing the shape.", "end": "Click the first point to close this shape." } },
+          "polyline": { "error": "<strong>Error:</strong> shape edges cannot cross!", "tooltip": { "start": "Click to start drawing a line.", "cont": "Click to continue the line.", "end": "Click the last point to finish the line." } },
+          "rectangle": { "tooltip": { "start": "Click and drag to draw a rectangle." } },
+          "simpleshape": { "tooltip": { "end": "Release the mouse to finish drawing." } }
+        }
+      },
+      "edit": {
+        "toolbar": {
+          "actions": { "save": { "title": "Save changes", "text": "Save" }, "cancel": { "title": "Cancel changes and discard all changes", "text": "Cancel" }, "clearAll": { "title": "Clear all layers", "text": "Clear all" }, "remove": { "title": "Delete a layer", "text": "Delete" } },
+          "buttons": { "edit": "Edit layers", "editDisabled": "No layers to edit", "remove": "Delete layers", "removeDisabled": "No layers to delete" }
+        },
+        "handlers": { "edit": { "tooltip": { "text": "Drag points or the shape to edit.", "subtext": "Click Cancel to undo changes." } }, "remove": { "tooltip": { "text": "Click a shape to delete it" } } }
+      }
+    },
     "Errors": {
       "LocationError": "Location not found"
     },
