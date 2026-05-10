@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from flask import current_app
+from geonature.core.gn_permissions.tools import get_permissions
+from geonature.core.gn_synthese.utils.query_select_sqla import SyntheseQuery
 import sqlalchemy as sa
 
 from celery.utils.log import get_task_logger
@@ -12,7 +14,11 @@ from geonature.utils.config import config
 from geonature.utils.contextmanagers import trigger_disabled
 from geonature.core.gn_synthese.models import Synthese
 from geonature.core.notifications.models import NotificationRule
-from geonature.core.notifications.utils import dispatch_notifications, NOTIFY_EVERYONE
+from geonature.core.notifications.utils import (
+    dispatch_notifications,
+    NOTIFY_EVERYONE,
+    SkipNotification,
+)
 
 logger = get_task_logger(__name__)
 
@@ -35,10 +41,23 @@ def setup_periodic_tasks(sender, **kwargs):
         )
 
 
+def get_allowed_obs(obs_ids, role):
+    permissions = get_permissions(action_code="R", module_code="SYNTHESE", id_role=role.id_role)
+    permissions_filter = SyntheseQuery(
+        model=Synthese, query=None, filters=None
+    ).build_permissions_filter(user=role, permissions=permissions)
+    obs = db.session.scalars(
+        sa.select(Synthese).where(Synthese.id_synthese.in_(obs_ids)).where(permissions_filter)
+    ).all()
+    if not obs:
+        raise SkipNotification
+    return obs
+
+
 @celery_app.task
 def send_synthese_notifications():
     new_obs = db.session.scalars(
-        sa.select(Synthese).where(Synthese.meta_notification_date.is_(None))
+        sa.select(Synthese.id_synthese).where(Synthese.meta_notification_date.is_(None))
     ).all()
     if new_obs:
         logger.info(f"Send notifications for {len(new_obs)} new observations.")
@@ -46,20 +65,25 @@ def send_synthese_notifications():
         # TODO: add filter on ids
         url = current_app.config.get("URL_APPLICATION") + "/#/synthese"
 
+        def context_builder(category, method, role):
+            return {"observations": get_allowed_obs(new_obs, role)}
+
         dispatch_notifications(
             code_categories=["SYNTHESE-OBS-CREATED"],
             id_roles=NOTIFY_EVERYONE,
             title="Observation(s) crée(s)",
             url=url,
-            context={"observations": new_obs},
+            context=context_builder,
         )
 
-        set_meta_modification_date(Synthese.meta_notification_date.is_(None))
+        set_meta_modification_date(Synthese.id_synthese.in_(new_obs))
 
     db.session.commit()
 
     updated_obs = db.session.scalars(
-        sa.select(Synthese).where(Synthese.meta_update_date > Synthese.meta_notification_date)
+        sa.select(Synthese.id_synthese).where(
+            Synthese.meta_update_date > Synthese.meta_notification_date
+        )
     ).all()
     if updated_obs:
         logger.info(f"Send notifications for {len(updated_obs)} updated observations.")
@@ -67,15 +91,18 @@ def send_synthese_notifications():
         # TODO: add filter on ids
         url = current_app.config.get("URL_APPLICATION") + "/#/synthese"
 
+        def context_builder(category, method, role):
+            return {"observations": get_allowed_obs(updated_obs, role)}
+
         dispatch_notifications(
             code_categories=["SYNTHESE-OBS-UPDATED"],
             id_roles=NOTIFY_EVERYONE,
             title="Observation(s) modifiée(s)",
             url=url,
-            context={"observations": updated_obs},
+            context=context_builder,
         )
 
-        set_meta_modification_date(Synthese.meta_update_date > Synthese.meta_notification_date)
+        set_meta_modification_date(Synthese.id_synthese.in_(updated_obs))
 
     db.session.commit()
 

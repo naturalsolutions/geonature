@@ -44,13 +44,21 @@ class TestSyntheseNotification:
             # create rules
             db.session.add(
                 NotificationRule(
-                    id_role=users["self_user"].id_role,
+                    id_role=users["stranger_user"].id_role,
                     code_method=db_method.code,
                     code_category=obs_created.code,
                     subscribed=True,
                 )
             )
             # update rules
+            db.session.add(
+                NotificationRule(
+                    id_role=users["stranger_user"].id_role,
+                    code_method=db_method.code,
+                    code_category=obs_updated.code,
+                    subscribed=True,
+                )
+            )
             db.session.add(
                 NotificationRule(
                     id_role=users["self_user"].id_role,
@@ -68,8 +76,11 @@ class TestSyntheseNotification:
 
         with patch("geonature.core.notifications.utils.send_notification") as mock:
             send_synthese_notifications.delay()
-            call = assert_mock_called_partial(mock, obs_created, db_method, users["self_user"])
-            assert set(call.kwargs["context"]["observations"]) == set(synthese_data.values())
+            mock.assert_called_once()
+            call = assert_mock_called_partial(mock, obs_created, db_method, users["stranger_user"])
+            assert (
+                len(call.kwargs["context"]["observations"]) == 8
+            )  # stranger_user does not have access to all obs
 
         for synthese in synthese_data.values():
             assert synthese.meta_notification_date >= before_notifications
@@ -83,6 +94,7 @@ class TestSyntheseNotification:
 
         with patch("geonature.core.notifications.utils.send_notification") as mock:
             send_synthese_notifications.delay()
+            # stranger_user does not have access to obs1 so only self_user is notified
             mock.assert_called_once()
             call = assert_mock_called_partial(mock, obs_updated, db_method, users["self_user"])
             assert set(call.kwargs["context"]["observations"]) == {synthese_data["obs1"]}

@@ -21,6 +21,10 @@ from sqlalchemy.orm import joinedload
 NOTIFY_EVERYONE = object()  # sentinel object
 
 
+class SkipNotification(Exception):
+    pass
+
+
 def get_expanded_notification_rules():
     """
     Get expanded notification rules combining user-specific group, and default rules.
@@ -152,7 +156,7 @@ def get_effective_rules(rules=None, id_role=User.id_role):
 
 
 def dispatch_notifications(
-    code_categories, id_roles, title=None, url=None, *, content=None, **kwargs
+    code_categories, id_roles, title=None, url=None, *, content=None, context={}, **kwargs
 ):
     if not current_app.config["NOTIFICATIONS_ENABLED"]:
         return
@@ -198,7 +202,7 @@ def dispatch_notifications(
     for (category, method), group in groupby(
         results, key=lambda res: (res[1], res[2])  # (category, method)
     ):
-        notification_kwargs = {"content": content, **kwargs}
+        notification_kwargs = {"content": content, "context": context, **kwargs}
         if not content:
             template = db.session.scalars(
                 sa.select(NotificationTemplate).filter_by(category=category, method=method)
@@ -208,18 +212,23 @@ def dispatch_notifications(
                 continue
             notification_kwargs["template"] = template
         for role, _, _ in group:
+            if callable(context):
+                try:
+                    notification_kwargs["context"] = context(category, method, role)
+                except SkipNotification:
+                    continue
             send_notification(
                 category,
                 method,
                 role,
-                title,
-                url,
+                title=title,
+                url=url,
                 **notification_kwargs,
             )
 
 
 def send_notification(
-    category, method, role, title, url, *, content=None, template=None, context={}
+    category, method, role, *, title, url, content=None, template=None, context={}
 ):
     """
     Send a notification of a given category to a given role using a specific method.
