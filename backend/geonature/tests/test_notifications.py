@@ -511,6 +511,22 @@ class TestNotificationsCategoriesDelivery:
 
 
 @pytest.fixture()
+def group1():
+    with db.session.begin_nested():
+        group = User(identifiant="Notification group 1", groupe=True)
+        db.session.add(group)
+    return group
+
+
+@pytest.fixture()
+def group2():
+    with db.session.begin_nested():
+        group = User(identifiant="Notification group 2", groupe=True)
+        db.session.add(group)
+    return group
+
+
+@pytest.fixture()
 def user1():
     with db.session.begin_nested():
         user = User(identifiant="Notification user 1")
@@ -519,9 +535,17 @@ def user1():
 
 
 @pytest.fixture()
-def user2():
+def user2(group1):
     with db.session.begin_nested():
-        user = User(identifiant="Notification user 2")
+        user = User(identifiant="Notification user 2", groups=[group1])
+        db.session.add(user)
+    return user
+
+
+@pytest.fixture()
+def user3(group1, group2):
+    with db.session.begin_nested():
+        user = User(identifiant="Notification user 3", groups=[group1, group2])
         db.session.add(user)
     return user
 
@@ -533,7 +557,9 @@ def user2():
     "clear_notification_rules",
 )
 class TestNotificationsDispatching:
-    def test_dispatch_notifications_without_default(self, user1, user2, rule_category, rule_method):
+    def test_dispatch_notifications_without_default(
+        self, user1, user2, rule_category, rule_method
+    ):
         kwargs = {
             "code_categories": [rule_category.code],
             "id_roles": [user1.id_role, user2.id_role],
@@ -569,7 +595,9 @@ class TestNotificationsDispatching:
             utils.dispatch_notifications(**kwargs)
             mock.assert_not_called()
 
-    def test_dispatch_notifications_with_default(self, user1, user2, rule_category, rule_method):
+    def test_dispatch_notifications_with_default(
+        self, user1, user2, rule_category, rule_method
+    ):
         kwargs = {
             "code_categories": [rule_category.code],
             "id_roles": [user1.id_role, user2.id_role],
@@ -682,3 +710,289 @@ class TestNotificationsDispatching:
             assert mock.call_count == 1
             assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
             assert_mock_called_partial(mock, rule_category_1, rule_method, user2)
+
+    def test_dispatch_notifications_through_groups(
+        self, user1, user2, user3, group1, group2, rule_category, rule_category_1, rule_method
+    ):
+        kwargs = {
+            "id_roles": [user1.id_role, user2.id_role, user3.id_role],
+            "title": "test",
+            "content": "test",
+            "context": {},
+        }
+
+        with db.session.begin_nested():
+            group1_rule = NotificationRule(
+                id_role=group1.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(group1_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            user2_rule = NotificationRule(
+                id_role=user2.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=False,
+            )
+            db.session.add(user2_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            # user rule have precedance over group rule
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            group1_rule.subscribed = False
+            user2_rule.subscribed = True
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            # user rule have precedance over group rule
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            group2_rule = NotificationRule(
+                id_role=group2.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(group2_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            # group1 unsubscribed + group2 subscribed -> subscribed
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            group1_rule.subscribed = True
+            group1_rule.subscribed = False
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            # group1 subscribed + group2 unsubscribed -> subscribed
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            default_rule = NotificationRule(
+                id_role=None,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(default_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            # default rule apply!
+            assert_mock_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            default_rule.subscribed = False
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            # default rule have not precedance
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            # default rule have no precedance
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+
+@pytest.mark.usefixtures(
+    "client_class",
+    "temporary_transaction",
+    "notifications_enabled",
+    "clear_notification_rules",
+)
+class TestFilterByRoleWithDefaults:
+    """Test NotificationRule.filter_by_role_with_defaults with group support"""
+
+    def test_filter_by_role_with_defaults_user_only(self, user1, rule_category, rule_method):
+        """Test that user-specific rules are returned"""
+        with db.session.begin_nested():
+            user_rule = NotificationRule(
+                id_role=user1.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=True,
+            )
+            db.session.add(user_rule)
+
+        # Query effective rules for user1
+        rules = db.session.scalars(
+            NotificationRule.filter_by_role_with_defaults(id_role=user1.id_role)
+        ).all()
+
+        # Should return the user-specific rule
+        assert len(rules) == 1
+        assert rules[0].id == user_rule.id
+        assert rules[0].id_role == user1.id_role
+        assert rules[0].subscribed is True
+
+    def test_filter_by_role_with_defaults_with_group(
+        self, user2, group1, rule_category, rule_method
+    ):
+        """Test that group rules are inherited by group members"""
+        with db.session.begin_nested():
+            group_rule = NotificationRule(
+                id_role=group1.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=True,
+            )
+            db.session.add(group_rule)
+
+        # Query effective rules for user2 (member of group1)
+        rules = db.session.scalars(
+            NotificationRule.filter_by_role_with_defaults(id_role=user2.id_role)
+        ).all()
+
+        # Should return the group rule (inherited)
+        assert len(rules) == 1
+        assert rules[0].id == group_rule.id
+        assert rules[0].id_role == group1.id_role
+        assert rules[0].subscribed is True
+
+    def test_filter_by_role_with_defaults_user_overrides_group(
+        self, user2, group1, rule_category, rule_method
+    ):
+        """Test that user-specific rules take precedence over group rules"""
+        with db.session.begin_nested():
+            group_rule = NotificationRule(
+                id_role=group1.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=True,
+            )
+            user_rule = NotificationRule(
+                id_role=user2.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=False,
+            )
+            db.session.add(group_rule)
+            db.session.add(user_rule)
+
+        # Query effective rules for user2
+        rules = db.session.scalars(
+            NotificationRule.filter_by_role_with_defaults(id_role=user2.id_role)
+        ).all()
+
+        # Should return the user-specific rule (not the group rule)
+        assert len(rules) == 1
+        assert rules[0].id == user_rule.id
+        assert rules[0].id_role == user2.id_role
+        assert rules[0].subscribed is False
+
+    def test_filter_by_role_with_defaults_group_overrides_default(
+        self, user2, group1, rule_category, rule_method
+    ):
+        """Test that group rules take precedence over default rules"""
+        with db.session.begin_nested():
+            default_rule = NotificationRule(
+                id_role=None,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=False,
+            )
+            group_rule = NotificationRule(
+                id_role=group1.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=True,
+            )
+            db.session.add(default_rule)
+            db.session.add(group_rule)
+
+        # Query effective rules for user2
+        rules = db.session.scalars(
+            NotificationRule.filter_by_role_with_defaults(id_role=user2.id_role)
+        ).all()
+
+        # Should return the group rule (not the default rule)
+        assert len(rules) == 1
+        assert rules[0].id == group_rule.id
+        assert rules[0].id_role == group1.id_role
+        assert rules[0].subscribed is True
+
+    def test_filter_by_role_with_defaults_user_overrides_default(
+        self, user1, rule_category, rule_method
+    ):
+        """Test that user-specific rules take precedence over default rules"""
+        with db.session.begin_nested():
+            default_rule = NotificationRule(
+                id_role=None,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=False,
+            )
+            user_rule = NotificationRule(
+                id_role=user1.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=True,
+            )
+            db.session.add(default_rule)
+            db.session.add(user_rule)
+
+        # Query effective rules for user1
+        rules = db.session.scalars(
+            NotificationRule.filter_by_role_with_defaults(id_role=user1.id_role)
+        ).all()
+
+        # Should return the user-specific rule (not the default rule)
+        assert len(rules) == 1
+        assert rules[0].id == user_rule.id
+        assert rules[0].id_role == user1.id_role
+        assert rules[0].subscribed is True
+
+    def test_filter_by_role_with_defaults_multiple_groups(
+        self, user3, group1, group2, rule_category, rule_method
+    ):
+        """Test that rules from multiple groups are returned for a user in multiple groups"""
+        with db.session.begin_nested():
+            group1_rule = NotificationRule(
+                id_role=group1.id_role,
+                code_method=rule_method.code,
+                code_category=rule_category.code,
+                subscribed=True,
+            )
+            group2_rule = NotificationRule(
+                id_role=group2.id_role,
+                code_method="EMAIL",
+                code_category=rule_category.code,
+                subscribed=False,
+            )
+            db.session.add(group1_rule)
+            db.session.add(group2_rule)
+
+        # Query effective rules for user3 (member of both group1 and group2)
+        rules = db.session.scalars(
+            NotificationRule.filter_by_role_with_defaults(id_role=user3.id_role)
+        ).all()
+
+        # Should return both group rules (since they're for different methods)
+        assert len(rules) == 2
+        rule_ids = {r.id for r in rules}
+        assert group1_rule.id in rule_ids
+        assert group2_rule.id in rule_ids
