@@ -15,6 +15,7 @@ from geonature.core.notifications.models import (
     NotificationTemplate,
 )
 from geonature.core.notifications import utils
+from geonature.core.notifications.utils import NOTIFY_EVERYONE
 from geonature.tests.utils import assert_mock_called_partial, assert_mock_not_called_partial
 from geonature.tests.fixtures import celery_eager, notifications_enabled
 
@@ -557,7 +558,78 @@ def user3(group1, group2):
     "clear_notification_rules",
 )
 class TestNotificationsDispatching:
-    def test_dispatch_notifications_without_default(
+    def test_dispatch_notifications_without_default_for_everyone(self, user1, user2, rule_category, rule_method):
+        kwargs = {
+            "code_categories": [rule_category.code],
+            "id_roles": NOTIFY_EVERYONE,
+            "title": "test",
+            "content": "test",
+            "context": {},
+        }
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(**kwargs)
+            # no rules, the notification is not dispatched
+            mock.assert_not_called()
+
+        # Create a default rule
+        with db.session.begin_nested():
+            default_rule = NotificationRule(
+                id_role=None,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=False,
+            )
+            db.session.add(default_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(**kwargs)
+            # the default rule is subscribed=False
+            mock.assert_not_called()
+
+        with db.session.begin_nested():
+            default_rule.subscribed = True
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(**kwargs)
+            mock.assert_called()  # for each user!
+            assert_mock_called_partial(mock, rule_category, rule_method, user1)
+
+        # Create a user rule
+        with db.session.begin_nested():
+            user_rule = NotificationRule(
+                id_role=user1.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=False,
+            )
+            db.session.add(user_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(**kwargs)
+            mock.assert_called()  # for each user!
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)  # like user2
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)  # but not user1
+
+        with db.session.begin_nested():
+            user_rule.subscribed = True
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(**kwargs)
+            mock.assert_called()  # for each user!
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)  # still user2
+            assert_mock_called_partial(mock, rule_category, rule_method, user1)  # and now user1
+
+        # Check that default rule to False do not interfer
+        with db.session.begin_nested():
+            default_rule.subscribed = False
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(**kwargs)
+            mock.assert_called_once()
+            assert_mock_called_partial(mock, rule_category, rule_method, user1)
+
+    def test_dispatch_notifications_without_default_for_users(
         self, user1, user2, rule_category, rule_method
     ):
         kwargs = {
@@ -595,7 +667,7 @@ class TestNotificationsDispatching:
             utils.dispatch_notifications(**kwargs)
             mock.assert_not_called()
 
-    def test_dispatch_notifications_with_default(
+    def test_dispatch_notifications_with_default_for_users(
         self, user1, user2, rule_category, rule_method
     ):
         kwargs = {
@@ -673,7 +745,45 @@ class TestNotificationsDispatching:
             assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
             assert_mock_called_partial(mock, rule_category, rule_method, user2)
 
-    def test_dispatch_notifications_with_category_pattern_matching(
+    def test_dispatch_notifications_with_category_pattern_matching_for_everyone(
+        self, user1, user2, rule_category, rule_category_1, rule_method
+    ):
+        kwargs = {
+            "id_roles": NOTIFY_EVERYONE,
+            "title": "test",
+            "content": "test",
+            "context": {},
+        }
+
+        with db.session.begin_nested():
+            user_rule = NotificationRule(
+                id_role=user1.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(user_rule)
+            user_rule_1 = NotificationRule(
+                id_role=user2.id_role,
+                code_category=rule_category_1.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(user_rule_1)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert mock.call_count == 2
+            assert_mock_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category_1, rule_method, user2)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%_1"], **kwargs)
+            assert mock.call_count == 1
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category_1, rule_method, user2)
+
+    def test_dispatch_notifications_with_category_pattern_matching_for_users(
         self, user1, user2, rule_category, rule_category_1, rule_method
     ):
         kwargs = {
@@ -711,7 +821,110 @@ class TestNotificationsDispatching:
             assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
             assert_mock_called_partial(mock, rule_category_1, rule_method, user2)
 
-    def test_dispatch_notifications_through_groups(
+    def test_dispatch_notifications_through_groups_for_everyone(
+        self, user1, user2, user3, group1, group2, rule_category, rule_category_1, rule_method
+    ):
+        kwargs = {
+            "id_roles": NOTIFY_EVERYONE,
+            "title": "test",
+            "content": "test",
+            "context": {},
+        }
+
+        with db.session.begin_nested():
+            group1_rule = NotificationRule(
+                id_role=group1.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(group1_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            user2_rule = NotificationRule(
+                id_role=user2.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=False,
+            )
+            db.session.add(user2_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            # user rule have precedance over group rule
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            group1_rule.subscribed = False
+            user2_rule.subscribed = True
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            # user rule have precedance over group rule
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            group2_rule = NotificationRule(
+                id_role=group2.id_role,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(group2_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            # group1 unsubscribed + group2 subscribed -> subscribed
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            group1_rule.subscribed = True
+            group1_rule.subscribed = False
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)
+            # group1 subscribed + group2 unsubscribed -> subscribed
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)
+
+        with db.session.begin_nested():
+            default_rule = NotificationRule(
+                id_role=None,
+                code_category=rule_category.code,
+                code_method=rule_method.code,
+                subscribed=True,
+            )
+            db.session.add(default_rule)
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_called_partial(mock, rule_category, rule_method, user1)  # through default
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)  # through group
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)  # through group
+
+        with db.session.begin_nested():
+            default_rule.subscribed = False
+
+        with patch("geonature.core.notifications.utils.send_notification") as mock:
+            utils.dispatch_notifications(code_categories=["Code_%"], **kwargs)
+            assert_mock_not_called_partial(mock, rule_category, rule_method, user1)
+            assert_mock_called_partial(mock, rule_category, rule_method, user2)  # through group
+            assert_mock_called_partial(mock, rule_category, rule_method, user3)  # through group
+
+    def test_dispatch_notifications_through_groups_for_users(
         self, user1, user2, user3, group1, group2, rule_category, rule_category_1, rule_method
     ):
         kwargs = {

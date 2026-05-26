@@ -143,7 +143,7 @@ class NotificationRule(db.Model):
 
     method = relationship(NotificationMethod)
     category = relationship(NotificationCategory)
-    user = db.relationship(User)
+    user = db.relationship(User, backref="notification_rules")
 
     @qfilter(query=True)
     def filter_by_role_with_defaults(cls, *, query, id_role=None):

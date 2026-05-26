@@ -18,6 +18,8 @@ from geonature.core.notifications.tasks import send_notification_mail
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
+NOTIFY_EVERYONE = object()  # sentinel object
+
 
 def get_expanded_notification_rules():
     """
@@ -184,12 +186,13 @@ def dispatch_notifications(
             effective_rules.c.code_method == NotificationMethod.code,
         )
         .where(
-            User.id_role.in_(id_roles),
             effective_rules.c.subscribed
             == sa.true(),
         )
         .order_by(NotificationCategory.code, NotificationMethod.code)
     )
+    if id_roles != NOTIFY_EVERYONE:
+        stmt = stmt.where(User.id_role.in_(id_roles))
     results = db.session.execute(stmt).all()
 
     for (category, method), group in groupby(
