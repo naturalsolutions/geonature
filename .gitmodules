@@ -1,18 +1,18 @@
 [submodule "backend/dependencies/UsersHub-authentification-module"]
 	path = backend/dependencies/UsersHub-authentification-module
-	url = ../UsersHub-authentification-module.git
+	url = https://github.com/pnx-si/UsersHub-authentification-module.git
 [submodule "backend/dependencies/Nomenclature-api-module"]
 	path = backend/dependencies/Nomenclature-api-module
-	url = ../Nomenclature-api-module.git
+	url = https://github.com/pnx-si/Nomenclature-api-module.git
 [submodule "backend/dependencies/Habref-api-module"]
 	path = backend/dependencies/Habref-api-module
-	url = ../Habref-api-module.git
+	url = https://github.com/pnx-si/Habref-api-module.git
 [submodule "backend/dependencies/Utils-Flask-SQLAlchemy"]
 	path = backend/dependencies/Utils-Flask-SQLAlchemy
 	url = ../Utils-Flask-SQLAlchemy.git
 [submodule "backend/dependencies/TaxHub"]
 	path = backend/dependencies/TaxHub
-	url = ../TaxHub.git
+	url = https://github.com/pnx-si/taxhub.git
 [submodule "backend/dependencies/Utils-Flask-SQLAlchemy-Geo"]
 	path = backend/dependencies/Utils-Flask-SQLAlchemy-Geo
 	url = ../Utils-Flask-SQLAlchemy-Geo.git
@@ -21,4 +21,4 @@
 	url = ../RefGeo.git
 [submodule "backend/dependencies/UsersHub"]
 	path = backend/dependencies/UsersHub
-	url = ../UsersHub.git
+	url = https://github.com/pnx-si/UsersHub.git
