@@ -1,3 +1,18 @@
+Fredon
+======
+
+- [ ] [Notifications](https://github.com/PnX-SI/GeoNature/pull/4124)
+- [ ] [synthese int fields filtering](https://github.com/PnX-SI/GeoNature/pull/4150)
+- [ ] [label objects](https://github.com/PnX-SI/GeoNature/pull/4170)
+- [ ] [modif_since_validation: null](https://github.com/PnX-SI/GeoNature/pull/4158)
+
+Modules
+
+- [ ] [Utils-Flask-SQLAchemy](https://github.com/naturalsolutions/utils-flask-sqlalchemy/tree/fredon)
+- [ ] [Utils-Flask-SQLAchemy-Geo](https://github.com/naturalsolutions/utils-flask-sqlalchemy-geo/tree/fredon)
+- [ ] [RefGeo](https://github.com/naturalsolutions/refgeo/tree/fredon)
+
+
 GeoNature
 =========
 
