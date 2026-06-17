@@ -45,10 +45,9 @@ def setup_periodic_tasks(sender, **kwargs):
 def get_obs(obs_ids, role, permissions=None):
     stmt = sa.select(Synthese).where(Synthese.id_synthese.in_(obs_ids))
     if permissions:
-        permissions_filter = SyntheseQuery(
-            model=Synthese, query=None, filters=None
-        ).build_permissions_filter(user=role, permissions=permissions)
-        stmt = stmt.where(permissions_filter)
+        query = SyntheseQuery(model=Synthese, query=stmt, filters={})
+        query.apply_all_filters(role, permissions)
+        stmt = query.build_query()
     return db.session.scalars(stmt).all()
 
 
@@ -89,7 +88,7 @@ def send_synthese_notifications():
         url = current_app.config.get("URL_APPLICATION") + "/#/synthese"
 
         dispatch_notifications(
-            code_categories=["SYNTHESE-OBS-CREATED"],
+            code_categories=["SYNTHESE-OBS-CREATED", "SYNTHESE-OBS-CREATED-%"],
             id_roles=NOTIFY_EVERYONE,
             title="Observation(s) crée(s)",
             url=url,
@@ -112,7 +111,7 @@ def send_synthese_notifications():
         url = current_app.config.get("URL_APPLICATION") + "/#/synthese"
 
         dispatch_notifications(
-            code_categories=["SYNTHESE-OBS-UPDATED"],
+            code_categories=["SYNTHESE-OBS-UPDATED", "SYNTHESE-OBS-UPDATED-%"],
             id_roles=NOTIFY_EVERYONE,
             title="Observation(s) modifiée(s)",
             url=url,
@@ -128,7 +127,5 @@ def set_meta_notification_date(whereclause):
     with db.session.begin_nested():
         with trigger_disabled("gn_synthese.synthese", "tri_meta_dates_change_synthese"):
             db.session.execute(
-                sa.update(Synthese)
-                .where(whereclause)
-                .values(meta_notification_date=datetime.utcnow())
+                sa.update(Synthese).where(whereclause).values(meta_notification_date=datetime.now())
             )
