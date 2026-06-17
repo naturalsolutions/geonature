@@ -575,13 +575,12 @@ def user3(group1, group2):
 
 
 @pytest.mark.usefixtures(
-    "client_class",
-    "temporary_transaction",
-    "notifications_enabled",
-    "clear_notification_rules",
+    "client_class", "temporary_transaction", "notifications_enabled", "clear_notification_rules"
 )
 class TestNotificationsDispatching:
-    def test_dispatch_notifications_without_default_for_everyone(self, user1, user2, rule_category, rule_method):
+    def test_dispatch_notifications_without_default_for_everyone(
+        self, user1, user2, rule_category, rule_method
+    ):
         kwargs = {
             "code_categories": [rule_category.code],
             "id_roles": NOTIFY_EVERYONE,
@@ -1123,7 +1122,7 @@ class TestNotificationsTemplates:
             utils.dispatch_notifications(**kwargs)
             mock.assert_called_once_with(rule_method, user1, "test", None, f" {obs1.id_synthese} ")
 
-    def test_notifications_template_taxon_filter(
+    def test_notifications_template_area_filter(
         self, user1, user2, rule_category, rule_method, rule_default, source
     ):
         gap = db.session.execute(
@@ -1172,8 +1171,7 @@ class TestNotificationsTemplates:
             )
             db.session.add(obs2)
 
-        TEMPLATE = Template(
-            """
+        TEMPLATE = Template("""
         {%- set users_area = {
             "Notification user 1": ${HAUTES_ALPES},
             "Notification user 2": ${ISERE},
@@ -1185,8 +1183,7 @@ class TestNotificationsTemplates:
         {%- endif -%}
         {%- endfor -%}
         {%- if my_observations %} {{ my_observations | map(attribute="id_synthese") | join(",") }} {% endif -%}
-        """
-        )
+        """)
         with db.session.begin_nested():
             template = NotificationTemplate(
                 code_category=rule_category.code,
