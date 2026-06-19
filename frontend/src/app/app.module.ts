@@ -136,6 +136,7 @@ export function initApp(injector) {
     UserDataService,
     NotificationDataService,
     ConfigService,
+    MyCustomInterceptor,
     { provide: HTTP_INTERCEPTORS, useClass: MyCustomInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
     {
