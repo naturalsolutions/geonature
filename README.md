@@ -11,6 +11,7 @@ Modules
 - [ ] [Utils-Flask-SQLAchemy](https://github.com/naturalsolutions/utils-flask-sqlalchemy/tree/fredon)
 - [ ] [Utils-Flask-SQLAchemy-Geo](https://github.com/naturalsolutions/utils-flask-sqlalchemy-geo/tree/fredon)
 - [ ] [RefGeo](https://github.com/naturalsolutions/refgeo/tree/fredon)
+- [ ] [TaxHub#699](https://github.com/PnX-SI/TaxHub/pull/699)
 
 
 GeoNature
