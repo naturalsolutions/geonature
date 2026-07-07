@@ -41,7 +41,8 @@ const defaultRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomeContentComponent,
+        redirectTo: 'synthese',
+        pathMatch: 'full',
       },
       {
         path: 'synthese',
