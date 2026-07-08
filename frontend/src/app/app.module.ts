@@ -17,6 +17,7 @@ import { GN2CommonModule } from '@geonature_common/GN2Common.module';
 import { AppComponent } from './app.component';
 import { routing } from './routing/app-routing.module'; // RoutingModule
 import { HomeContentComponent } from './components/home-content/home-content.component';
+import { HomeRedirectComponent } from './components/home-redirect/home-redirect.component';
 import { HomeDiscussionsComponent } from './components/home-content/home-discussions/home-discussions.component';
 import { HomeValidationsComponent } from './components/home-content/home-validations/home-validations.component';
 
@@ -113,6 +114,7 @@ export function initApp(injector) {
   declarations: [
     AppComponent,
     HomeContentComponent,
+    HomeRedirectComponent,
     SidenavItemsComponent,
     PageNotFoundComponent,
     NavHomeComponent,

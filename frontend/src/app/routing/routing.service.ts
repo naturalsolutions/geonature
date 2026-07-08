@@ -26,8 +26,10 @@ export class RoutingService {
           },
         };
         // insert at the begining otherwise pagenotfound component is first matched
+        // NB: cibler la route '' qui porte les enfants (NavHome), pas la route
+        // '' de redirection racine (sans children) placee avant elle.
         const basePathIndex = routingConfig.findIndex((route) => {
-          return route.path === '';
+          return route.path === '' && route.children;
         });
         routingConfig[basePathIndex].children.unshift(moduleConfig);
       }

@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeContentComponent } from '../components/home-content/home-content.component';
+import { HomeRedirectComponent } from '../components/home-redirect/home-redirect.component';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
 import { AuthGuard } from '@geonature/routing/auth-guard.service';
 import { ModuleGuardService } from '@geonature/routing/module-guard.service';
@@ -35,14 +35,16 @@ const defaultRoutes: Routes = [
 
   {
     path: '',
+    pathMatch: 'full',
+    component: HomeRedirectComponent,
+  },
+
+  {
+    path: '',
     component: NavHomeComponent,
     canActivate: [],
     canActivateChild: [AuthGuard],
     children: [
-      {
-        path: '',
-        component: HomeContentComponent,
-      },
       {
         path: 'synthese',
         data: { module_code: 'synthese', module_label: 'Synthèse' },
