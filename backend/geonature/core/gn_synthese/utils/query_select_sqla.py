@@ -206,12 +206,10 @@ class SyntheseQuery:
                 ]
                 perm_filters.append(or_(*scope_filters))
             if perm.areas_filter:
-                self.add_join(
-                    CorAreaSynthese,
-                    CorAreaSynthese.id_synthese,
-                    self.model.id_synthese,
+                areas_subquery = select(CorAreaSynthese.id_synthese).where(
+                    CorAreaSynthese.id_area.in_([a.id_area for a in perm.areas_filter])
                 )
-                where_clause = CorAreaSynthese.id_area.in_([a.id_area for a in perm.areas_filter])
+                where_clause = self.model_id_syn_col.in_(areas_subquery)
 
                 perm_filters.append(where_clause)
             if perm.taxons_filter:
