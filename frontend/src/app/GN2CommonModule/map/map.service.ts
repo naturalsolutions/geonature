@@ -10,6 +10,8 @@ import { CommonService } from '../service/common.service';
 import { CustomMarkerIcon } from '@geonature_common/map/marker/marker.component';
 import { ConfigService } from '@geonature/services/config.service';
 
+export const REF_LAYERS_PANE = 'refLayers';
+
 @Injectable()
 export class MapService {
   public map: Map;
@@ -171,8 +173,9 @@ export class MapService {
     };
   }
 
-  createGeojson(geojson, asCluster: boolean, onEachFeature?, style?): GeoJSON {
+  createGeojson(geojson, asCluster: boolean, onEachFeature?, style?, pane?: string): GeoJSON {
     const geojsonLayer = L.geoJSON(geojson?.features || geojson, {
+      ...(pane ? { pane } : {}),
       style: (feature) => {
         switch (feature.geometry.type) {
           // No color nor opacity for linestrings
@@ -183,7 +186,9 @@ export class MapService {
         }
       },
       pointToLayer: (feature, latlng) => {
-        return L.circleMarker(latlng);
+        // A circleMarker defaults to overlayPane, so the pane has to be passed again here.
+        // Cast: @types/leaflet makes radius mandatory, while Leaflet does default it.
+        return L.circleMarker(latlng, (pane ? { pane } : undefined) as any);
       },
       onEachFeature: onEachFeature,
     });
@@ -277,9 +282,10 @@ export class MapService {
     return featureGroup;
   }
 
-  createWMS(layerCfg) {
+  createWMS(layerCfg, pane?: string) {
     return L.tileLayer.wms(layerCfg.url, {
       ...layerCfg.params,
+      ...(pane ? { pane } : {}),
       crs: layerCfg.params?.crs ? L.CRS[layerCfg.params.crs.replace(':', '')] : null,
     });
   }
@@ -362,16 +368,16 @@ export class MapService {
     find(
       [
         {
-          geojson: (cfg) => this.createGeojson([], false, null, cfg?.style),
+          geojson: (cfg) => this.createGeojson([], false, null, cfg?.style, REF_LAYERS_PANE),
         },
         {
-          wfs: (cfg) => this.createGeojson([], false, null, cfg?.style),
+          wfs: (cfg) => this.createGeojson([], false, null, cfg?.style, REF_LAYERS_PANE),
         },
         {
-          wms: this.createWMS,
+          wms: (cfg) => this.createWMS(cfg, REF_LAYERS_PANE),
         },
         {
-          area: (cfg) => this.createGeojson([], false, null, cfg?.style),
+          area: (cfg) => this.createGeojson([], false, null, cfg?.style, REF_LAYERS_PANE),
         },
       ],
       type
@@ -419,6 +425,11 @@ export class MapService {
    * @returns
    */
   createOverLayers(map) {
+    // Between tilePane (200) and overlayPane (400), so that reference layers stay under
+    // the observations and no longer capture their clicks.
+    if (!map.getPane(REF_LAYERS_PANE)) {
+      map.createPane(REF_LAYERS_PANE).style.zIndex = '350';
+    }
     const OVERLAYERS = JSON.parse(JSON.stringify(this.config.MAPCONFIG.REF_LAYERS));
     const overlaysLayers: { [legend: string]: any } = {};
     OVERLAYERS.map((lyr) => [lyr, this.getLayerCreator(lyr.type)(lyr)])
