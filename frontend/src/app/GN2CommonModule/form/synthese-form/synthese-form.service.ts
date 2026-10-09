@@ -17,6 +17,7 @@ import { Observable, of } from 'rxjs';
 import { tap, mergeMap } from 'rxjs/operators';
 import { DataFormService } from '@geonature_common/form/data-form.service';
 import { CommonService } from '@geonature_common/service/common.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class SyntheseFormService {
@@ -64,7 +65,8 @@ export class SyntheseFormService {
     private _periodFormatter: NgbDatePeriodParserFormatter,
     public config: ConfigService,
     private _api: DataFormService,
-    private _common: CommonService
+    private _common: CommonService,
+    private _translate: TranslateService
   ) {
     this.searchForm = this._fb.group({
       cd_nom: null,
@@ -128,6 +130,13 @@ export class SyntheseFormService {
     // remove the filters which are in config.SYNTHESE.EXCLUDED_COLUMNS
     this.dynamycFormDef = DYNAMIC_FORM_DEF.filter((formDef) => {
       return this.config.SYNTHESE.EXCLUDED_COLUMNS.indexOf(formDef.attribut_name) === -1;
+    }).map((formDef) => ({ ...formDef }));
+    // labels mutated in place, replacing the array would rebuild the dynamic form controls
+    const labelKey = (formDef) => `Synthese.DynamicFilters.${formDef.attribut_name}`;
+    this._translate.stream(this.dynamycFormDef.map(labelKey)).subscribe((labels) => {
+      this.dynamycFormDef.forEach(
+        (formDef) => (formDef.attribut_label = labels[labelKey(formDef)])
+      );
     });
     this.formBuilded = true;
   }

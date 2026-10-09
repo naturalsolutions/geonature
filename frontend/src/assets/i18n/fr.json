@@ -545,7 +545,11 @@
       "Copied": "Copié dans le presse-papier !",
       "DeleteSuccess": "Observation supprimée avec succès",
       "Pinned": "Épinglé avec succès",
-      "Unpinned": "Épingle supprimé avec succès"
+      "Unpinned": "Épingle supprimé avec succès",
+      "MissingGeom": "Certaine(s) observation(s) n'ont pas pu être affiché(es) sur la carte car leur maille d’agrégation n'est pas disponible",
+      "LastObs": "Les {{ limit }} dernières observations de la synthèse",
+      "NoMesh": "L'observation selectionnée n'est présente dans aucune maille - passez en mode 'point' pour la localiser",
+      "MapLimit": "Pour des raisons de performances, le nombre d'observations affichées est limité à {{ nb }}"
     },
     "Errors": {
       "PeriodCompleteness": "Le champs 'periode début' ET 'periode fin' doivent être remplis si vous souhaitez faire une recherche par période"
@@ -585,7 +589,16 @@
       "AdvancedFieldsSelected": "Champs avancé(s) sélectionné(s)",
       "RedListCategory": "catégorie de liste rouge",
       "ProtectionStatus": "statut de protection",
-      "TaxrefAttributes": "attributs TaxRef"
+      "TaxrefAttributes": "attributs TaxRef",
+      "ValidPositionTooltip": "La localisation est-elle dans l'aire de répartition connue du taxon ?",
+      "ValidAltitudeTooltip": "L'altitude de l'observation est-elle dans la plage d'altitude connue du taxon ?",
+      "ValidPhenologyTooltip": "La date et l'altitude de l'observation sont-elle conforme à la phénologie connue du taxon ?",
+      "RemoveTaxon": "Retirer « {{ name }} » des filtres de recherche",
+      "TaxaCount": "taxons",
+      "AddPeriod": "Ajouter une période",
+      "PeriodStart": "Periode début",
+      "PeriodEnd": "Periode fin",
+      "ObserversTooltip": "Pour rechercher plusieurs observateurs, séparez-les par des virgules"
     },
     "FicheTaxon": {
       "Messages": {
@@ -602,6 +615,121 @@
         "default": "Par défaut",
         "area-aggregation": "Par maille"
       }
+    },
+    "Loading": "Chargement des données en cours (cela peut prendre du temps)…",
+    "AdvancedForm": {
+      "Title": "Filtres taxonomiques avancés",
+      "TaxonomicRanks": "Rangs taxonomiques",
+      "SearchRank": "Rechercher un rang taxonomique (nom latin - au dessus du genre)",
+      "SearchedTaxa": "Taxon(s) recherché(s):",
+      "TaxonomicTree": "Arbre taxonomique",
+      "TreeHelp": "Sélectionner un ou plusieurs taxons à partir de la hiérarchie taxonomique",
+      "ResetSelection": "Réinitialiser la sélection",
+      "Statuses": "Statuts",
+      "RedLists": "Listes rouges",
+      "TaxhubAttributes": "Attributs TaxHub",
+      "Group2": "Groupe 2 INPN",
+      "Group3": "Groupe 3 INPN",
+      "ValidateAndClose": "Valider et fermer"
+    },
+    "List": {
+      "OpenInModule": "Voir l'observation dans le module de saisie",
+      "TaxonSheet": "Afficher la fiche du taxon",
+      "DatasetSheet": "Afficher la fiche du jeu de données"
+    },
+    "Download": {
+      "Title": "Téléchargement",
+      "LimitReached": "Limite d'affichage atteinte !",
+      "Warning": "Attention !",
+      "TooManyObs": "Votre requête comporte un nombre trop important d'observations pour que celles-ci soient affichées sur la carte.",
+      "OnlyLast": "En fermant cette fenêtre vous pouvez visualiser <b>seulement</b> les {{ nb }} dernières observations correspondant à votre requête.",
+      "ExportLimit": "Vous pouvez néanmoins exporter les données, dans une limite de <b>{{ nb }}</b> observations en cliquant sur les liens ci-dessous",
+      "Observations": "Télécharger les observations",
+      "Format": "Format {{ format }}",
+      "Taxa": "Télécharger les taxons",
+      "Statuses": "Télécharger les statuts",
+      "Metadata": "Télécharger les métadonnées",
+      "StatusesButton": "Statuts",
+      "MetadataButton": "Métadonnées"
+    },
+    "Popup": {
+      "ObservedOn": "Observé le :",
+      "By": "Par :",
+      "Undefined": "Non défini",
+      "Link": "Lien vers l'observation"
+    },
+    "Sheets": {
+      "Indicators": {
+        "Observations": "observation(s)",
+        "Observers": "observateur(s)",
+        "Municipalities": "commune(s)",
+        "AltitudeRange": "Plage d'altitude(s)",
+        "ObservationRange": "Plage d'observation(s)",
+        "ObservedTaxa": "taxon(s) observé(s)",
+        "ValidObservations": "observation(s) valide(s)*",
+        "FirstObservation": "Première observation*",
+        "LastObservation": "Dernière observation*",
+        "ValidAltitudeRange": "Plage d'altitude(s)*"
+      },
+      "Tabs": {
+        "Observations": "Observations",
+        "Taxonomy": "Taxonomie",
+        "Observers": "Observateurs",
+        "Media": "Médias",
+        "Profile": "Profil",
+        "Taxa": "Taxons"
+      },
+      "ObservationRangeLabel": "Plage d'observations :",
+      "ObservationYear": "Année d'observation(s) :",
+      "NoMedia": "Aucun média",
+      "Statuses": "Statuts",
+      "Oldest": "Plus ancienne",
+      "Newest": "Plus récente",
+      "ObservationCount": "Nombre d'observation(s)",
+      "MediaCount": "Nombre de media(s)",
+      "DatasetCount": "Nombre de dataset(s)"
+    },
+    "DynamicFilters": {
+      "has_pin": "Est épinglé",
+      "has_comment": "Est commenté",
+      "has_alert": "Est signalé",
+      "has_medias": "Possède des médias",
+      "id_nomenclature_geo_object_nature": "Nature de l'objet géographique",
+      "id_nomenclature_behaviour": "Comportement",
+      "precision": "Précision du pointage",
+      "grp_method": "Méthode de regroupement",
+      "place_name": "Nom du lieu",
+      "id_nomenclature_grp_typ": "Type de regroupement",
+      "id_nomenclature_observation_status": "Statut d'observation",
+      "id_nomenclature_obs_technique": "Technique d'observation",
+      "id_nomenclature_bio_condition": "Etat biologique",
+      "id_nomenclature_bio_status": "Statut biologique",
+      "id_nomenclature_biogeo_status": "Statut biogéographique",
+      "id_nomenclature_naturalness": "Naturalité",
+      "id_nomenclature_determination_method": "Méthode de détermination",
+      "id_nomenclature_exist_proof": "Preuve d'existence",
+      "id_nomenclature_diffusion_level": "Niveau de diffusion",
+      "id_nomenclature_source_status": "Statut source",
+      "id_nomenclature_blurring": "Floutage",
+      "id_nomenclature_life_stage": "Stade de vie",
+      "id_nomenclature_sex": "Sexe",
+      "id_nomenclature_obj_count": "Objet du dénombrement",
+      "id_nomenclature_type_count": "Type de dénombrement",
+      "id_nomenclature_valid_status": "Statut de validation",
+      "id_nomenclature_sensitivity": "Sensibilité",
+      "id_nomenclature_info_geo_type": "Type d'information géographique",
+      "digital_proof": "Preuve numérique",
+      "reference_biblio": "Référence bibliographique",
+      "non_digital_proof": "Preuve non numérique",
+      "id_digitiser": "Saisie par",
+      "comment_context": "Commentaire (relevé)",
+      "comment_description": "Commentaire (taxon)",
+      "determiner": "Déterminateur",
+      "unique_id_sinp": "UUID observation (unique_id_sinp)",
+      "id_synthese": "ID (id_synthese)",
+      "id_import": "ID import",
+      "id_source": "Source de la donnée",
+      "id_module": "Module de provenance de la donnée"
     }
   },
   "Media": {
