@@ -182,3 +182,300 @@ msgstr "Welcome to the GeoNature administration interface"
 
 msgid "Selectionnez un item à administrer dans la barre latérale"
 msgstr "Select an item to manage in the sidebar"
+
+msgid "Ou renseignez son URL si le média est déjà disponible en ligne"
+msgstr "Or enter its URL if the media is already online"
+
+msgid "Média public ?"
+msgstr "Public media?"
+
+msgid "Valeurs disponibles"
+msgstr "Available values"
+
+msgid "Nom de l'attribut dans la BDD"
+msgstr "Attribute name in the database"
+
+msgid "Label de l'attribut affiché dans les formulaires"
+msgstr "Attribute label displayed in forms"
+
+msgid "Limiter le renseignement de cet attribut aux taxons d'un règne"
+msgstr "Restrict this attribute to the taxa of a kingdom"
+
+msgid "Limiter le renseignement de cet attribut aux taxons d'un groupe 2 INPN"
+msgstr "Restrict this attribute to the taxa of an INPN group 2"
+
+msgid "Definit le type des valeurs enregistrés (pour les widget 'select', 'multiselect' et 'radio')"
+msgstr "Type of the stored values (for the 'select', 'multiselect' and 'radio' widgets)"
+
+msgid "Liste purgée de ses noms"
+msgstr "List emptied of its names"
+
+msgid "Téléverser un fichier"
+msgstr "Upload a file"
+
+msgid "Téléverser le média que vous souhaitez associer au taxon"
+msgstr "Upload the media to attach to the taxon"
+
+msgid "Est dans la liste"
+msgstr "Is in the list"
+
+msgid "A l'attribut"
+msgstr "Has the attribute"
+
+msgid "Nom valide / synonyme"
+msgstr "Valid name / synonym"
+
+msgid "Erreur, liste non purgée"
+msgstr "Error, list not emptied"
+
+msgid "Règne"
+msgstr "Kingdom"
+
+msgid "Thème"
+msgstr "Theme"
+
+msgid "Type de nomenclature"
+msgstr "Nomenclature type"
+
+msgid "Id nomenclature"
+msgstr "Nomenclature ID"
+
+msgid "Id type"
+msgstr "Type ID"
+
+msgid "Supprimer les cd_nom de la liste"
+msgstr "Remove the cd_nom from the list"
+
+msgid "Taxonomie"
+msgstr "Taxonomy"
+
+msgid "Statuts"
+msgstr "Statuses"
+
+msgid "Synonymes"
+msgstr "Synonyms"
+
+msgid "Voir les statuts sur la fiche INPN"
+msgstr "See the statuses on the INPN sheet"
+
+msgid "Portée :"
+msgstr "Scope:"
+
+msgid "Niveau :"
+msgstr "Level:"
+
+msgid "Voir le texte"
+msgstr "See the text"
+
+msgid "Nom Latin"
+msgstr "Scientific name"
+
+msgid "Nom valide"
+msgstr "Valid name"
+
+msgid "Nom vernaculaire"
+msgstr "Vernacular name"
+
+msgid "Auteur"
+msgstr "Author"
+
+msgid "Nom vernaculaire anglais"
+msgstr "English vernacular name"
+
+msgid "Taxon superieur"
+msgstr "Parent taxon"
+
+msgid "Group 1 INPN"
+msgstr "INPN group 1"
+
+msgid "Group 2 INPN"
+msgstr "INPN group 2"
+
+msgid "Rang"
+msgstr "Rank"
+
+msgid "titre"
+msgstr "title"
+
+msgid "Lien média"
+msgstr "Media link"
+
+msgid "Les attributs et les médias ne peuvent être renseignés que sur les noms valides"
+msgstr "Attributes and media can only be set on valid names"
+
+msgid "Voir le nom valide"
+msgstr "See the valid name"
+
+msgid "Identifiant ou mot de passe invalide"
+msgstr "Invalid username or password"
+
+msgid "Se Connecter"
+msgstr "Log in"
+
+msgid "Peupler la liste"
+msgstr "Populate the list"
+
+msgid "Pour ajouter des cd_nom à une liste, il faut avoir un fichier csv contenant une colonne. Cette colonne doit correspondre à une liste de cd_nom"
+msgstr "To add cd_nom to a list, provide a CSV file with one column containing a list of cd_nom"
+
+msgid "autres colonnes facultatives et non utilisées"
+msgstr "other columns, optional and unused"
+
+msgid "Importer"
+msgstr "Import"
+
+msgid "Retour"
+msgstr "Back"
+
+msgid "Import en cours... cette opération peut prendre plusieurs minutes."
+msgstr "Import in progress... this may take several minutes."
+
+msgid "Version de Taxref"
+msgstr "TaxRef version"
+
+msgid "Date de mise à jour de Taxref"
+msgstr "TaxRef update date"
+
+msgid "Nombre de noms"
+msgstr "Number of names"
+
+msgid "Nombre de statuts"
+msgstr "Number of statuses"
+
+msgid "Nombre de statuts actifs"
+msgstr "Number of active statuses"
+
+msgid "Version de TaxHub"
+msgstr "TaxHub version"
+
+msgid "Classe"
+msgstr "Class"
+
+msgid "Famille"
+msgstr "Family"
+
+msgid "Ordre"
+msgstr "Order"
+
+msgid "Synonyme"
+msgstr "Synonym"
+
+msgid "Média"
+msgstr "Media"
+
+msgid "Possède un média"
+msgstr "Has a media"
+
+msgid "Ne possède pas de média"
+msgstr "Has no media"
+
+msgid "Possède un attribut"
+msgstr "Has an attribute"
+
+msgid "Ne possède pas d'attribut"
+msgstr "Has no attribute"
+
+msgid "Mnemonique"
+msgstr "Mnemonic"
+
+msgid "Mnémonique"
+msgstr "Mnemonic"
+
+msgid "Types de site"
+msgstr "Site types"
+
+msgid "Nomenclature de type de site à choisir"
+msgstr "Site type nomenclature to choose"
+
+msgid "Nom de la licence"
+msgstr "Licence name"
+
+msgid "URL de la licence"
+msgstr "Licence URL"
+
+msgid "URL de la documentation de la licence"
+msgstr "URL of the licence documentation"
+
+msgid "Identifiant"
+msgstr "Identifier"
+
+msgid "Nom de l'export"
+msgstr "Export name"
+
+msgid "Nom du schema PostgreSQL"
+msgstr "PostgreSQL schema name"
+
+msgid "Nom de la vue SQL"
+msgstr "SQL view name"
+
+msgid "Nom de colonne d'unicité de la vue"
+msgstr "View unique column name"
+
+msgid "Nom de champ géométrique"
+msgstr "Geometry field name"
+
+msgid "SRID du champ géométrique"
+msgstr "Geometry field SRID"
+
+msgid "Nom du role"
+msgstr "Role name"
+
+msgid "Role et token associé à l'export"
+msgstr "Role and token of the export"
+
+msgid "Nom libre de l'export"
+msgstr "Free name of the export"
+
+msgid "Nom exact du schéma PostgreSQL contenant la vue SQL."
+msgstr "Exact name of the PostgreSQL schema holding the SQL view."
+
+msgid "Nom exact de la vue SQL permettant l'export de vos données."
+msgstr "Exact name of the SQL view used to export your data."
+
+msgid "Nom exact de la colonne d'unicité de la vue. Si non renseigné, la première colonne sera utilisée pour les exports."
+msgstr "Exact name of the view unique column. If empty, the first column is used for exports."
+
+msgid "Décrit la nature de l'export"
+msgstr "Describes the nature of the export"
+
+msgid "L'export est accessible à tous"
+msgstr "The export is available to everyone"
+
+msgid "Role associé à l'export"
+msgstr "Role linked to the export"
+
+msgid "Nom de l'export à planifier"
+msgstr "Name of the export to schedule"
+
+msgid "Fréquence de la génération de l'export (en jours)"
+msgstr "Export generation frequency (in days)"
+
+msgid "Format de l'export à générer"
+msgstr "Format of the export to generate"
+
+msgid "Date du dernier export"
+msgstr "Last export date"
+
+msgid "Fréquence"
+msgstr "Frequency"
+
+msgid "Licences"
+msgstr "Licences"
+
+msgid "Planification des exports"
+msgstr "Export schedules"
+
+msgid "L'export ne peut pas être supprimé car il est toujours référencé (table de log)"
+msgstr "The export cannot be deleted because it is still referenced (log table)"
+
+msgid "SRID ou Champs géométrique manquant : impossible de générer l'export dans ce format."
+msgstr "Missing SRID or geometry field: the export cannot be generated in this format."
+
+msgid "Génération en cours..."
+msgstr "Generating..."
+
+msgid "Générer"
+msgstr "Generate"
+
+msgid "Groupe : {}"
+msgstr "Group: {}"
