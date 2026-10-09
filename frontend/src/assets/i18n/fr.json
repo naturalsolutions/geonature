@@ -989,5 +989,12 @@
   "Notifications": {
     "ManageRules": "Gérer vos règles de notification",
     "DeleteAll": "Supprimer toutes vos notifications"
+  },
+
+  "PageTitle": {
+    "Synthese": "Synthèse",
+    "Metadata": "Métadonnées",
+    "User": "Utilisateur",
+    "Notifications": "Notifications"
   }
 }
