@@ -12,7 +12,7 @@ import {
   ChangeDetectorRef,
   EventEmitter,
 } from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { MapService } from '@geonature_common/map/map.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -39,7 +39,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   public rowNumber: number;
   private _latestWidth: number;
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
-  public modif_text = 'Attention données modifiées depuis la dernière validation';
+  public modif_text = 'Validation.UI.ModifiedSinceValidation';
   public npage;
 
   @Input() inputSyntheseData: Array<any>;
@@ -304,10 +304,12 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
         this.oneSyntheseObs.id_synthese,
       ]);
       // get all reports
-      this._ds.getReports( new HttpParams(),this.oneSyntheseObs.id_synthese).subscribe((response) => {
-        // search alert in table to update and refresh UI
-        this.mapListService.tableData[rowIndex].reports = response;
-      });
+      this._ds
+        .getReports(new HttpParams(), this.oneSyntheseObs.id_synthese)
+        .subscribe((response) => {
+          // search alert in table to update and refresh UI
+          this.mapListService.tableData[rowIndex].reports = response;
+        });
     }
   }
 
