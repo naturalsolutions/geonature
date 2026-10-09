@@ -78,12 +78,12 @@ export class SyntheseInfoObsComponent implements OnInit, OnChanges {
   // List of tabs
   private tabs: Array<any> = [
     { label: "Détail de l'occurrence", path: 'details' },
-    { label: 'Métadonnées', path: 'metadata' },
-    { label: 'Taxonomie', path: 'taxonomy' },
-    { label: 'Médias', path: 'media' },
-    { label: 'Zonage', path: 'zonage' },
-    { label: 'Validation', path: 'validation' },
-    { label: 'Discussion', path: 'discussion' },
+    { label: 'Synthese.InfoObs.Tabs.Metadata', path: 'metadata' },
+    { label: 'Synthese.InfoObs.Tabs.Taxonomy', path: 'taxonomy' },
+    { label: 'Synthese.InfoObs.Tabs.Media', path: 'media' },
+    { label: 'Synthese.InfoObs.Tabs.Zoning', path: 'zonage' },
+    { label: 'Synthese.InfoObs.Tabs.Validation', path: 'validation' },
+    { label: 'Synthese.InfoObs.Tabs.Discussion', path: 'discussion' },
   ];
 
   // Condition to make a tab visible
