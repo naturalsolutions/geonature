@@ -509,6 +509,24 @@
     "Statistics": {
       "OccurrencesSynthese": "Taxon(s) occurrence(s)",
       "OccurrencesOcchab": "Habitat(s) occurrence(s)"
+    },
+    "UI": {
+      "SeeDataset": "See the dataset sheet",
+      "DatasetEmpty": "This dataset has no data in the Synthesis",
+      "ShowInSynthese": "Show the data in the Synthesis",
+      "EditDataset": "Edit the dataset",
+      "NoEditDataset": "You are not allowed to edit this dataset",
+      "SelectPage": "Select a page",
+      "IconDataset": "Dataset icon",
+      "IconData": "Data icon",
+      "IconTaxon": "Taxon icon",
+      "ConfirmDeleteDataset": "Are you sure you want to delete this dataset?",
+      "Paginator": {
+        "Next": "Next page",
+        "Previous": "Previous page",
+        "ItemsPerPage": "Items per page",
+        "Of": "of"
+      }
     }
   },
   "Filters": {
