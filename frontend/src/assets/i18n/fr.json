@@ -297,6 +297,11 @@
     "LayersControl": {
       "BaseLayersLabel": "Fonds de carte",
       "OverlaysLabel": "Couches additionnelles"
+    },
+    "Places": {
+      "Save": "Enregistrer un lieu",
+      "DrawFirst": "Veuillez d'abord saisir une géométrie sur la carte.",
+      "Added": "Lieux ajouté avec succès."
     }
   },
   "MapList": {
