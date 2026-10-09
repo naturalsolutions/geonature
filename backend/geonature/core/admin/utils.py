@@ -7,6 +7,13 @@ from geonature.core.gn_permissions.tools import get_scopes_by_action
 
 
 class CruvedProtectedMixin:
+    def search_placeholder(self):
+        # flask-admin assemble les libellés par join, qui refuse un LazyString
+        if not self.column_searchable_list:
+            return None
+        keys = [getattr(c, "key", c) for c in self.column_searchable_list]
+        return ", ".join(str(self.column_labels.get(k, k)) for k in keys)
+
     def is_accessible(self):
         if g.current_user is None:
             raise Unauthorized  # return False leads to Forbidden which is different
