@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ConfigService } from '@geonature/services/config.service';
 import { SyntheseDataService } from '@geonature_common/form/synthese-form/synthese-data.service';
@@ -39,7 +40,8 @@ export class SyntheseComponent implements OnInit {
     private route: ActivatedRoute,
     private ngModal: NgbModal,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -195,16 +197,14 @@ export class SyntheseComponent implements OnInit {
 
   private displayMessageGeomAbsence() {
     if (this.noGeomMessage) {
-      this.toasterService.warning(
-        "Certaine(s) observation(s) n'ont pas pu être affiché(es) sur la carte car leur maille d’agrégation n'est pas disponible"
-      );
+      this.toasterService.warning(this.translate.instant('Synthese.Messages.MissingGeom'));
     }
   }
 
   private displayMessageLastObsLimit() {
     if (this.firstLoad && this.formService.selectors.has('limit')) {
       let limit = this.formService.selectors.get('limit');
-      this.toasterService.info(`Les ${limit} dernières observations de la synthèse`, '');
+      this.toasterService.info(this.translate.instant('Synthese.Messages.LastObs', { limit }), '');
     }
     this.firstLoad = false;
   }

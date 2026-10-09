@@ -107,10 +107,9 @@ export class ObservationsComponent extends Loadable implements OnInit {
       .pipe(finalize(() => this.stopLoading()))
       .subscribe((data) => {
         if (!this.areasEnable && this._os.isSuperiorToSyntheseLimit) {
-          this._commonService.regularToaster(
-            'warning',
-            `Pour des raisons de performances, le nombre d'observations affichées est limité à ${this.config['SYNTHESE']['NB_MAX_OBS_MAP']}`
-          );
+          this._commonService.translateToaster('warning', 'Synthese.Messages.MapLimit', {
+            nb: this.config['SYNTHESE']['NB_MAX_OBS_MAP'],
+          });
         }
         this.styleTabGeoJson = undefined;
         this.clearObservationLayers();
@@ -146,11 +145,12 @@ export class ObservationsComponent extends Loadable implements OnInit {
         url.hash = this._router.serializeUrl(
           this._router.createUrlTree(['synthese', 'occurrence', observations[0].id_synthese])
         );
+        const t = (key: string) => this.translateService.instant(key);
         popupContent = `
           ${observations[0].nom_vern_or_lb_nom || ''}<br>
-          <b>Observé le :</b> ${observations[0].date_min || 'Non défini'}<br>
-          <b>Par :</b> ${observations[0].observers || 'Non défini'}<br>
-          <a href="${url.href}">Lien vers l'observation</a>`;
+          <b>${t('Synthese.Popup.ObservedOn')}</b> ${observations[0].date_min || t('Synthese.Popup.Undefined')}<br>
+          <b>${t('Synthese.Popup.By')}</b> ${observations[0].observers || t('Synthese.Popup.Undefined')}<br>
+          <a href="${url.href}">${t('Synthese.Popup.Link')}</a>`;
       }
 
       layer.bindPopup(popupContent);
