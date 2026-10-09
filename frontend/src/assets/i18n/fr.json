@@ -1087,5 +1087,12 @@
     "Community": "communauté de structures"
   },
 
-  "ColonCharSpaced": " : "
+  "ColonCharSpaced": " : ",
+
+  "PageTitle": {
+    "Synthese": "Synthèse",
+    "Metadata": "Métadonnées",
+    "User": "Utilisateur",
+    "Notifications": "Notifications"
+  }
 }
