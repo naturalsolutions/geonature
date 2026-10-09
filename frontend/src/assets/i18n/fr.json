@@ -227,6 +227,11 @@
       "ZoomWarning": "Echelle de saisie inadaptée, veuillez zoomer davantage pour pointer le relevé",
       "FileLayerInfo": "Cliquer sur la couche (point/ligne/polygone) pour en faire le pointage de votre relevé. La couche selectionné apparait en rouge sur la carte. Clic droit pour afficher les infos de la couche",
       "FileLayerInfoSynthese": "Fichier importé. Clic droit sur un objet pour afficher ses infos"
+    },
+    "Places": {
+      "Save": "Enregistrer un lieu",
+      "DrawFirst": "Veuillez d'abord saisir une géométrie sur la carte.",
+      "Added": "Lieux ajouté avec succès."
     }
   },
   "MapList": {
