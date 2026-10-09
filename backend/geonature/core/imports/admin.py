@@ -7,6 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 from geonature.utils.env import db
 from geonature.core.admin.admin import admin as geonature_admin, CruvedProtectedMixin
 from geonature.core.imports.models import Destination, FieldMapping, ContentMapping
+from flask_babel import lazy_gettext as _l
 
 
 class MappingView(CruvedProtectedMixin, ModelView):
@@ -83,7 +84,7 @@ class ContentMappingView(MappingView):
     }
 
 
-geonature_admin.add_view(FieldMappingView(FieldMapping, db, name="Champs", category="Import"))
+geonature_admin.add_view(FieldMappingView(FieldMapping, db, name=_l("Champs"), category="Import"))
 geonature_admin.add_view(
     ContentMappingView(ContentMapping, db, name="Nomenclatures", category="Import")
 )

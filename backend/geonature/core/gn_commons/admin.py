@@ -14,6 +14,7 @@ from geonature.utils.env import DB
 
 
 from marshmallow import ValidationError
+from flask_babel import lazy_gettext as _l
 
 log = logging.getLogger()
 
@@ -98,18 +99,20 @@ class BibFieldAdmin(CruvedProtectedMixin, ModelView):
         },
     }
     column_descriptions = {
-        "bib_nomenclature_type": "Si Type widget = Nomenclature",
-        "field_label": "Label du champ en interface",
-        "field_name": "Nom du champ en base de donnée",
+        "bib_nomenclature_type": _l("Si Type widget = Nomenclature"),
+        "field_label": _l("Label du champ en interface"),
+        "field_name": _l("Nom du champ en base de donnée"),
         "field_values": """Obligatoire si widget = select/multiselect/checkbox,radio (Format JSON : tableau de 'value/label'. Utilisez des doubles quotes pour les valeurs et les clés). 
             Exemple [{"label": "trois", "value": 3}, {"label": "quatre", "value": 4}]""",
         "multiselect": "Permet de sélectionner plusieurs valeurs (widgets nomenclature et datalist)",
         "default_value": "La valeur par défaut doit être une des valeurs du champs 'Valeurs' ci-dessus. Pour les valeurs textuelles, il n'est pas nécessaire de remettre la valeur entre guillement",
-        "id_list": "Identifiant en BDD de la liste (pour Type widget = taxonomy/observers)",
-        "field_order": "Numéro d'ordonnancement du champs (si plusieurs champs pour le même module/objet/JDD)",
-        "modules": "Module(s) auquel le champs est rattaché. *Obligatoire",
-        "objects": "Objet(s) auquel le champs est rattaché. *Obligatoire",
-        "datasets": "Jeu(x) de donnés auquel le champs est rattaché",
+        "id_list": _l("Identifiant en BDD de la liste (pour Type widget = taxonomy/observers)"),
+        "field_order": _l(
+            "Numéro d'ordonnancement du champs (si plusieurs champs pour le même module/objet/JDD)"
+        ),
+        "modules": _l("Module(s) auquel le champs est rattaché. *Obligatoire"),
+        "objects": _l("Objet(s) auquel le champs est rattaché. *Obligatoire"),
+        "datasets": _l("Jeu(x) de donnés auquel le champs est rattaché"),
     }
 
 
@@ -125,11 +128,11 @@ class TMobileAppsAdmin(CruvedProtectedMixin, ModelView):
         "version_code",
     )
     column_labels = {
-        "app_code": "Code application",
-        "relative_path_apk": "Chemin relatif de l'APK",
-        "url_apk": "URL externe de l'APK",
-        "package": "Nom du paquet",
-        "version_code": "Code de version",
+        "app_code": _l("Code application"),
+        "relative_path_apk": _l("Chemin relatif de l'APK"),
+        "url_apk": _l("URL externe de l'APK"),
+        "package": _l("Nom du paquet"),
+        "version_code": _l("Code de version"),
     }
     form_columns = ("app_code", "relative_path_apk", "url_apk", "package", "version_code")
     column_exclude_list = "id_mobile_app"
@@ -187,6 +190,6 @@ class TModulesAdmin(CruvedProtectedMixin, ModelView):
         "module_desc": "Description",
         "module_comment": "Commentaire",
         "module_picto": "Pictogramme",
-        "module_doc_url": "URL documentation",
+        "module_doc_url": _l("URL documentation"),
         "module_order": "Ordre",
     }
