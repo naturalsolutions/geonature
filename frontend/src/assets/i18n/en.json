@@ -517,7 +517,8 @@
       }
     },
     "Map": {
-      "AreasToggleBtn": "Grid cells"
+      "AreasToggleBtn": "Grid cells",
+      "AggregationLegend": "Number of <br> observations"
     },
     "Loading": "Loading data (this may take a while)…",
     "AdvancedForm": {

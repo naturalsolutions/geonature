@@ -229,7 +229,9 @@ export class SyntheseCarteComponent implements OnInit, AfterViewInit, OnChanges,
       let grades = this.config['SYNTHESE']['AREA_AGGREGATION_LEGEND_CLASSES']
         .map((legendClass) => legendClass.min)
         .reverse();
-      let labels = ["<strong> Nombre <br> d'observations </strong> <br>"];
+      let labels = [
+        `<strong>${this.translateService.instant('Synthese.Map.AggregationLegend')}</strong> <br>`,
+      ];
 
       // loop through our density intervals and generate a label with a colored square for each interval
       for (var i = 0; i < grades.length; i++) {
