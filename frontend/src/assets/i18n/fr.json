@@ -801,7 +801,141 @@
     },
     "Messages": {
       "DeleteSuccessfully": "Import supprimé",
-      "SkipContentMapping": "Aucune nomenclature présente dans les données fournies, passage à l'étape \"Import des données.\""
+      "SkipContentMapping": "Aucune nomenclature présente dans les données fournies, passage à l'étape \"Import des données.\"",
+      "RedirectedToLastStep": "Vous avez été redirigé vers la dernière étape validée.",
+      "DataImported": "Données importées !",
+      "PreparingData": "Préparation des données",
+      "LoadingFields": "Chargement des champs..."
+    },
+    "Process": {
+      "Steps": {
+        "Upload": "Téléversement du fichier",
+        "Decode": "Configuration du fichier",
+        "FieldMapping": "Correspondance des champs",
+        "ContentMapping": "Correspondance des nomenclatures",
+        "ObserverMapping": "Correspondance des observateurs",
+        "Import": "Import des données"
+      },
+      "Decode": {
+        "Encoding": "Encodage :",
+        "AutoDetected": "(auto-détecté)",
+        "SelectEncoding": "Sélectionnez un encodage",
+        "Format": "Format :",
+        "SelectFormat": "Sélectionnez un format",
+        "Separator": "Séparateur :",
+        "Srid": "SRID des données géographiques :",
+        "SelectSrid": "Sélectionnez un SRID"
+      },
+      "Check": {
+        "Start": "Lancer la vérification",
+        "Error": "Erreur lors de la vérification, veuillez vérifier votre fichier",
+        "InProgress": "Contrôles en cours sur les données",
+        "Intro": "Avant de procéder à l'import de vos données, il est nécessaire de valider la conformité de ces dernières"
+      },
+      "Summary": {
+        "Title": "Récapitulatif avant import",
+        "Reports": "Rapports",
+        "ImportReport": "Rapport d'import",
+        "Area": "Zone géographique",
+        "Preview": "Prévisualisation des observations valides prêtes à être importées",
+        "Errors": "{{ n }} erreur(s)",
+        "Warnings": "{{ n }} avertissement(s)",
+        "ExportInvalid": "Exporter vos {{ n }} observations invalides",
+        "NoValid": "Aucun(e) {{ entity }} valide n'a été trouvée"
+      },
+      "Run": {
+        "InProgress": "Import des données en cours",
+        "InProgressEllipsis": "Import des données en cours...",
+        "Done": "Import terminé",
+        "BackToList": "Retour à la liste des imports",
+        "ImportValid": "Importer vos {{ n }} entités valides",
+        "Imported": "Vos {{ n }} observations ont bien été importées",
+        "Notification": "L'import des fichier dans la synthèse est en cours... Un mail de notification vous sera envoyé à la fin du traitement."
+      },
+      "Ok": "OK",
+      "Footer": {
+        "CancelDelete": "Annuler et supprimer l’import",
+        "SaveQuit": "Enregistrer et quitter"
+      },
+      "Mapping": {
+        "SaveTitle": "Enregistrement du modèle",
+        "NoneFound": "Aucune correspondance des champs prédéfinie n'a été trouvée.",
+        "EditName": "Modifier le nom du modèle d'import",
+        "CancelEditName": "Annuler la modification du nom du modèle d'import",
+        "NameHint": "Nom du modèle",
+        "DefaultNomenclature": "Nomenclature à utiliser pour les cellules sans valeur (N/A, null)",
+        "Required": "Veuillez renseigner le champ \"{{ field }}\""
+      },
+      "List": {
+        "Title": "Liste des imports",
+        "InError": "import en erreur",
+        "Running": "import en cours",
+        "Checking": "vérifications en cours",
+        "Stats": "Stats",
+        "Empty": "Vous n'avez effectué aucun import",
+        "ImportId": "Id Import",
+        "End": "Fin import",
+        "DownloadInvalid": "Téléchargement des données invalides",
+        "New": "Nouvel import"
+      }
+    },
+    "Modal": {
+      "EditTitle": "Modification",
+      "DeleteTitle": "Suppression",
+      "AreYouSure": "Êtes-vous sûr de continuer ?",
+      "ConfirmAction": "Êtes-vous sûr de vouloir effectuer cette action ?",
+      "FieldMappingChanged": "Des modifications ont été apportées à la correspondance des champs. L'ancienne correspondance des champs sera supprimée.",
+      "FileReplaced": "Le fichier existant sera supprimé ! Pour remplacer les données importées, terminer l'import à nouveau.",
+      "ContentMappingChanged": "Des modifications ont été apportées à la correspondances des nomenclatures. L'ancienne correspondance des nomenclatures sera supprimé.",
+      "DataAlreadyImported": "Des données ont déjà été importées. Si vous continuez ces dernières seront supprimées.",
+      "EditBody": "Modifier l'import n°{{ id }} ?",
+      "EditDoneWarning": "Attention : Vous vous apprêtez à modifier un import terminé. Toute modification entraînera la suppression des données importées jusqu'à ce que vous terminiez l'import à nouveau.",
+      "DeleteBody": "Supprimer cet import commencé le {{ date }} ?",
+      "DeleteDataWarning": "Attention : cela supprimera aussi les données importées."
+    },
+    "Report": {
+      "Description": "Description de l'import",
+      "File": "Fichier :",
+      "FileName": "Nom du fichier :",
+      "SubmissionDate": "Date de soumission de l'import :",
+      "Author": "Auteur :",
+      "Authors": "Auteur(s) :",
+      "Srid": "SRID :",
+      "ImportedRows": "Nombre de lignes importées :",
+      "Rows": "Nombre de lignes :",
+      "Pdf": "Rapport PDF",
+      "Mappings": "Correspondances",
+      "TargetField": "Champ cible",
+      "SourceField": "Champ source",
+      "ConstantValue": "Valeur constante",
+      "Export": "Exporter",
+      "SourceValue": "Valeur source",
+      "Nomenclature": "Nomenclature",
+      "InvalidData": "Données invalides",
+      "ErrorType": "Type d'erreur",
+      "Field": "Champ",
+      "ErrorDescription": "Description erreur",
+      "ErrorCount": "Nombre d'erreur(s)",
+      "ErrorRows": "Numéro des lignes en erreur",
+      "WarningType": "Type d'avertissement",
+      "WarningDescription": "Description de l'avertissement",
+      "WarningCount": "Nombre d'avertissement(s)",
+      "WarningRows": "Numéro des lignes en avertissement",
+      "ConcernedRows": "Numéro des lignes concernées",
+      "ExportInvalid": "Exporter vos {{ n }} lignes invalides",
+      "ImportedData": "Données importées",
+      "ImportedExtent": "Périmètre géographique des données importées",
+      "ErrorReport": "Rapport d'erreur(s)",
+      "Errors": "Erreurs",
+      "Warnings": "Alertes",
+      "Title": "Rapport d'import :",
+      "FieldsCount": "Champs ({{ n }})",
+      "NomenclaturesCount": "Nomenclatures ({{ n }} type(s))",
+      "ShowIn": "Afficher dans {{ dest }}",
+      "SubmissionErrors": "La soumission comporte <b>{{ n }}</b> erreur(s)",
+      "SubmissionWarnings": "La soumission comporte <b>{{ n }}</b> avertissement(s)",
+      "SeeMore": "Voir plus",
+      "SeeLess": "Voir moins"
     }
   },
   "Releve": {
