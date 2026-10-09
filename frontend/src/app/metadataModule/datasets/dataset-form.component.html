@@ -313,7 +313,7 @@
             type="button"
             mat-mini-fab
             color="primary"
-            matTooltip="Ajouter un autre contact principal"
+            [matTooltip]="'MetaData.UI.AddMainContact' | translate"
             (click)="addMainContact()"
             [disabled]="!(datasetFormS.genericActorForm.valid && datasetFormS.actors.valid)"
             data-qa="pnx-dataset-form-add-main-contact"
@@ -355,7 +355,7 @@
             type="button"
             mat-mini-fab
             color="primary"
-            matTooltip="Ajouter un autre acteur"
+            [matTooltip]="'MetaData.UI.AddActor' | translate"
             (click)="addGenericContact()"
             [disabled]="!(datasetFormS.genericActorForm.valid && datasetFormS.actors.valid)"
           >

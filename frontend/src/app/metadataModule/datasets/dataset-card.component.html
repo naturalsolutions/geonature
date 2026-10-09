@@ -248,10 +248,10 @@
 
           <br />
 
-          <div class="b">Type de financement :</div>
+          <div class="b">{{ 'MetaData.UI.FundingTypeColon' | translate }}</div>
 
           <div class="a">
-            <b>Financement :</b>
+            <b>{{ 'MetaData.UI.FundingColon' | translate }}</b>
             {{ dataset?.nomenclature_data_origin?.label_default }}
           </div>
 
@@ -391,7 +391,7 @@
             mat-raised-button
             color="primary"
             class="mr-1 mb-2"
-            matTooltip="Télécharger la fiche PDF"
+            [matTooltip]="'MetaData.UI.DownloadPdf' | translate"
             (click)="getPdf()"
           >
             {{ 'Actions.PDFExport' | translate }}
@@ -473,7 +473,7 @@
               class="ml-2"
               color="primary"
               (click)="syntheseDs(dataset.id_dataset)"
-              matTooltip="Afficher les données dans la Synthèse"
+              [matTooltip]="'MetaData.UI.ShowInSynthese' | translate"
             >
               {{ 'MetaData.DatasetCard.Actions.DisplayData' | translate }}
               <mat-icon>room</mat-icon>

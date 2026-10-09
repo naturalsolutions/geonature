@@ -11,7 +11,7 @@
         data-qa="pnx-metadata-exit-af"
       >
         <mat-icon>chevron_left</mat-icon>
-        Retour
+        {{ 'Back' | translate }}
       </a>
     </div>
   </div>
@@ -33,7 +33,7 @@
                 [disabled]="!af?.cruved?.U"
                 mat-mini-fab
                 class="mr-2 af-edit-button"
-                matTooltip="Éditer le cadre d'acquisition"
+                [matTooltip]="'MetaData.UI.EditAf' | translate"
               >
                 <mat-icon>create</mat-icon>
               </button>
@@ -53,7 +53,7 @@
                 (click)="getPdf()"
                 [disabled]="!af.cruved.E"
                 class="mr-2"
-                matTooltip="Exporter le PDF"
+                [matTooltip]="'Actions.PDFExport' | translate"
               >
                 <mat-icon>file_download</mat-icon>
               </button>
@@ -109,7 +109,7 @@
               >
                 <img
                   src="./assets/images/Habitat_icon.svg"
-                  alt="Icône Habitat"
+                  [alt]="'MetaData.UI.IconHabitat' | translate"
                 />
                 <span>{{ 'Habitats' | translate }}</span>
                 <span class="af-stat-badge__value">{{ stats.nb_habitats }}</span>
@@ -226,7 +226,7 @@
             <ng-template #elifNoActor>
               <div class="a alert-actor">
                 <mat-icon>report</mat-icon>
-                <span>Aucun acteur renseigné</span>
+                <span>{{ 'MetaData.UI.NoActor' | translate }}</span>
               </div>
             </ng-template>
             <br />

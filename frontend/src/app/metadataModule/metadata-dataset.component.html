@@ -121,7 +121,7 @@
       (click)="deleteDs(dataset)"
       [attr.data-qa]="'pnx-metadata-jdd-delete-' + dataset.unique_dataset_id"
     >
-      <mat-icon matTooltip="Supprimer le jeu de données">delete</mat-icon>
+      <mat-icon [matTooltip]="'MetaData.UI.DeleteDataset' | translate">delete</mat-icon>
     </button>
   </ng-template>
 </td>
