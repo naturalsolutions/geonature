@@ -507,6 +507,24 @@
     "Statistics": {
       "OccurrencesSynthese": "Occurrence(s) de taxon(s)",
       "OccurrencesOcchab": "Occurrence(s) d'habitat(s)"
+    },
+    "UI": {
+      "SeeDataset": "Voir la fiche du jeu de données",
+      "DatasetEmpty": "Ce jeu de données ne comporte aucune donnée dans la Synthèse",
+      "ShowInSynthese": "Afficher les données dans la Synthèse",
+      "EditDataset": "Editer le jeu de données",
+      "NoEditDataset": "Vous n'avez pas l'autorisation de modifier de jeu de données",
+      "SelectPage": "Sélectionner une page",
+      "IconDataset": "Icône Jeu de données",
+      "IconData": "Icône Donnée",
+      "IconTaxon": "Icône Taxon",
+      "ConfirmDeleteDataset": "Etes-vous sûr de vouloir supprimer ce jeu de données ?",
+      "Paginator": {
+        "Next": "Page suivante",
+        "Previous": "Page précédente",
+        "ItemsPerPage": "Éléments par page",
+        "Of": "sur"
+      }
     }
   },
   "Filters": {
