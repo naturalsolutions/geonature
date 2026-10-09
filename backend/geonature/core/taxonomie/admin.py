@@ -12,6 +12,7 @@ from geonature.utils.env import db
 from apptax.admin.admin import adresses
 from apptax.taxonomie.models import Taxref, BibListes, TMedias, BibAttributs, BibThemes
 from geonature.core.admin.utils import CruvedProtectedMixin
+from flask_babel import lazy_gettext as _l
 
 
 class CruvedProtectedBibListesView(CruvedProtectedMixin, BibListesView):
@@ -62,7 +63,7 @@ def load_admin_views(app, admin):
         CruvedProtectedBibListesView(
             BibListes,
             db.session,
-            name="Listes",
+            name=_l("Listes"),
             category="TaxHub",
             static_folder=static_folder,
         )
@@ -72,7 +73,7 @@ def load_admin_views(app, admin):
         CruvedProtectedBibAttributsView(
             BibAttributs,
             db.session,
-            name="Attributs",
+            name=_l("Attributs"),
             category="TaxHub",
             static_folder=static_folder,
         )
@@ -81,7 +82,7 @@ def load_admin_views(app, admin):
         CruvedProtectedBibThemes(
             BibThemes,
             db.session,
-            name="Thèmes",
+            name=_l("Thèmes"),
             category="TaxHub",
             static_folder=static_folder,
         )
@@ -91,7 +92,7 @@ def load_admin_views(app, admin):
         CruvedProtectedTMediasView(
             TMedias,
             db.session,
-            name="Médias",
+            name=_l("Médias"),
             category="TaxHub",
             static_folder=static_folder,
         )

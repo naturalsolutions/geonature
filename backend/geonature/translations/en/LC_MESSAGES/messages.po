@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+msgid "Administration GeoNature"
+msgstr "GeoNature administration"
+
+msgid "Accueil"
+msgstr "Home"
+
+msgid "Retourner sur GeoNature"
+msgstr "Back to GeoNature"
+
+msgid "Type de nomenclatures"
+msgstr "Nomenclature types"
+
+msgid "Items de nomenclatures"
+msgstr "Nomenclature items"
+
+msgid "Nomenclatures"
+msgstr "Nomenclatures"
+
+msgid "Templates des notifications"
+msgstr "Notification templates"
+
+msgid "Catégories des notifications"
+msgstr "Notification categories"
+
+msgid "Méthodes de notification"
+msgstr "Notification methods"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Champs additionnels"
+msgstr "Additional fields"
+
+msgid "Applications mobiles"
+msgstr "Mobile apps"
+
+msgid "Autres"
+msgstr "Other"
+
+msgid "Modules"
+msgstr "Modules"
+
+msgid "Sans restriction"
+msgstr "No restriction"
+
+msgid "Permissions personnelles"
+msgstr "Own permissions"
+
+msgid "Permissions effectives"
+msgstr "Effective permissions"
+
+msgid "Rôle"
+msgstr "Role"
+
+msgid "Restriction(s)"
+msgstr "Restriction(s)"
+
+msgid "Objet"
+msgstr "Object"
+
+msgid "identifiant du rôle"
+msgstr "role identifier"
+
+msgid "nom du rôle"
+msgstr "role name"
+
+msgid "Date d’expiration"
+msgstr "Expiry date"
+
+msgid "Filtre sur l'appartenance des données"
+msgstr "Data ownership filter"
+
+msgid "Filtre géographique"
+msgstr "Geographic filter"
+
+msgid "Filtre taxonomique"
+msgstr "Taxonomic filter"
+
+msgid "Filtre appartenance"
+msgstr "Ownership filter"
+
+msgid "Filtre sensibilité"
+msgstr "Sensitivity filter"
+
+msgid "Nombre de permissions"
+msgstr "Number of permissions"
+
+msgid "Nombre de permissions non héritées"
+msgstr "Number of non-inherited permissions"
+
+msgid "Par groupes"
+msgstr "By group"
+
+msgid "Par utilisateurs"
+msgstr "By user"
+
+msgid "Veuillez sélectionner un utilisateur ou un groupe"
+msgstr "Please select a user or a group"
+
+msgid "Sélectionnez une ou plusieurs zones géographiques"
+msgstr "Select one or more geographic areas"
+
+msgid "Sélectionnez un ou plusieurs taxons"
+msgstr "Select one or more taxa"
+
+msgid "Si Type widget = Nomenclature"
+msgstr "If widget type = Nomenclature"
+
+msgid "Label du champ en interface"
+msgstr "Field label in the interface"
+
+msgid "Nom du champ en base de donnée"
+msgstr "Field name in the database"
+
+msgid "Identifiant en BDD de la liste (pour Type widget = taxonomy/observers)"
+msgstr "Database identifier of the list (for widget type = taxonomy/observers)"
+
+msgid "Numéro d'ordonnancement du champs (si plusieurs champs pour le même module/objet/JDD)"
+msgstr "Field order number (if several fields for the same module/object/dataset)"
+
+msgid "Module(s) auquel le champs est rattaché. *Obligatoire"
+msgstr "Module(s) the field belongs to. *Mandatory"
+
+msgid "Objet(s) auquel le champs est rattaché. *Obligatoire"
+msgstr "Object(s) the field belongs to. *Mandatory"
+
+msgid "Jeu(x) de donnés auquel le champs est rattaché"
+msgstr "Dataset(s) the field belongs to"
+
+msgid "Code application"
+msgstr "Application code"
+
+msgid "Chemin relatif de l'APK"
+msgstr "Relative path of the APK"
+
+msgid "URL externe de l'APK"
+msgstr "External URL of the APK"
+
+msgid "Nom du paquet"
+msgstr "Package name"
+
+msgid "Code de version"
+msgstr "Version code"
+
+msgid "URL documentation"
+msgstr "Documentation URL"
+
+msgid "Méthode d'envoi"
+msgstr "Sending method"
+
+msgid "Contenu du template de notification"
+msgstr "Notification template content"
+
+msgid "Champs"
+msgstr "Fields"
+
+msgid "Listes"
+msgstr "Lists"
+
+msgid "Attributs"
+msgstr "Attributes"
+
+msgid "Thèmes"
+msgstr "Themes"
+
+msgid "Médias"
+msgstr "Media"
+
+msgid "Flouter les données sensibles"
+msgstr "Blur sensitive data"
+
+msgid "Exclure les données sensibles"
+msgstr "Exclude sensitive data"
+
+msgid "Bienvenue sur l'interface d'administration de GeoNature"
+msgstr "Welcome to the GeoNature administration interface"
+
+msgid "Selectionnez un item à administrer dans la barre latérale"
+msgstr "Select an item to manage in the sidebar"

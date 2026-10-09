@@ -18,6 +18,7 @@ from geonature.core.imports.models import Destination, FieldMapping, ContentMapp
 
 from flask_admin.contrib.sqla.form import AdminModelConverter
 from flask_admin.model.form import converts
+from flask_babel import lazy_gettext as _l
 
 
 class MappingView(CruvedProtectedMixin, ModelView):
@@ -95,7 +96,7 @@ class ContentMappingView(MappingView):
 
 
 geonature_admin.add_view(
-    FieldMappingView(FieldMapping, db.session, name="Champs", category="Import")
+    FieldMappingView(FieldMapping, db.session, name=_l("Champs"), category="Import")
 )
 geonature_admin.add_view(
     ContentMappingView(ContentMapping, db.session, name="Nomenclatures", category="Import")

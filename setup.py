@@ -23,7 +23,7 @@ setuptools.setup(
         "": "backend",
     },
     package_data={
-        "geonature": ["**/templates/**/*.html"],
+        "geonature": ["**/templates/**/*.html", "translations/*/LC_MESSAGES/*.mo"],
         "geonature.tests": ["data/*.sql"],
         "geonature.migrations": ["alembic.ini", "script.py.mako", "data/**/*.sql"],
     },

@@ -30,7 +30,7 @@ from geonature.core.gn_permissions.tools import get_permissions
 from geonature.core.gn_commons.models.base import TModules
 
 from pypnusershub.db.models import User
-
+from flask_babel import lazy_gettext as _l
 
 ### Filters
 
@@ -72,7 +72,7 @@ class ScopeFilter(DynamicOptionsMixin, FilterEqual):
 
     def get_dynamic_options(self, view):
         if has_app_context():
-            yield (None, "Sans restriction")
+            yield (None, _l("Sans restriction"))
             scopes = db.session.scalars(select(PermScope)).all()
             yield from [(scope.value, scope.label) for scope in scopes]
 
@@ -255,7 +255,7 @@ def permissions_formatter(view, context, model, name):
         columns += ["Permissions"]
     else:
         return_url = url_for("permissions/user.details_view", id=model.id_role)
-        columns += ["Permissions personnelles", "Permissions effectives"]
+        columns += [_l("Permissions personnelles"), _l("Permissions effectives")]
 
     html_output += "<thead><tr>" + "".join([f"<th>{col}</th>" for col in columns]) + "</tr></thead>"
     html_output += "<tbody>"
@@ -517,20 +517,21 @@ class PermissionAdmin(CruvedProtectedMixin, ModelView):
         "expire_on",
     )
     column_labels = {
-        "role": "Rôle",
-        "filters": "Restriction(s)",
-        "object": "Objet",
-        "role.identifiant": "identifiant du rôle",
-        "role.nom_complet": "nom du rôle",
+        "role": _l("Rôle"),
+        "filters": _l("Restriction(s)"),
+        "object": _l("Objet"),
+        "role.identifiant": _l("identifiant du rôle"),
+        "role.nom_complet": _l("nom du rôle"),
         "availability": "Permission",
-        "expire_on": "Date d’expiration",
-        "scope": "Filtre sur l'appartenance des données",
+        "expire_on": _l("Date d’expiration"),
+        "scope": _l("Filtre sur l'appartenance des données"),
         "sensitivity_filter": (
-            "Flouter" if config["SYNTHESE"]["BLUR_SENSITIVE_OBSERVATIONS"] else "Exclure"
-        )
-        + " les données sensibles",
-        "areas_filter": "Filtre géographique",
-        "taxons_filter": "Filtre taxonomique",
+            _l("Flouter les données sensibles")
+            if config["SYNTHESE"]["BLUR_SENSITIVE_OBSERVATIONS"]
+            else _l("Exclure les données sensibles")
+        ),
+        "areas_filter": _l("Filtre géographique"),
+        "taxons_filter": _l("Filtre taxonomique"),
     }
     column_select_related_list = ("availability",)
     column_searchable_list = ("role.identifiant", "role.nom_complet")
@@ -542,9 +543,9 @@ class PermissionAdmin(CruvedProtectedMixin, ModelView):
         "filters": filters_formatter,
     }
     column_filters = (
-        RoleFilter(column=Permission.id_role, name="Rôle"),
+        RoleFilter(column=Permission.id_role, name=_l("Rôle")),
         ModuleFilter(column=Permission.id_module, name="Module"),
-        ObjectFilter(column=Permission.id_object, name="Objet"),
+        ObjectFilter(column=Permission.id_object, name=_l("Objet")),
         ActionFilter(column=Permission.id_action, name="Action"),
         ScopeFilter(column=Permission.scope_value, name="Scope"),
     )
@@ -597,7 +598,7 @@ class PermissionAdmin(CruvedProtectedMixin, ModelView):
                 "nom_role",
                 "prenom_role",
             ),
-            placeholder="Veuillez sélectionner un utilisateur ou un groupe",
+            placeholder=_l("Veuillez sélectionner un utilisateur ou un groupe"),
             minimum_input_length=0,
         ),
         "areas_filter": AreaAjaxModelLoader(
@@ -606,7 +607,7 @@ class PermissionAdmin(CruvedProtectedMixin, ModelView):
             model=LAreas,
             fields=(LAreas.area_name, LAreas.area_code),
             page_size=25,
-            placeholder="Sélectionnez une ou plusieurs zones géographiques",
+            placeholder=_l("Sélectionnez une ou plusieurs zones géographiques"),
             minimum_input_length=1,
         ),
         "taxons_filter": TaxrefAjaxModelLoader(
@@ -620,7 +621,7 @@ class PermissionAdmin(CruvedProtectedMixin, ModelView):
                 Taxref.nom_complet,
             ),
             page_size=25,
-            placeholder="Sélectionnez un ou plusieurs taxons",
+            placeholder=_l("Sélectionnez un ou plusieurs taxons"),
             minimum_input_length=1,
         ),
     }
@@ -666,11 +667,11 @@ class PermissionAvailableAdmin(CruvedProtectedMixin, ModelView):
 
     column_labels = {
         "scope": "Portée",
-        "object": "Objet",
-        "scope_filter": "Filtre appartenance",
-        "sensitivity_filter": "Filtre sensibilité",
-        "areas_filter": "Filtre géographique",
-        "taxons_filter": "Filtre taxonomique",
+        "object": _l("Objet"),
+        "scope_filter": _l("Filtre appartenance"),
+        "sensitivity_filter": _l("Filtre sensibilité"),
+        "areas_filter": _l("Filtre géographique"),
+        "taxons_filter": _l("Filtre taxonomique"),
     }
     column_formatters = {
         "module": lambda v, c, m, p: m.module.module_code,
@@ -707,7 +708,7 @@ class RolePermAdmin(CruvedProtectedMixin, ModelView):
         "prenom_role": "Prénom",
         "groups": "Groupes",
         "permissions": "Permissions",
-        "permissions_count": "Nombre de permissions",
+        "permissions_count": _l("Nombre de permissions"),
     }
     column_searchable_list = ("identifiant", "nom_complet")
     column_formatters = {
@@ -753,7 +754,7 @@ class UserPermAdmin(RolePermAdmin):
     )
     column_labels = {
         **RolePermAdmin.column_labels,
-        "permissions_count": "Nombre de permissions non héritées",
+        "permissions_count": _l("Nombre de permissions non héritées"),
     }
     column_details_list = (
         "identifiant",
@@ -775,7 +776,7 @@ admin.add_view(
     GroupPermAdmin(
         User,
         db.session,
-        name="Par groupes",
+        name=_l("Par groupes"),
         category="Permissions",
         endpoint="permissions/group",
     )
@@ -786,7 +787,7 @@ admin.add_view(
     UserPermAdmin(
         User,
         db.session,
-        name="Par utilisateurs",
+        name=_l("Par utilisateurs"),
         category="Permissions",
         endpoint="permissions/user",
     )

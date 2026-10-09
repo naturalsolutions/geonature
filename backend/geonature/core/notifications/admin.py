@@ -3,6 +3,7 @@ from flask_admin.contrib.sqla import ModelView
 from geonature.utils.env import DB
 from geonature.core.admin.utils import CruvedProtectedMixin
 from geonature.core.notifications.models import NotificationCategory
+from flask_babel import lazy_gettext as _l
 
 
 class NotificationTemplateAdmin(CruvedProtectedMixin, ModelView):
@@ -12,8 +13,8 @@ class NotificationTemplateAdmin(CruvedProtectedMixin, ModelView):
     column_list = ("code_category", "code_method", "content")
     column_labels = {
         "code_category": "Catégorie",
-        "code_method": "Méthode d'envoi",
-        "content": "Contenu du template de notification",
+        "code_method": _l("Méthode d'envoi"),
+        "content": _l("Contenu du template de notification"),
     }
     form_columns = ("category", "method", "content")
     form_args = {
