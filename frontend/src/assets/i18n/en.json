@@ -720,7 +720,8 @@
         "Media": "Media",
         "Zoning": "Zoning",
         "Validation": "Validation",
-        "Discussion": "Discussion"
+        "Discussion": "Discussion",
+        "Details": "Occurrence details"
       },
       "Taxonomy": {
         "TaxonomicGroup": "Taxonomic group",

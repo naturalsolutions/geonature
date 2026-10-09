@@ -714,7 +714,8 @@
         "Media": "Médias",
         "Zoning": "Zonage",
         "Validation": "Validation",
-        "Discussion": "Discussion"
+        "Discussion": "Discussion",
+        "Details": "Détail de l'occurrence"
       },
       "Taxonomy": {
         "TaxonomicGroup": "Groupe taxonomique",
