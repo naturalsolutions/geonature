@@ -1088,5 +1088,12 @@
     "ReferentialsVersion": "Referentials version:",
     "OpenSource": "Open source software developed by a",
     "Community": "community of organisations"
+  },
+
+  "PageTitle": {
+    "Synthese": "Synthesis",
+    "Metadata": "Metadata",
+    "User": "User",
+    "Notifications": "Notifications"
   }
 }
