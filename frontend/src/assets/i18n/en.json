@@ -907,7 +907,141 @@
     },
     "Messages": {
       "DeleteSuccessfully": "Import deleted",
-      "SkipContentMapping": "No nomenclature present in the provided data, proceeding to the 'Data Import' step."
+      "SkipContentMapping": "No nomenclature present in the provided data, proceeding to the 'Data Import' step.",
+      "RedirectedToLastStep": "You have been redirected to the last validated step.",
+      "DataImported": "Data imported!",
+      "PreparingData": "Preparing data",
+      "LoadingFields": "Loading fields..."
+    },
+    "Process": {
+      "Steps": {
+        "Upload": "File upload",
+        "Decode": "File configuration",
+        "FieldMapping": "Field mapping",
+        "ContentMapping": "Nomenclature mapping",
+        "ObserverMapping": "Observer mapping",
+        "Import": "Data import"
+      },
+      "Decode": {
+        "Encoding": "Encoding:",
+        "AutoDetected": "(auto-detected)",
+        "SelectEncoding": "Select an encoding",
+        "Format": "Format:",
+        "SelectFormat": "Select a format",
+        "Separator": "Separator:",
+        "Srid": "SRID of the geographic data:",
+        "SelectSrid": "Select a SRID"
+      },
+      "Check": {
+        "Start": "Start the check",
+        "Error": "Error during the check, please verify your file",
+        "InProgress": "Data checks in progress",
+        "Intro": "Before importing your data, their conformity must be checked"
+      },
+      "Summary": {
+        "Title": "Summary before import",
+        "Reports": "Reports",
+        "ImportReport": "Import report",
+        "Area": "Geographic area",
+        "Preview": "Preview of the valid observations ready to be imported",
+        "Errors": "{{ n }} error(s)",
+        "Warnings": "{{ n }} warning(s)",
+        "ExportInvalid": "Export your {{ n }} invalid observations",
+        "NoValid": "No valid {{ entity }} was found"
+      },
+      "Run": {
+        "InProgress": "Data import in progress",
+        "InProgressEllipsis": "Data import in progress...",
+        "Done": "Import completed",
+        "BackToList": "Back to the import list",
+        "ImportValid": "Import your {{ n }} valid entities",
+        "Imported": "Your {{ n }} observations have been imported",
+        "Notification": "The file is being imported into the synthesis... A notification email will be sent to you when processing ends."
+      },
+      "Ok": "OK",
+      "Footer": {
+        "CancelDelete": "Cancel and delete the import",
+        "SaveQuit": "Save and quit"
+      },
+      "Mapping": {
+        "SaveTitle": "Saving the model",
+        "NoneFound": "No predefined field mapping was found.",
+        "EditName": "Edit the import model name",
+        "CancelEditName": "Cancel editing the import model name",
+        "NameHint": "Model name",
+        "DefaultNomenclature": "Nomenclature to use for empty cells (N/A, null)",
+        "Required": "Please fill in the field \"{{ field }}\""
+      },
+      "List": {
+        "Title": "Import list",
+        "InError": "import failed",
+        "Running": "import in progress",
+        "Checking": "checks in progress",
+        "Stats": "Stats",
+        "Empty": "You have not made any import yet",
+        "ImportId": "Import ID",
+        "End": "Import end",
+        "DownloadInvalid": "Download invalid data",
+        "New": "New import"
+      }
+    },
+    "Modal": {
+      "EditTitle": "Edit",
+      "DeleteTitle": "Deletion",
+      "AreYouSure": "Are you sure you want to continue?",
+      "ConfirmAction": "Are you sure you want to perform this action?",
+      "FieldMappingChanged": "The field mapping has been modified. The previous field mapping will be deleted.",
+      "FileReplaced": "The existing file will be deleted! To replace the imported data, complete the import again.",
+      "ContentMappingChanged": "The nomenclature mapping has been modified. The previous nomenclature mapping will be deleted.",
+      "DataAlreadyImported": "Data has already been imported. If you continue, it will be deleted.",
+      "EditBody": "Edit import no. {{ id }}?",
+      "EditDoneWarning": "Warning: you are about to edit a completed import. Any change will delete the imported data until you complete the import again.",
+      "DeleteBody": "Delete this import started on {{ date }}?",
+      "DeleteDataWarning": "Warning: this will also delete the imported data."
+    },
+    "Report": {
+      "Description": "Import description",
+      "File": "File:",
+      "FileName": "File name:",
+      "SubmissionDate": "Import submission date:",
+      "Author": "Author:",
+      "Authors": "Author(s):",
+      "Srid": "SRID:",
+      "ImportedRows": "Number of imported rows:",
+      "Rows": "Number of rows:",
+      "Pdf": "PDF report",
+      "Mappings": "Mappings",
+      "TargetField": "Target field",
+      "SourceField": "Source field",
+      "ConstantValue": "Constant value",
+      "Export": "Export",
+      "SourceValue": "Source value",
+      "Nomenclature": "Nomenclature",
+      "InvalidData": "Invalid data",
+      "ErrorType": "Error type",
+      "Field": "Field",
+      "ErrorDescription": "Error description",
+      "ErrorCount": "Number of error(s)",
+      "ErrorRows": "Rows in error",
+      "WarningType": "Warning type",
+      "WarningDescription": "Warning description",
+      "WarningCount": "Number of warning(s)",
+      "WarningRows": "Rows with warnings",
+      "ConcernedRows": "Rows concerned",
+      "ExportInvalid": "Export your {{ n }} invalid rows",
+      "ImportedData": "Imported data",
+      "ImportedExtent": "Geographic extent of the imported data",
+      "ErrorReport": "Error report",
+      "Errors": "Errors",
+      "Warnings": "Warnings",
+      "Title": "Import report:",
+      "FieldsCount": "Fields ({{ n }})",
+      "NomenclaturesCount": "Nomenclatures ({{ n }} type(s))",
+      "ShowIn": "Show in {{ dest }}",
+      "SubmissionErrors": "The submission contains <b>{{ n }}</b> error(s)",
+      "SubmissionWarnings": "The submission contains <b>{{ n }}</b> warning(s)",
+      "SeeMore": "See more",
+      "SeeLess": "See less"
     }
   },
   "Releve": {
