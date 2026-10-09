@@ -44,7 +44,8 @@
     "PDFExport": "Export a PDF",
     "DownloadData": "Download data",
     "Copy": "Copy",
-    "Clear": "Clear"
+    "Clear": "Clear",
+    "Send": "Send"
   },
   "Messages": {
     "FillGeometryFirst": "Veuillez saisir un pointage sur la carte avant de remplir le formulaire"
@@ -86,7 +87,8 @@
         "LowerCase": "The password must contain at least one lowercase letter.",
         "Digit": "The password must contain at least one digit.",
         "SpecialChar": "The password must contain at least one special character."
-      }
+      },
+      "LoginExists": "The provided username already exists."
     },
     "Messages": {
       "Recovery": {
@@ -501,7 +503,8 @@
       "ShowingResults": "Showing results",
       "Of": "of",
       "PreviousPage": "Previous page",
-      "NextPage": "Next page"
+      "NextPage": "Next page",
+      "ExactMatchExists": "An organism with this name already exists: use it or enter another name"
     },
     "Statistics": {
       "OccurrencesSynthese": "Taxon(s) occurrence(s)",
@@ -544,7 +547,11 @@
       "Copied": "Copied to clipboard!",
       "DeleteSuccess": "Observation deleted successfully",
       "Pinned": "Pinned successfully",
-      "Unpinned": "Unpinned successfully"
+      "Unpinned": "Unpinned successfully",
+      "MissingGeom": "Some observations could not be displayed on the map because their aggregation grid cell is not available",
+      "LastObs": "The last {{ limit }} observations of the synthesis",
+      "NoMesh": "The selected observation is not in any grid cell - switch to 'point' mode to locate it",
+      "MapLimit": "For performance reasons, the number of displayed observations is limited to {{ nb }}"
     },
     "Errors": {
       "PeriodCompleteness": "The 'start period' and 'end period' fields must be filled if you want to search by period"
@@ -584,7 +591,16 @@
       "AdvancedFieldsSelected": "Advanced field(s) selected",
       "RedListCategory": "Red list category",
       "ProtectionStatus": "Protection status",
-      "TaxrefAttributes": "TaxRef attributes"
+      "TaxrefAttributes": "TaxRef attributes",
+      "ValidPositionTooltip": "Is the location within the known range of the taxon?",
+      "ValidAltitudeTooltip": "Is the altitude of the observation within the known altitude range of the taxon?",
+      "ValidPhenologyTooltip": "Are the date and altitude of the observation consistent with the known phenology of the taxon?",
+      "RemoveTaxon": "Remove “{{ name }}” from the search filters",
+      "TaxaCount": "taxa",
+      "AddPeriod": "Add a period",
+      "PeriodStart": "Period start",
+      "PeriodEnd": "Period end",
+      "ObserversTooltip": "To search for several observers, separate them with commas"
     },
     "FicheTaxon": {
       "Messages": {
@@ -601,6 +617,121 @@
         "default": "Default display",
         "area-aggregation": "Density of observations"
       }
+    },
+    "Loading": "Loading data (this may take a while)…",
+    "AdvancedForm": {
+      "Title": "Advanced taxonomic filters",
+      "TaxonomicRanks": "Taxonomic ranks",
+      "SearchRank": "Search a taxonomic rank (scientific name - above genus)",
+      "SearchedTaxa": "Searched taxon(s):",
+      "TaxonomicTree": "Taxonomic tree",
+      "TreeHelp": "Select one or more taxa from the taxonomic hierarchy",
+      "ResetSelection": "Reset selection",
+      "Statuses": "Statuses",
+      "RedLists": "Red lists",
+      "TaxhubAttributes": "TaxHub attributes",
+      "Group2": "INPN group 2",
+      "Group3": "INPN group 3",
+      "ValidateAndClose": "Apply and close"
+    },
+    "List": {
+      "OpenInModule": "View the observation in the data entry module",
+      "TaxonSheet": "Display the taxon sheet",
+      "DatasetSheet": "Display the dataset sheet"
+    },
+    "Download": {
+      "Title": "Download",
+      "LimitReached": "Display limit reached!",
+      "Warning": "Warning!",
+      "TooManyObs": "Your query returns too many observations to display them on the map.",
+      "OnlyLast": "After closing this window you can view <b>only</b> the last {{ nb }} observations matching your query.",
+      "ExportLimit": "You can still export the data, up to <b>{{ nb }}</b> observations, with the links below",
+      "Observations": "Download observations",
+      "Format": "{{ format }} format",
+      "Taxa": "Download taxa",
+      "Statuses": "Download statuses",
+      "Metadata": "Download metadata",
+      "StatusesButton": "Statuses",
+      "MetadataButton": "Metadata"
+    },
+    "Popup": {
+      "ObservedOn": "Observed on:",
+      "By": "By:",
+      "Undefined": "Undefined",
+      "Link": "Link to the observation"
+    },
+    "Sheets": {
+      "Indicators": {
+        "Observations": "observation(s)",
+        "Observers": "observer(s)",
+        "Municipalities": "municipality(ies)",
+        "AltitudeRange": "Altitude range",
+        "ObservationRange": "Observation range",
+        "ObservedTaxa": "observed taxon(s)",
+        "ValidObservations": "valid observation(s)*",
+        "FirstObservation": "First observation*",
+        "LastObservation": "Last observation*",
+        "ValidAltitudeRange": "Altitude range*"
+      },
+      "Tabs": {
+        "Observations": "Observations",
+        "Taxonomy": "Taxonomy",
+        "Observers": "Observers",
+        "Media": "Media",
+        "Profile": "Profile",
+        "Taxa": "Taxa"
+      },
+      "ObservationRangeLabel": "Observation range:",
+      "ObservationYear": "Observation year(s):",
+      "NoMedia": "No media",
+      "Statuses": "Statuses",
+      "Oldest": "Oldest",
+      "Newest": "Most recent",
+      "ObservationCount": "Number of observation(s)",
+      "MediaCount": "Number of media",
+      "DatasetCount": "Number of dataset(s)"
+    },
+    "DynamicFilters": {
+      "has_pin": "Is pinned",
+      "has_comment": "Has comments",
+      "has_alert": "Is reported",
+      "has_medias": "Has media",
+      "id_nomenclature_geo_object_nature": "Geographic object nature",
+      "id_nomenclature_behaviour": "Behaviour",
+      "precision": "Pointing accuracy",
+      "grp_method": "Grouping method",
+      "place_name": "Place name",
+      "id_nomenclature_grp_typ": "Grouping type",
+      "id_nomenclature_observation_status": "Observation status",
+      "id_nomenclature_obs_technique": "Observation technique",
+      "id_nomenclature_bio_condition": "Biological condition",
+      "id_nomenclature_bio_status": "Biological status",
+      "id_nomenclature_biogeo_status": "Biogeographic status",
+      "id_nomenclature_naturalness": "Naturalness",
+      "id_nomenclature_determination_method": "Determination method",
+      "id_nomenclature_exist_proof": "Proof of existence",
+      "id_nomenclature_diffusion_level": "Diffusion level",
+      "id_nomenclature_source_status": "Source status",
+      "id_nomenclature_blurring": "Blurring",
+      "id_nomenclature_life_stage": "Life stage",
+      "id_nomenclature_sex": "Sex",
+      "id_nomenclature_obj_count": "Counted object",
+      "id_nomenclature_type_count": "Count type",
+      "id_nomenclature_valid_status": "Validation status",
+      "id_nomenclature_sensitivity": "Sensitivity",
+      "id_nomenclature_info_geo_type": "Geographic information type",
+      "digital_proof": "Digital proof",
+      "reference_biblio": "Bibliographic reference",
+      "non_digital_proof": "Non-digital proof",
+      "id_digitiser": "Entered by",
+      "comment_context": "Comment (survey)",
+      "comment_description": "Comment (taxon)",
+      "determiner": "Determiner",
+      "unique_id_sinp": "Observation UUID (unique_id_sinp)",
+      "id_synthese": "ID (id_synthese)",
+      "id_import": "Import ID",
+      "id_source": "Data source",
+      "id_module": "Source module of the data"
     }
   },
   "Media": {
@@ -615,7 +746,8 @@
       "Link": "Display the media",
       "Diaporama": "Display the media",
       "Next": "View the next media",
-      "Previous": "View the previous media"
+      "Previous": "View the previous media",
+      "Cancel": "Cancel adding the media"
     },
     "Messages": {
       "loading": "Loading media"
@@ -703,6 +835,10 @@
       "Messages": {
         "MappingNotAllowed": "The mapping of observers is not allowed for this import destination.",
         "NoObserverMapping": "No field linked to observers has been mapped (or the column in the file is empty)."
+      },
+      "Actions": {
+        "EmptyMapping": "Clear",
+        "ResetMapping": "Reset"
       }
     },
     "Errors": {
