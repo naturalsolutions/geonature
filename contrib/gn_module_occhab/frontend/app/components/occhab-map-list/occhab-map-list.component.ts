@@ -12,7 +12,7 @@ import { OccHabMapListService } from '../../services/occhab-map-list.service';
 import { ModuleService } from '@geonature/services/module.service';
 import { CruvedStoreService } from '@geonature_common/service/cruved-store.service';
 import { TranslateService } from '@ngx-translate/core';
-import {ActionService} from '@geonature/services/action.service';
+import { ActionService } from '@geonature/services/action.service';
 
 @Component({
   selector: 'pnx-occhab-map-list',
@@ -44,8 +44,7 @@ export class OccHabMapListComponent implements OnInit {
     private _moduleService: ModuleService,
     public cruvedStore: CruvedStoreService,
     private translate: TranslateService,
-    private actionService: ActionService,
-
+    private actionService: ActionService
   ) {}
 
   ngOnInit() {
@@ -63,7 +62,7 @@ export class OccHabMapListComponent implements OnInit {
     this.destinationImportCode = currentModule.destination[0]?.code;
 
     if (this.storeService.firstMessageMapList) {
-      this._commonService.regularToaster('info', 'Les 50 dernières stations saisies');
+      this._commonService.translateToaster('info', 'Occhab.UI.Last50');
       this.storeService.firstMessageMapList = false;
     }
 
@@ -226,6 +225,10 @@ export class OccHabMapListComponent implements OnInit {
   }
 
   isActionAllowed(row: any, action: 'U' | 'D'): boolean {
-    return this.actionService.isActionAllowed(row.cruved, row.dataset.acquisition_framework?.opened, action);
+    return this.actionService.isActionAllowed(
+      row.cruved,
+      row.dataset.acquisition_framework?.opened,
+      action
+    );
   }
 }
