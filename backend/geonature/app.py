@@ -80,7 +80,7 @@ def get_locale():
     # otherwise try to guess the language from the user accept
     # header the browser transmits.  We support de/fr/en in this
     # example.  The best match wins.
-    return request.accept_languages.best_match(["de", "fr", "en"])
+    return request.accept_languages.best_match(["de", "fr", "en"]) or config["DEFAULT_LANGUAGE"]
 
 
 def create_app(with_external_mods=True):
@@ -189,6 +189,9 @@ def create_app(with_external_mods=True):
     admin.init_app(app)
 
     # babel
+    app.config.setdefault(
+        "BABEL_TRANSLATION_DIRECTORIES", str(Path(__file__).parent / "translations")
+    )
     babel = Babel(app, locale_selector=get_locale)
 
     # Enable serving of media files

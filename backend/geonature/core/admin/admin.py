@@ -29,6 +29,7 @@ from pypnnomenclature.admin import (
 )
 
 from .utils import CruvedProtectedMixin
+from flask_babel import lazy_gettext as _l
 
 
 class MyHomeView(AdminIndexView):
@@ -56,10 +57,10 @@ class ProtectedTNomenclaturesAdmin(
 
 ## déclaration de la page d'admin
 admin = Admin(
-    name="Administration GeoNature",
+    name=_l("Administration GeoNature"),
     theme=Bootstrap4Theme(base_template="layout.html"),
     index_view=MyHomeView(
-        name="Accueil",
+        name=_l("Accueil"),
         menu_icon_type="fa",
         menu_icon_value="fa-home",
     ),
@@ -68,7 +69,7 @@ admin = Admin(
 ## ajout des liens
 admin.add_link(
     MenuLink(
-        name="Retourner sur GeoNature",
+        name=_l("Retourner sur GeoNature"),
         url=config["URL_APPLICATION"],
         icon_type="fa",
         icon_value="fa-sign-out",
@@ -81,8 +82,8 @@ admin.add_view(
     ProtectedBibNomenclaturesTypesAdmin(
         BibNomenclaturesTypes,
         db,
-        name="Type de nomenclatures",
-        category="Nomenclatures",
+        name=_l("Type de nomenclatures"),
+        category=_l("Nomenclatures"),
     )
 )
 
@@ -90,8 +91,8 @@ admin.add_view(
     ProtectedTNomenclaturesAdmin(
         TNomenclatures,
         db,
-        name="Items de nomenclatures",
-        category="Nomenclatures",
+        name=_l("Items de nomenclatures"),
+        category=_l("Nomenclatures"),
     )
 )
 
@@ -101,8 +102,8 @@ admin.add_view(
     NotificationTemplateAdmin(
         NotificationTemplate,
         db,
-        name="Templates des notifications",
-        category="Notifications",
+        name=_l("Templates des notifications"),
+        category=_l("Notifications"),
     )
 )
 
@@ -110,8 +111,8 @@ admin.add_view(
     NotificationCategoryAdmin(
         NotificationCategory,
         db,
-        name="Catégories des notifications",
-        category="Notifications",
+        name=_l("Catégories des notifications"),
+        category=_l("Notifications"),
     )
 )
 
@@ -119,8 +120,8 @@ admin.add_view(
     NotificationMethodAdmin(
         NotificationMethod,
         db,
-        name="Méthodes de notification",
-        category="Notifications",
+        name=_l("Méthodes de notification"),
+        category=_l("Notifications"),
     )
 )
 
@@ -128,8 +129,8 @@ admin.add_view(
     BibFieldAdmin(
         TAdditionalFields,
         db,
-        name="Champs additionnels",
-        category="Autres",
+        name=_l("Champs additionnels"),
+        category=_l("Autres"),
     )
 )
 
@@ -137,8 +138,8 @@ admin.add_view(
     TMobileAppsAdmin(
         TMobileApps,
         db,
-        name="Applications mobiles",
-        category="Autres",
+        name=_l("Applications mobiles"),
+        category=_l("Autres"),
     )
 )
 
@@ -146,8 +147,8 @@ admin.add_view(
     TModulesAdmin(
         TModules,
         db,
-        name="Modules",
-        category="Autres",
+        name=_l("Modules"),
+        category=_l("Autres"),
     )
 )
 
