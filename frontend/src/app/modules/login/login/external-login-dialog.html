@@ -1,5 +1,7 @@
 <div data-qa="external-gn-connection">
-  <h1 mat-dialog-title>Se connecter au {{data.provider.label}}</h1>
+  <h1 mat-dialog-title>
+    {{ 'Authentication.ConnectToProvider' | translate: { provider: data.provider.label } }}
+  </h1>
 
   <div mat-dialog-content>
     <form
@@ -25,7 +27,7 @@
           type="password"
           name="password"
           class="form-control"
-          placeholder="Mot de passe"
+          [placeholder]="'Authentication.Password' | translate"
           ngModel
           data-qa="gn-connection-pwd"
         />
@@ -35,7 +37,7 @@
         type="submit"
         data-qa="gn-connection-button"
       >
-        Se connecter
+        {{ 'Authentication.Actions.LogIn' | translate }}
       </button>
     </form>
   </div>

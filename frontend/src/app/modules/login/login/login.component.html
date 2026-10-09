@@ -172,7 +172,7 @@
                 type="submit"
                 *ngIf="enablePublicAccess"
               >
-                Accès public
+                {{ 'Authentication.Actions.PublicAccess' | translate }}
               </button>
             </form>
           </div>
@@ -222,7 +222,7 @@
         [type]="showPassword ? 'text' : 'password'"
         name="password"
         class="form-control"
-        placeholder="Mot de passe"
+        [placeholder]="'Authentication.Password' | translate"
         ngModel
         data-qa="gn-connection-pwd"
       />

@@ -48,7 +48,8 @@
       "CreateAccount": "Créer un compte",
       "ActivateAccount": "Activer mon compte",
       "ActivateAccountValidator": "Activer le compte",
-      "Send": "Envoyer"
+      "Send": "Envoyer",
+      "PublicAccess": "Accès public"
     },
     "Errors": {
       "WrongLoginOrPassword": "Identifiant ou mot de passe incorrect",
@@ -78,7 +79,8 @@
       "HidePassword": "Masquer le mot de passe",
       "InvalidMail": "Veuillez saisir une adresse email valide."
     },
-    "OtherAuthProviders": "Autres moyens de connexion"
+    "OtherAuthProviders": "Autres moyens de connexion",
+    "ConnectToProvider": "Se connecter au {{ provider }}"
   },
   "MyAccount": {
     "MyAccount": "Mon compte",
@@ -969,5 +971,22 @@
     "ReferentialsVersion": "Version des Référentiels :",
     "OpenSource": "Logiciel open source développé par une",
     "Community": "communauté de structures"
+  },
+
+  "Toolbar": {
+    "OpenMenu": "Ouvrir le menu principal",
+    "OpenProfile": "Ouvrir le menu de mon profil",
+    "AccountSettings": "Accéder aux paramètres de mon compte",
+    "ObserverSheet": "Accéder à ma fiche observateur",
+    "Notifications": "Accéder aux notifications",
+    "LangFr": "Afficher l'interface en français",
+    "LangEn": "Afficher l'interface en Anglais",
+    "LangZh": "Afficher l'interface en Chinois",
+    "Documentation": "Ouvrir la documentation"
+  },
+
+  "Notifications": {
+    "ManageRules": "Gérer vos règles de notification",
+    "DeleteAll": "Supprimer toutes vos notifications"
   }
 }

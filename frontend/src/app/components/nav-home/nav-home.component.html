@@ -16,11 +16,11 @@
       <button
         class="mat-elevation-z1 mr-2"
         mat-icon-button
-        matTooltip="Ouvrir le menu principal"
+        [matTooltip]="'Toolbar.OpenMenu' | translate"
         (click)="closeSideBar()"
         data-qa="pnx-home-content-sidebar-open-button"
       >
-        <mat-icon aria-label="Ouvrir le menu principal">menu</mat-icon>
+        <mat-icon [attr.aria-label]="'Toolbar.OpenMenu' | translate">menu</mat-icon>
       </button>
 
       <span class="mx-2">
@@ -60,7 +60,7 @@
           <button
             class="user-button mx-1"
             mat-raised-button
-            matTooltip="Ouvrir le menu de mon profil"
+            [matTooltip]="'Toolbar.OpenProfile' | translate"
             [matMenuTriggerFor]="userMenu"
           >
             <mat-icon>person</mat-icon>
@@ -78,7 +78,7 @@
           <mat-menu #userMenu>
             <a
               mat-menu-item
-              matTooltip="Accéder aux paramètres de mon compte"
+              [matTooltip]="'Toolbar.AccountSettings' | translate"
               matTooltipPosition="before"
               routerLink="/user"
             >
@@ -87,7 +87,7 @@
             <a
               *ngIf="hasObserverSheet()"
               mat-menu-item
-              matTooltip="Accéder à ma fiche observateur"
+              [matTooltip]="'Toolbar.ObserverSheet' | translate"
               matTooltipPosition="before"
               [routerLink]="getObserverSheetUrl()"
             >
@@ -100,7 +100,7 @@
           <ng-container *ngIf="hasObserverSheet(); else userDisplay">
             <a
               class="Link"
-              matTooltip="Accéder à ma fiche observateur"
+              [matTooltip]="'Toolbar.ObserverSheet' | translate"
               [routerLink]="getObserverSheetUrl()"
             >
               <ng-container *ngTemplateOutlet="userDisplay"></ng-container>
@@ -128,7 +128,7 @@
           <a
             class="mx-2 mat-elevation-z1"
             mat-icon-button
-            matTooltip="Accéder aux notifications"
+            [matTooltip]="'Toolbar.Notifications' | translate"
             matBadge="{{ notificationNumber }}"
             matBadgeHidden="{{ notificationNumber == 0 }}"
             (click)="openNotification()"
@@ -140,7 +140,7 @@
 
       <ng-template #publicAccessUser>
         <mat-icon>accessibility_new</mat-icon>
-        <span class="user-name">Accès public</span>
+        <span class="user-name">{{ 'Authentication.Actions.PublicAccess' | translate }}</span>
       </ng-template>
 
       <ng-container *ngIf="config.FRONTEND.MULTILINGUAL">
@@ -158,7 +158,7 @@
             mat-menu-item
             (click)="changeLanguage('fr')"
             [disabled]="locale == 'fr'"
-            matTooltip="Afficher l'interface en français"
+            [matTooltip]="'Toolbar.LangFr' | translate"
             matTooltipPosition="before"
           >
             <mat-icon *ngIf="locale == 'fr'">check</mat-icon>
@@ -168,7 +168,7 @@
             mat-menu-item
             (click)="changeLanguage('en')"
             [disabled]="locale == 'en'"
-            matTooltip="Afficher l'interface en Anglais"
+            [matTooltip]="'Toolbar.LangEn' | translate"
             matTooltipPosition="before"
           >
             <mat-icon *ngIf="locale == 'en'">check</mat-icon>
@@ -178,7 +178,7 @@
             mat-menu-item
             (click)="changeLanguage('zh')"
             [disabled]="locale == 'zh'"
-            matTooltip="Afficher l'interface en Chinois"
+            [matTooltip]="'Toolbar.LangZh' | translate"
             matTooltipPosition="before"
           >
             <mat-icon *ngIf="locale == 'zh'">check</mat-icon>
@@ -190,7 +190,7 @@
       <a
         class="mx-2 mat-elevation-z1"
         mat-icon-button
-        matTooltip="Ouvrir la documentation"
+        [matTooltip]="'Toolbar.Documentation' | translate"
         [href]="currentDocUrl"
         target="_blank"
       >
