@@ -77,7 +77,7 @@ export class SyntheseInfoObsComponent implements OnInit, OnChanges {
 
   // List of tabs
   private tabs: Array<any> = [
-    { label: "Détail de l'occurrence", path: 'details' },
+    { label: 'Synthese.InfoObs.Tabs.Details', path: 'details' },
     { label: 'Synthese.InfoObs.Tabs.Metadata', path: 'metadata' },
     { label: 'Synthese.InfoObs.Tabs.Taxonomy', path: 'taxonomy' },
     { label: 'Synthese.InfoObs.Tabs.Media', path: 'media' },
