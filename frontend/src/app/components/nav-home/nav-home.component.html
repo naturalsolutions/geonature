@@ -29,7 +29,7 @@
           class="home-link"
           [routerLink]="moduleUrl"
         >
-          {{ moduleName }}
+          {{ isHome ? ('Home' | translate) : moduleName }}
         </a>
       </span>
 
