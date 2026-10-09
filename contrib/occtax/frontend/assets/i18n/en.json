@@ -9,7 +9,8 @@
         "Edit": "Edit the survey {{ id }}",
         "Delete": "Delete the  {{ id }}",
         "Validate": "Validate the survey",
-        "UnValidate": "Invalidate the survey"
+        "UnValidate": "Invalidate the survey",
+        "Update": "Edit the survey {{ id }}"
       },
       "Messages": {
         "DeleteSuccessfully": "The survey has been successfully deleted",
@@ -36,7 +37,9 @@
         "DepthError": "The maximum depth cannot be less than the minimum depth",
         "HourMaxError": "The start time cannot be later than the end time",
         "DoesNotExist": "This survey does not exist"
-      }
+      },
+      "Observer": "Observer",
+      "Observers": "Observer(s)"
     },
     "Taxon": {
       "Actions": {
