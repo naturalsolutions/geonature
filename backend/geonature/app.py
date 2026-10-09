@@ -12,7 +12,7 @@ if sys.version_info < (3, 10):
     from importlib_metadata import entry_points
 else:
     from importlib.metadata import entry_points
-from flask import Flask, g, request, current_app, send_from_directory, has_request_context
+from flask import Flask, g, request, current_app, send_from_directory
 from flask_mail import Message
 from flask_babel import Babel
 from flask_cors import CORS
@@ -73,17 +73,8 @@ if config.get("SENTRY_DSN"):
 
 
 def get_locale():
-    # if a user is logged in, use the locale from the user settings
-    user = getattr(g, "user", None)
-    if user is not None:
-        return user.locale
-    # otherwise try to guess the language from the user accept
-    # header the browser transmits.  We support de/fr/en in this
-    # example.  The best match wins.
-    # libellés paresseux évalués au démarrage, hors requête
-    if not has_request_context():
-        return config["DEFAULT_LANGUAGE"]
-    return request.accept_languages.best_match(["de", "fr", "en"]) or config["DEFAULT_LANGUAGE"]
+    # une langue par instance, comme le frontend qui applique DEFAULT_LANGUAGE
+    return config["DEFAULT_LANGUAGE"]
 
 
 def create_app(with_external_mods=True):
