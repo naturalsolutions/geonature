@@ -67,6 +67,7 @@
       "HabitatsColon": "Habitat(s):",
       "StationUuid2": "Station UUID:",
       "Abundance": "Abundance",
+      "Exposure": "Aspect",
       "Station": "Station",
       "AreaM2": "Area (m²)",
       "ValidateStation": "Validate the station",
