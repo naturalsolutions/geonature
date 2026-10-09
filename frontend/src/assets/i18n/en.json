@@ -622,5 +622,33 @@
   "Releve": {
     "InfoGeo": "Geographical information of the survey"
   },
-  "ColonCharSpaced": ": "
+  "ColonCharSpaced": ": ",
+
+  "HomePage": {
+    "LastObservations": "Last 100 observations",
+    "ExploreData": "Explore data",
+    "LastUpdate": "Last update",
+    "Discussions": "Discussions",
+    "Validations": "Validations",
+    "MyDiscussionsOnly": "My discussions only",
+    "SeeDiscussion": "See the discussion thread of synthese id: {{ id }}",
+    "SeeValidation": "See the validation details of observation: {{ id }}",
+    "CommentDate": "Comment date",
+    "Author": "Author",
+    "Content": "Content",
+    "Validator": "Validator",
+    "ValidationStatus": "Validation status",
+    "ValidationMessage": "Validation message",
+    "CitedName": "Cited name",
+    "ObservationDate": "Observation date"
+  },
+
+  "Sidenav": {
+    "MadeWith": "Made with",
+    "Version": "version",
+    "ModulesVersion": "GeoNature modules version:",
+    "ReferentialsVersion": "Referentials version:",
+    "OpenSource": "Open source software developed by a",
+    "Community": "community of organisations"
+  }
 }

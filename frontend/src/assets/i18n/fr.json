@@ -624,5 +624,33 @@
   "Releve": {
     "InfoGeo": "Information géographique du relevé"
   },
-  "ColonCharSpaced": " : "
+  "ColonCharSpaced": " : ",
+
+  "HomePage": {
+    "LastObservations": "Les 100 dernières observations",
+    "ExploreData": "Explorer les données",
+    "LastUpdate": "Dernière mise à jour",
+    "Discussions": "Discussions",
+    "Validations": "Validations",
+    "MyDiscussionsOnly": "Mes discussions uniquement",
+    "SeeDiscussion": "Voir le fil de discussion lié à la synthese id : {{ id }}",
+    "SeeValidation": "Voir les informations de validations liées à l'observation : {{ id }}",
+    "CommentDate": "Date commentaire",
+    "Author": "Auteur",
+    "Content": "Contenu",
+    "Validator": "Validateur",
+    "ValidationStatus": "Statut de validation",
+    "ValidationMessage": "Message de validation",
+    "CitedName": "Nom Cité",
+    "ObservationDate": "Date Observation"
+  },
+
+  "Sidenav": {
+    "MadeWith": "Réalisé avec",
+    "Version": "version",
+    "ModulesVersion": "Version des modules GeoNature :",
+    "ReferentialsVersion": "Version des Référentiels :",
+    "OpenSource": "Logiciel open source développé par une",
+    "Community": "communauté de structures"
+  }
 }
