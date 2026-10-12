@@ -77,7 +77,9 @@
       "All": "Toutes",
       "TechniqueRequired": "Veuillez fournir des précisions concernant la technique de collecte",
       "Cover": "Pourcentage de recouvrement",
-      "ValidateHabitat": "Valider cet habitat"
+      "ValidateHabitat": "Valider cet habitat",
+      "NoHabitat": "Aucun habitat",
+      "NoObserver": "Aucun observateurs"
     }
   }
 }

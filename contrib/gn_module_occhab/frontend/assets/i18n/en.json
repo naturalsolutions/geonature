@@ -77,7 +77,9 @@
       "All": "All",
       "TechniqueRequired": "Please give details on the collection technique",
       "Cover": "Cover percentage",
-      "ValidateHabitat": "Validate this habitat"
+      "ValidateHabitat": "Validate this habitat",
+      "NoHabitat": "No habitat",
+      "NoObserver": "No observer"
     }
   }
 }
