@@ -288,7 +288,7 @@
             </mat-tab>
 
             <mat-tab
-              label="Taxonomie"
+              [label]="'Occtax.UI.Taxonomy' | translate"
               *ngIf="occurrence.taxref"
             >
               <div class="list-values">

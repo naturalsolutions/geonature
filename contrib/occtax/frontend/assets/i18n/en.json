@@ -210,7 +210,9 @@
       "NoObserver": "No observer",
       "NoDataset": "No dataset",
       "SavingInProgress": "Saving in progress",
-      "SaveError": "An error occurred while saving"
+      "SaveError": "An error occurred while saving",
+      "LocationTab": "Location",
+      "Taxonomy": "Taxonomy"
     }
   }
 }
