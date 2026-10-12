@@ -196,7 +196,8 @@
       "CancelTaxon": "Annuler les modifications sur ce taxon",
       "EditSaveTaxon": "Modifier et enregistrer ce taxon",
       "SurveyIdFilter": "Identifiant du relevé",
-      "CloseConfirm": "Êtes-vous sûr de vouloir fermer le formulaire ?<br>Des modifications non sauvegardées seront perdues."
+      "CloseConfirm": "Êtes-vous sûr de vouloir fermer le formulaire ?<br>Des modifications non sauvegardées seront perdues.",
+      "NoObserver": "Aucun observateurs"
     }
   }
 }

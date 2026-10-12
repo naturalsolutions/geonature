@@ -197,7 +197,8 @@
       "CancelTaxon": "Cancel the changes on this taxon",
       "EditSaveTaxon": "Edit and save this taxon",
       "SurveyIdFilter": "Survey ID",
-      "CloseConfirm": "Are you sure you want to close the form?<br>Unsaved changes will be lost."
+      "CloseConfirm": "Are you sure you want to close the form?<br>Unsaved changes will be lost.",
+      "NoObserver": "No observer"
     }
   }
 }
