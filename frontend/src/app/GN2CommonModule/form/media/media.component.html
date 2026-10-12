@@ -4,6 +4,7 @@
     target="_blank"
     class="link-media float-right"
     [href]="media.href(config.API_ENDPOINT, config.MEDIA_URL)"
+    [attr.aria-label]="'Media.Actions.Link' | translate"
   >
     <mat-icon matTooltip="{{ 'Media.Actions.Link' | translate }}">link</mat-icon>
   </a>
@@ -52,16 +53,18 @@
     (click)="postMedia()"
     [disabled]="!mediaFormReadyToSend()"
     matTooltip="{{ 'Media.Actions.Valid' | translate }}"
+    [attr.aria-label]="'Media.Actions.Valid' | translate"
   >
     <mat-icon>check</mat-icon>
   </button>
 
   <button
     mat-mini-fab
-    color="primary"
+    color="warn"
     class="btn-cancel-media"
     (click)="cancel()"
     matTooltip="{{ 'Media.Actions.Cancel' | translate }}"
+    [attr.aria-label]="'Media.Actions.Cancel' | translate"
   >
     <mat-icon>close</mat-icon>
   </button>

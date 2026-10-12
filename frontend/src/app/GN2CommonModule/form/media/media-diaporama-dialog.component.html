@@ -12,6 +12,7 @@
     mat-mini-fab
     class="media-dialog__arrow media-dialog__arrow--left"
     (click)="changeMedia(-1)"
+    [attr.aria-label]="'Media.Actions.Previous' | translate"
   >
     <mat-icon matTooltip="{{ 'Media.Actions.Previous' | translate }}">keyboard_arrow_left</mat-icon>
   </button>
@@ -21,6 +22,7 @@
     mat-mini-fab
     class="media-dialog__arrow media-dialog__arrow--right"
     (click)="changeMedia(1)"
+    [attr.aria-label]="'Media.Actions.Next' | translate"
   >
     <mat-icon matTooltip="{{ 'Media.Actions.Next' | translate }}">keyboard_arrow_right</mat-icon>
   </button>

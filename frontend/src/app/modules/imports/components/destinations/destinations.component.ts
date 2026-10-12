@@ -4,6 +4,8 @@ import { Destination } from '../../models/import.model';
 import { GenericFormComponent } from '@geonature_common/form/genericForm.component';
 import { EventEmitter } from '@angular/core';
 
+let nextId = 0;
+
 @Component({
   selector: 'pnx-destinations',
   templateUrl: './destinations.component.html',
@@ -16,6 +18,8 @@ export class DestinationsComponent extends GenericFormComponent {
   @Input() displayAllowed: boolean = false; // To show only the destination for the current user
   @Input() actionCode: string = 'C'; // action_code used to filter destination
   @Output() onClear = new EventEmitter<any>();
+  // unique per instance: the list filter and the new import modal can be rendered together
+  readonly inputId = `pnx-destinations-${nextId++}`;
 
   constructor(private _ds: ImportDataService) {
     super();

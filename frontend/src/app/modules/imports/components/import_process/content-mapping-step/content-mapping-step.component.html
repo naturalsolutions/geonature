@@ -87,6 +87,7 @@
             (click)="renameMapping()"
             mat-raised-button
             [matTooltip]="'Import.Process.Mapping.EditName' | translate"
+            [attr.aria-label]="'Import.Process.Mapping.EditName' | translate"
             [disabled]="
               !createOrRenameMappingForm.valid ||
               selectMappingContentForm.value.label.trim() ==
@@ -183,14 +184,15 @@
           [hidden]="false"
           class="card field-card"
         >
-          <div
+          <button
+            type="button"
             class="field-header"
             (click)="
               targetField.value.nomenclature_type.isCollapsed =
                 !targetField.value.nomenclature_type.isCollapsed
             "
           >
-            <div class="card-title mb-0">
+            <span class="card-title mb-0">
               {{ targetField.value.nomenclature_type.label_default }}
               <i
                 matTooltip="{{ targetField.value.nomenclature_type.definition_default }} | {{
@@ -200,20 +202,22 @@
                 class="fa fa-info-circle"
                 aria-hidden="true"
               ></i>
-            </div>
+            </span>
             <i
               *ngIf="targetField.value.nomenclature_type.isCollapsed"
               class="material-icons"
+              aria-hidden="true"
             >
               keyboard_arrow_down
             </i>
             <i
               *ngIf="!targetField.value.nomenclature_type.isCollapsed"
               class="material-icons"
+              aria-hidden="true"
             >
               keyboard_arrow_up
             </i>
-          </div>
+          </button>
           <div
             [ngbCollapse]="targetField.value.nomenclature_type.isCollapsed"
             class="card-body"
@@ -265,7 +269,6 @@
           class="btn btn-secondary box-shadow d-flex justify-content-center align-content-between"
           (click)="onPreviousStep()"
           mat-raised-button
-          color="primary"
           data-qa="import-contentmapping-back-btn"
         >
           <mat-icon>navigate_before</mat-icon>
@@ -280,7 +283,7 @@
           data-qa="import-contentmapping-model-validate"
         >
           {{ 'Next' | translate }}
-          <mat-icon>navigate_next</mat-icon>
+          <mat-icon iconPositionEnd>navigate_next</mat-icon>
         </button>
       </div>
     </form>
@@ -369,7 +372,6 @@
     <button
       type="button"
       mat-raised-button
-      color="accent"
       (click)="processNextStep(); modal.close()"
       data-qa="import-contentmapping-saving-modal-cancel"
     >
@@ -446,7 +448,6 @@
     <button
       type="button"
       mat-raised-button
-      color="accent"
       (click)="modalDelete.close()"
       data-qa="import-contentmapping-selection-modal-delete-cancel"
     >

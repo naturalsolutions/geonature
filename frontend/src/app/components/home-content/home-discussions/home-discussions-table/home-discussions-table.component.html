@@ -2,6 +2,7 @@
   #table
   class="material striped margin-top-xs table-size expandable"
   [rows]="discussions"
+  columnMode="flex"
   headerHeight="50"
   footerHeight="50"
   rowHeight="100"
@@ -14,6 +15,7 @@
   (sort)="onColumnSort($event)"
 >
   <ngx-datatable-column
+    [width]="36"
     [maxWidth]="5"
     [resizeable]="false"
     [sortable]="false"
@@ -26,19 +28,20 @@
     >
       <button
         class="btn btn-outline-shadow btn-no-padding btn-ghost"
+        [attr.aria-label]="'HomePage.SeeDiscussion' | translate: { id: row.id_synthese }"
         (click)="navigateToDiscussion(row.id_synthese)"
       >
         <i
           #iElement
           [matTooltip]="'HomePage.SeeDiscussion' | translate: { id: row.id_synthese }"
           class="fa fa-info-circle"
-          aria-hidden="true "
+          aria-hidden="true"
         ></i>
       </button>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    width="150"
+    [flexGrow]="3"
     [prop]="PROP_CREATION_DATE"
     [name]="'HomePage.CommentDate' | translate"
     [sortable]="true"
@@ -53,7 +56,7 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    width="150"
+    [flexGrow]="3"
     [prop]="PROP_USER"
     [name]="'HomePage.Author' | translate"
     [sortable]="true"
@@ -69,7 +72,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column
     [prop]="PROP_CONTENT"
-    width="600"
+    [flexGrow]="8"
     height="100"
     [name]="'HomePage.Content' | translate"
     [sortable]="true"
@@ -88,7 +91,7 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column
-    width="600"
+    [flexGrow]="6"
     [prop]="PROP_OBSERVATION"
     [name]="'Observation' | translate"
     [sortable]="false"

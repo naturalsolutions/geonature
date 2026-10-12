@@ -21,11 +21,14 @@ describe('Testing homepage', () => {
         return false;
       }
     });
-    cy.get(SELECTOR_SIDEBAR).should('exist').should('be.visible');
+    // collapsed, the sidenav stays visible as an icon rail
+    cy.get(SELECTOR_SIDEBAR_OPEN_BUTTON).should('have.attr', 'aria-expanded', 'true');
+    cy.get(SELECTOR_SIDEBAR).should('be.visible').invoke('outerWidth').should('be.gt', 200);
     cy.get(SELECTOR_SIDEBAR_OPEN_BUTTON).click();
-    cy.get(SELECTOR_SIDEBAR).should('exist').should('not.be.visible');
+    cy.get(SELECTOR_SIDEBAR_OPEN_BUTTON).should('have.attr', 'aria-expanded', 'false');
+    cy.get(SELECTOR_SIDEBAR).should('be.visible').invoke('outerWidth').should('be.lt', 100);
     cy.get(SELECTOR_SIDEBAR_OPEN_BUTTON).click();
-    cy.get(SELECTOR_SIDEBAR).should('exist').should('be.visible');
+    cy.get(SELECTOR_SIDEBAR_OPEN_BUTTON).should('have.attr', 'aria-expanded', 'true');
   });
 
   it('should display synthese page and back to home', () => {

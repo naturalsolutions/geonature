@@ -208,6 +208,7 @@
                 color="primary"
                 class="Datatable__button"
                 [matTooltip]="getTooltip(row, 'U')"
+                [attr.aria-label]="getTooltip(row, 'U')"
                 [class.disabled-look]="row.processing || !isActionAllowed(row, 'U')"
                 (click)="
                   !row.processing && isActionAllowed(row, 'U')
@@ -235,6 +236,7 @@
                 color="primary"
                 (click)="downloadFileWithInvalidLine(row)"
                 [matTooltip]="'Import.Process.List.DownloadInvalid' | translate"
+                [attr.aria-label]="'Import.Process.List.DownloadInvalid' | translate"
                 [attr.data-qa]="'import-list-table-row-' + index + '-actions-csv'"
               >
                 <i
@@ -249,6 +251,7 @@
                 [class.disabled-look]="!isActionAllowed(row, 'D')"
                 (click)="isActionAllowed(row, 'D') ? openModal(deleteModal, 'D', row) : null"
                 [matTooltip]="getTooltip(row, 'D')"
+                [attr.aria-label]="getTooltip(row, 'D')"
                 [attr.data-qa]="'import-list-table-row-' + index + '-actions-delete'"
               >
                 <mat-icon>delete</mat-icon>

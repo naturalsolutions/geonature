@@ -2,13 +2,8 @@ label {
   text-align: left;
 }
 
-.btn {
-  border-color: #607d8b;
-}
-
-label:hover {
-  text-align: left;
-  color: #607d8b;
+.btn:not(.mat-mdc-button-base) {
+  border-color: var(--gn-border);
 }
 
 #modify {
@@ -69,18 +64,10 @@ label:hover {
   }
 }
 
-.status-badge {
-  border-radius: 50px;
+// dark text reads on every status color, white failed contrast on the light ones
+label.status-badge,
+button.status-badge {
+  color: var(--gn-text);
+  border-radius: var(--gn-radius);
   box-shadow: none;
-}
-
-.link-infos {
-  border: 1px solid #673ab7;
-}
-#saveButton {
-  background-color: #673ab7;
-  color: white;
-}
-#cancelStatusBtn {
-  color: #673ab7;
 }

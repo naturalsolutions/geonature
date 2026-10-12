@@ -1,5 +1,6 @@
 <small>{{ label }}</small>
 <ng-select
+  [inputAttrs]="label ? { 'aria-label': label } : {}"
   [ngClass]="class"
   [items]="labels"
   [multiple]="multiSelect"

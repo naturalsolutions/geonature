@@ -137,6 +137,8 @@
                 <a
                   href="javascript:void(0)"
                   [matTooltip]="'Occhab.UI.ToggleDetail' | translate"
+                  [attr.aria-label]="'Occhab.UI.ToggleDetail' | translate"
+                  [attr.aria-expanded]="expanded"
                   [class.datatable-icon-right]="!expanded"
                   [class.datatable-icon-down]="expanded"
                   (click)="toggleExpandRow(row)"
@@ -154,6 +156,7 @@
                 <button
                   class="btn btn-row"
                   [matTooltip]="row.id_station"
+                  [attr.aria-label]="('Occhab.UI.Infos' | translate) + ' ' + row.id_station"
                   [routerLink]="['info', row.id_station]"
                 >
                   <i
@@ -177,6 +180,7 @@
                   [routerLink]="['edit', row.id_station]"
                   [disabled]="!isActionAllowed(row, 'U')"
                   [matTooltip]="getTooltip(row, 'U')"
+                  [attr.aria-label]="getTooltip(row, 'U')"
                 >
                   <i
                     class="fa fa-pencil-square-o"
@@ -200,6 +204,7 @@
                   (click)="openDeleteModal(row, deleteModal)"
                   [disabled]="!isActionAllowed(row, 'D')"
                   [matTooltip]="getTooltip(row, 'D')"
+                  [attr.aria-label]="getTooltip(row, 'D')"
                 >
                   <i
                     class="fa fa-trash-o"
@@ -220,7 +225,7 @@
                   matTooltipPosition="left"
                 >
                   <span>
-                    <span class="badge badge-dark">{{ row.habitats?.length }}</span>
+                    <span class="badge badge-light">{{ row.habitats?.length }}</span>
                     {{ displayHabTooltip(row) }}
                   </span>
                 </span>

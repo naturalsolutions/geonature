@@ -4,12 +4,13 @@
     *ngIf="taxon"
   >
     <span *ngFor="let item of linnaeanParents">
-      <a
+      <button
+        type="button"
         class="Link"
         (click)="navigateToCDRef(item.cd_ref)"
       >
         {{ item.lb_nom }}
-      </a>
+      </button>
       /
     </span>
     <span>

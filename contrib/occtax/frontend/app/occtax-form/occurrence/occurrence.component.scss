@@ -23,7 +23,7 @@ button .mat-spinner {
 }
 
 .form-nom-complet {
-  background-color: #eee;
+  background-color: var(--gn-app-bg);
 }
 
 .blc-expansion-panel {
@@ -37,7 +37,7 @@ button .mat-spinner {
 }
 
 .btn-clear {
-  color: #d40303;
+  color: var(--gn-danger);
 }
 
 pnx-dynamic-form-releve {

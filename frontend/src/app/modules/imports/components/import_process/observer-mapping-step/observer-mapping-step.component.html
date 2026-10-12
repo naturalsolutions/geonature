@@ -4,8 +4,7 @@
       <h5>{{ 'Import.ObserverMapping.Title' | translate }}</h5>
       <div class="MappingBtn">
         <button
-          mat-flat-button
-          color="primary"
+          mat-stroked-button
           (click)="resetMapping()"
           matTooltip=""
         >
@@ -60,7 +59,6 @@
     class="btn btn-secondary box-shadow d-flex justify-content-center align-content-between"
     (click)="onPreviousStep()"
     mat-raised-button
-    color="primary"
     data-qa="import-observersmapping-back-btn"
   >
     <mat-icon>navigate_before</mat-icon>
@@ -75,6 +73,6 @@
     data-qa="import-observersmapping-model-validate"
   >
     {{ 'Next' | translate }}
-    <mat-icon>navigate_next</mat-icon>
+    <mat-icon iconPositionEnd>navigate_next</mat-icon>
   </button>
 </div>

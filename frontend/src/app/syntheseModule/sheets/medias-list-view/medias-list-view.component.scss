@@ -28,7 +28,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-width: 0;
-    border-right: 1px solid rgba(0, 0, 0, 0.125);
+    border-right: 1px solid var(--gn-divider);
 
     .List {
       overflow: auto;
@@ -38,18 +38,21 @@
       margin: 1rem;
       justify-content: start;
       &__item {
+        padding: 0;
+        border: 0;
+        background: none;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
 
         .Media {
-          color: rgba(0, 0, 0, 0.87);
+          color: var(--gn-text);
           display: flex;
           justify-content: center;
           align-items: center;
-          border: 3px solid rgba(0, 0, 0, 0.125);
-          border-radius: 8px;
+          border: 3px solid var(--gn-divider);
+          border-radius: var(--gn-radius-lg);
           --size: 7rem;
           height: var(--size);
           width: var(--size);
@@ -61,7 +64,7 @@
             border-color: rgba(0, 0, 0, 0);
           }
           &--selected {
-            border-color: var(--purple) !important;
+            border-color: var(--gn-teal-700);
           }
         }
       }

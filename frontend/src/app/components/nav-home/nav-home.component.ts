@@ -90,10 +90,17 @@ export class NavHomeComponent implements OnInit {
   }
 
   closeSideBar() {
-    this.sideNavService.sidenav.toggle();
+    this.sideNavService.toggleSideNav();
     if (this.config.NOTIFICATIONS_ENABLED == true) {
       // Update notification count to display in badge
       this.updateNotificationCount();
+    }
+  }
+
+  // Leaflet maps (trackResize) and ngx-datatable only recompute their size on window resize
+  onSidenavResized(event: TransitionEvent) {
+    if (event.propertyName === 'width' && event.target === event.currentTarget) {
+      window.dispatchEvent(new Event('resize'));
     }
   }
 

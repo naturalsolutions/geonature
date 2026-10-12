@@ -20,26 +20,16 @@
   overflow-y: auto;
 }
 
-.button-rounded {
-  border-radius: 30px;
-  box-shadow:
-    4px 5px 8px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding-right: 10px;
-  padding-left: 10px;
-  margin-left: 15px;
-}
-
 .label {
   font-weight: bold;
   display: inline-block;
-  color: rgb(70, 70, 70);
+  color: var(--gn-text);
 }
 
 .value {
   display: inline-block;
   padding-left: 5px;
-  color: #656565ba;
+  color: var(--gn-gray-strong);
 }
 
 #info-geo {
@@ -51,12 +41,10 @@
 }
 
 .occtax-info {
-  background-color: white;
+  background-color: var(--gn-surface);
+  border: 1px solid var(--gn-divider);
+  border-radius: var(--gn-radius-lg);
   padding: 10px 15px;
-  box-shadow:
-    0 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0 1px 1px 0 rgba(0, 0, 0, 0.14),
-    0 1px 3px 0 rgba(0, 0, 0, 0.12);
   height: 100%;
 }
 

@@ -51,6 +51,7 @@
       class="btn btn-light InputFieldContainer__button"
       (click)="switchInputType()"
       [matTooltip]="getTooltip()"
+      [attr.aria-label]="getTooltip()"
       [ngClass]="{
         'InputFieldContainer__button--selected': inputState == InputStackState.CONSTANT
       }"

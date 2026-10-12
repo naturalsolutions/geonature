@@ -1,5 +1,6 @@
 <small>{{ label }}</small>
 <ng-select
+  [inputAttrs]="label ? { 'aria-label': label } : {}"
   [ngClass]="null"
   [items]="values"
   [bindLabel]="keyLabel"

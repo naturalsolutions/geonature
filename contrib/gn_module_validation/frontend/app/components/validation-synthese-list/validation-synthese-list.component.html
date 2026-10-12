@@ -29,6 +29,7 @@
         <input
           type="checkbox"
           (click)="toggleSelection($event)"
+          [attr.aria-label]="'Validation.UI.ToggleAll' | translate"
           [matTooltip]="'Validation.UI.ToggleAll' | translate"
         />
       </label>
@@ -58,7 +59,6 @@
           <i class="material-icons">warning</i>
         </span>
         <span
-          [ngStyle]="{ background: 'white' }"
           *ngIf="row.last_validation && row.meta_update_date > row.last_validation.validation_date"
           class="modif_data"
         >
@@ -228,7 +228,6 @@
           container="body"
           placement="left"
           height="50px"
-          style="color: white"
         >
           {{ row.profile.score }}/3
         </mat-chip>
@@ -240,7 +239,6 @@
           [popoverTitle]="popTitle"
           container="body"
           placement="left"
-          style="color: white !important"
         >
           {{ row.profile.score }}/3
         </mat-chip>

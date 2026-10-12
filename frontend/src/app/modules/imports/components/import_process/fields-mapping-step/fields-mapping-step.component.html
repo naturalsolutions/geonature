@@ -86,7 +86,6 @@
           <button
             mat-raised-button
             (click)="onPreviousStep()"
-            color="primary"
             data-qa="import-fieldmapping-model-back-btn"
           >
             <mat-icon>navigate_before</mat-icon>
@@ -100,7 +99,7 @@
             data-qa="import-new-fieldmapping-model-validate"
           >
             {{ 'Next' | translate }}
-            <mat-icon>navigate_next</mat-icon>
+            <mat-icon iconPositionEnd>navigate_next</mat-icon>
           </button>
         </div>
       </div>
@@ -178,7 +177,6 @@
       <button
         type="button"
         mat-raised-button
-        color="accent"
         (click)="modal.close(); processNextStep()"
         data-qa="import-fieldmapping-saving-modal-cancel"
       >

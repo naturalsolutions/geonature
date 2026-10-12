@@ -19,7 +19,6 @@
         occurrenceForm.get('nom_cite').hasError('required') && taxonForm.touched && !taxonFormFocus
       "
       class="error"
-      style="color: red"
     >
       {{ 'Occtax.Taxon.Errors.NomCiteRequiredError' | translate }}
     </small>
@@ -30,7 +29,6 @@
         taxonForm.touched
       "
       class="error"
-      style="color: red"
     >
       {{ 'Occtax.Taxon.Errors.CdNomRequiredError' | translate }}
     </small>
@@ -71,7 +69,6 @@
         occurrenceForm.get('id_nomenclature_obs_technique').touched
       "
       class="error"
-      style="color: red"
       data-qa="pnx-nomenclature-meth-obs-error"
     >
       {{ 'Occtax.Taxon.Errors.TechObsRequiredError' | translate }}
@@ -96,7 +93,6 @@
         occurrenceForm.get('id_nomenclature_bio_condition').touched
       "
       class="error"
-      style="color: red"
       data-qa="pnx-nomenclature-eta-bio-error"
     >
       {{ 'Occtax.Taxon.Errors.BiologicalConditionRequiredError' | translate }}
@@ -124,7 +120,6 @@
         "
         data-qa="pnx-occtax-taxon-form-determinator-error"
         class="error"
-        style="color: red"
       >
         {{ 'Occtax.Taxon.Errors.DeterminerRequiredError' | translate }}
       </small>
@@ -147,7 +142,6 @@
           occurrenceForm.get('id_nomenclature_determination_method').touched
         "
         class="error"
-        style="color: red"
       >
         {{ 'Occtax.Taxon.Errors.DeterminationMethodRequiredError' | translate }}
       </small>
@@ -169,7 +163,6 @@
           occurrenceForm.get('id_nomenclature_bio_condition').touched
         "
         class="error"
-        style="color: red"
       >
         {{ 'Occtax.Taxon.Errors.BiologicalConditionRequiredError' | translate }}
       </small>
@@ -284,7 +277,6 @@
       <small
         *ngIf="occurrenceForm.get('digital_proof').hasError('pattern')"
         class="error"
-        style="color: red"
       >
         {{ 'Occtax.Taxon.Errors.ExistProofValidation' | translate }}
       </small>
@@ -317,7 +309,7 @@
   <div
     *ngIf="occurrenceForm.hasError('proofRequired')"
     class="error"
-    style="color: red; margin-top: -0.8rem; margin-bottom: 0.5rem; font-size: 80%; font-weight: 400"
+    style="margin-top: -0.8rem; margin-bottom: 0.5rem; font-size: 80%; font-weight: 400"
   >
     {{ 'Occtax.Taxon.Errors.NoExistProofError' | translate }}
   </div>
@@ -327,7 +319,7 @@
       occurrenceForm.get('digital_proof').hasError('proofNotNull')
     "
     class="error"
-    style="color: red; margin-top: -0.8rem; margin-bottom: 0.5rem; font-size: 80%; font-weight: 400"
+    style="margin-top: -0.8rem; margin-bottom: 0.5rem; font-size: 80%; font-weight: 400"
   >
     {{ 'Occtax.Taxon.Errors.ExistproofError' | translate }}
   </div>
@@ -361,7 +353,6 @@
 <div
   *ngIf="occurrenceForm.get('cor_counting_occtax').hasError('required')"
   class="error"
-  style="color: red"
 >
   {{ 'Occtax.Taxon.Errors.CountingRequiredError' | translate }}
 </div>
@@ -404,6 +395,7 @@
       color="primary"
       data-qa="pnx-occtax-taxon-form-add-count"
       class="btn-add-counting"
+      [attr.aria-label]="'Occtax.UI.AddCounting' | translate"
       (click)="addCounting()"
     >
       <mat-icon [matTooltip]="'Occtax.UI.AddCounting' | translate">add</mat-icon>
@@ -439,7 +431,6 @@
     <button
       class="uppercase"
       style="margin-right: 20px"
-      color="warn"
       mat-raised-button
       [matTooltip]="'Occtax.UI.CancelTaxon' | translate"
       (click)="resetOccurrenceForm()"

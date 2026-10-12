@@ -2,5 +2,5 @@ form.ng-invalid {
   border-left-style: none !important;
 }
 small {
-  color: red;
+  color: var(--gn-danger);
 }

@@ -9,6 +9,7 @@
           mat-icon-button
           (click)="isOpenable() ? openAf($event) : null"
           [matTooltip]="getTooltip()"
+          [attr.aria-label]="getTooltip()"
         >
           <mat-icon>lock_open</mat-icon>
         </button>
@@ -22,6 +23,7 @@
           [disabled]="disabled"
           (click)="openPublishModal($event)"
           [matTooltip]="getTooltip()"
+          [attr.aria-label]="getTooltip()"
         >
           <mat-icon>lock</mat-icon>
         </button>
@@ -40,6 +42,7 @@
         [class.disabled-look]="!isOpenable()"
         (click)="isOpenable() ? openAf($event) : null"
         [matTooltip]="getTooltip()"
+        [attr.aria-label]="getTooltip()"
       >
         <mat-icon class="toolbar-small-icon">lock_open</mat-icon>
       </button>
@@ -53,6 +56,7 @@
         [disabled]="disabled"
         (click)="openPublishModal($event)"
         [matTooltip]="getTooltip()"
+        [attr.aria-label]="getTooltip()"
       >
         <mat-icon class="toolbar-small-icon">lock</mat-icon>
       </button>

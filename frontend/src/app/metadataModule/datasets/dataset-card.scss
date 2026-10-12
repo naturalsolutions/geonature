@@ -18,6 +18,16 @@
   cursor: pointer;
 }
 
+// button reset: keeps the look of the former link without href
+.source-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
 .icon-small {
   width: 16px !important;
   height: 16px !important;
@@ -59,28 +69,12 @@ div.c {
 }
 
 .card {
-  position: relative;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid #edf2f9;
-  border-radius: 0.5rem;
   margin-bottom: 1.5rem;
-  border-color: #edf2f9;
-  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
 }
 
 .card-header {
   padding: 1rem 1.5rem;
   margin-bottom: 0;
-  background-color: transparent;
-  border-bottom: 1px solid #edf2f9;
 }
 
 #imgRapport {
@@ -107,7 +101,7 @@ div.c {
 }
 
 .alert-actor {
-  color: #cc2424;
+  color: var(--gn-danger);
 }
 
 .alert-actor mat-icon {

@@ -2,9 +2,9 @@
   margin-top: 25%;
 }
 
+// floating card over the background photo
 .panel-signin {
-  color: #ced4da;
-  background-color: #1d21249e;
+  box-shadow: var(--gn-shadow-overlay);
 }
 
 mat-dialog-content {
@@ -12,25 +12,12 @@ mat-dialog-content {
 }
 
 .panel-heading {
-  background-color: transparent;
-  color: white;
-  //font-weight: 600;
-  letter-spacing: 0.1rem;
   text-align: center;
-  border-bottom: 1px solid #17c001;
 }
 
 .form-control {
-  color: #ced4da;
-  background-color: #1d21249e;
-  border: 1px solid #55585a;
   position: relative;
   padding-left: 32px !important;
-  border-radius: 0px !important;
-}
-
-.form-control:focus {
-  box-shadow: 0.5px -0.5px 0.5px 0.2rem rgba(98, 255, 0, 0.15) !important;
 }
 
 #externalLoginForm {
@@ -38,7 +25,7 @@ mat-dialog-content {
 }
 
 .addon {
-  color: #55585a;
+  color: var(--gn-gray);
   position: absolute;
   top: 14px;
   left: 14px;
@@ -52,28 +39,8 @@ mat-dialog-content {
 
 .btn {
   font-size: 90%;
-  border-radius: 0px;
-  letter-spacing: 0.1rem;
   font-weight: 600;
   padding: 0.8rem;
-  transition: all 0.2s;
-}
-
-.btn-success {
-  color: #fff;
-  background-color: #17c001;
-  border-color: #17c001;
-}
-
-.btn-success:hover {
-  background-color: #14af00;
-  border-color: #14af00;
-}
-
-.alert-danger {
-  color: white;
-  border-color: red;
-  background-color: transparent;
 }
 
 #login-body {
@@ -84,38 +51,19 @@ mat-dialog-content {
 form.ng-invalid {
   border-left-style: none !important;
 }
-small {
-  color: red;
-}
-
-.inscription,
-.external_link {
-  color: #fff;
-}
-
 .forgot {
-  color: #eee;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gn-teal-700);
   font-size: 0.8rem;
   margin-top: -10px;
   margin-bottom: 10px;
   cursor: pointer;
 }
-.forgot:hover,
-.external_link:hover {
+.forgot:hover {
   text-decoration: underline;
-}
-
-.inscription a,
-.forgot-password a,
-.external_link a {
-  color: inherit;
-}
-
-.mat-mini-fab {
-  background-color: #ddd !important;
-}
-.mat-mini-fab:hover {
-  background-color: #aaa !important;
 }
 
 .mat-stepper-horizontal {
@@ -167,13 +115,13 @@ i.loader .mat-spinner {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #55585a;
+  color: var(--gn-gray);
   transition: color 0.2s;
   z-index: 10;
 }
 
 .password-toggle-btn:hover {
-  color: #ced4da;
+  color: var(--gn-text);
 }
 
 .password-toggle-btn:focus {

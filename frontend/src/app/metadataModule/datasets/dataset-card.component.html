@@ -40,6 +40,7 @@
                 mat-mini-fab
                 color="primary"
                 matTooltip="{{ 'MetaData.Actions.EditDataset' | translate }}"
+                [attr.aria-label]="'MetaData.Actions.EditDataset' | translate"
                 class="ml-2"
               >
                 <mat-icon>create</mat-icon>
@@ -52,6 +53,7 @@
                 (click)="deleteDataset(dataset)"
                 class="ml-2"
                 matTooltip="{{ 'MetaData.Actions.DeleteDataset' | translate }}"
+                [attr.aria-label]="'MetaData.Actions.DeleteDataset' | translate"
               >
                 <mat-icon
                   *ngIf="nbObservations > 0; else elseblock"
@@ -88,6 +90,7 @@
                   <img
                     src="./assets/images/Taxon_icon.svg"
                     width="60"
+                    alt=""
                   />
                 </div>
               </div>
@@ -112,6 +115,7 @@
                   <img
                     src="./assets/images/Donnee_icon.svg"
                     width="64"
+                    alt=""
                   />
                 </div>
               </div>
@@ -364,14 +368,15 @@
               let-row="row"
               ngx-datatable-cell-template
             >
-              <a
+              <button
+                type="button"
                 (click)="_router.navigate([row.module_url])"
-                class="cursor-wait"
+                class="cursor-wait source-link"
                 *ngIf="row.module_url; else elseBlock"
               >
                 {{ row.name_source }}
                 <mat-icon class="icon-small">open_in_new</mat-icon>
-              </a>
+              </button>
               <ng-template #elseBlock>{{ row.name_source }}</ng-template>
             </ng-template>
           </ngx-datatable-column>
@@ -548,13 +553,14 @@
               <img
                 src="./assets/images/Taxon_icon_vert.svg"
                 width="64"
+                alt=""
               />
             </div>
             <div class="col">
               <div>
                 <a
                   [routerLink]="['/metadata/af_detail', dataset.id_acquisition_framework]"
-                  style="color: black"
+                  class="link-dark"
                 >
                   {{ dataset.acquisition_framework.acquisition_framework_name }}
                 </a>

@@ -1,5 +1,11 @@
 .form {
-  background-color: white;
+  background-color: var(--gn-surface);
   padding-bottom: 5px;
   margin-bottom: 5px;
+}
+
+// fields share the row and wrap instead of truncating dates and placeholders
+.form > div[class*='col-'] {
+  flex: 1 0 9.5rem;
+  max-width: 14rem;
 }

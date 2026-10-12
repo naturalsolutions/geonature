@@ -15,22 +15,14 @@
   .entities-tab {
     display: flex;
     flex-flow: column;
-    border: silver solid 1px;
-    border-radius: 4px;
+    border: 1px solid var(--gn-divider);
+    border-radius: var(--gn-radius);
 
     &__tab {
       display: flex;
       flex-flow: column;
       row-gap: 2rem;
       padding: 1rem;
-    }
-
-    mat-tab-header {
-      border-bottom: 1px solid #673ab722;
-    }
-
-    .mdc-tab__text-label {
-      text-transform: uppercase;
     }
 
     .entity-tab-label {
@@ -62,10 +54,11 @@
   }
 }
 
-.mat-expansion-panel {
-  background-color: #fff3cd;
-  color: #856404;
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  background-color: var(--gn-warning-bg);
+  color: var(--gn-text);
+  box-shadow: none;
   span {
-    color: #666;
+    color: var(--gn-gray-strong);
   }
 }

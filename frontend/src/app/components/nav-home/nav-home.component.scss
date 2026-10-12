@@ -1,20 +1,69 @@
 .sidenav-container {
+  --gn-sidenav-width: 240px;
   height: 100%;
 
+  &--rail {
+    --gn-sidenav-width: 64px;
+  }
+
   #app-sidenav {
-    width: 220px;
-    min-width: 65px;
+    width: var(--gn-sidenav-width);
+    border-right: 1px solid var(--gn-divider);
+    transition: width 180ms ease;
+
+    ::ng-deep .mat-drawer-inner-container {
+      overflow-x: hidden;
+    }
+  }
+
+  // Material sets the content margin inline when the drawer opens, not when its width changes
+  > mat-sidenav-content {
+    margin-left: var(--gn-sidenav-width) !important;
+    transition: margin-left 180ms ease;
   }
 }
+
+// small screens: the collapsed sidenav hides entirely, as before, rather than narrowing the content
+@media (max-width: 599.98px) {
+  .sidenav-container--rail {
+    --gn-sidenav-width: 0px;
+
+    #app-sidenav {
+      visibility: hidden;
+    }
+  }
+}
+
 #app-toolbar {
-  [mat-raised-button],
+  background-color: var(--gn-surface);
+  // narrow screens: wraps on a second line instead of overflowing the viewport
+  height: auto;
+  min-height: 64px;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+
   [mat-icon-button] {
-    background-color: white !important;
-    outline: none;
+    color: var(--gn-text);
+
+    &:hover {
+      background-color: var(--gn-hover);
+    }
   }
   .user-button {
     height: 40px;
     text-align: start;
+    color: var(--gn-text);
+    background-color: transparent;
+    border: 0;
+
+    &:hover {
+      background-color: var(--gn-hover);
+    }
+    .mat-icon {
+      color: var(--gn-teal-700);
+    }
   }
   .user-info {
     display: flex;
@@ -30,31 +79,32 @@
       text-overflow: ellipsis;
     }
     &__name {
-      font-size: 15px;
+      font-size: 0.9375rem;
+      font-weight: 600;
       padding-right: 0.5rem;
     }
     &__organism {
-      font-size: 0.8em;
-      color: inherit;
-      opacity: 0.5;
+      font-size: 0.8125rem;
+      color: var(--gn-gray);
     }
   }
-  #documentation_link {
-    color: black !important;
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
   }
 }
 
 .home-link {
   text-decoration: none;
-  color: black;
+  color: var(--gn-text);
+  font-weight: 600;
 }
 #logo-structure {
   max-height: 60px;
 }
 
 .Link {
-  color: var(--purple);
-  filter: brightness(70%);
+  color: var(--gn-teal-700);
 }
 
 .UserDisplay {

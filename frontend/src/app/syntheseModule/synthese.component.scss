@@ -11,7 +11,7 @@
   display: flex;
   width: 100%;
   align-items: stretch;
-  background-color: white;
+  background-color: var(--gn-surface);
 }
 
 @media (min-width: 1000px) {
@@ -47,12 +47,13 @@
   height: 50px;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  background-color: white;
-}
-.btn-toogle-sidenav:focus {
-  box-shadow:
-    4px 5px 8px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  border: 1px solid var(--gn-border);
+  border-left: 0;
+  background-color: var(--gn-surface);
+  color: var(--gn-text);
+  &:hover {
+    background-color: var(--gn-hover);
+  }
 }
 #sidebar.active .btn-toogle-sidenav {
   left: 0;

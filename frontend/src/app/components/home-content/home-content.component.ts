@@ -61,7 +61,7 @@ export class HomeContentComponent implements OnInit, AfterViewInit {
 
     this.getI18nLocale();
 
-    this._SideNavService.sidenav.open();
+    this._SideNavService.open();
 
     if (this.showGeneralStat) {
       this.computeStatsBloc();

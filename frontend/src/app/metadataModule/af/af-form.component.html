@@ -20,6 +20,7 @@
           <div>
             <small>{{ 'Name' | translate }}</small>
             <input
+              [attr.aria-label]="'Name' | translate"
               class="form-control form-control-sm"
               type="text"
               data-qa="pnx-metadata-af-form-name"
@@ -30,6 +31,7 @@
           <div>
             <small>{{ 'Description' | translate }}</small>
             <textarea
+              [attr.aria-label]="'Description' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('acquisition_framework_desc')"
@@ -43,6 +45,7 @@
               <mat-icon [matTooltip]="'MetaData.UI.KeywordsHelp' | translate">info</mat-icon>
             </small>
             <input
+              [attr.aria-label]="'MetaData.UI.Keywords' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('keywords')"
@@ -54,6 +57,7 @@
             <input
               [formControl]="form.get('is_parent')"
               type="checkbox"
+              [attr.aria-label]="'MetaData.UI.IsParentAf' | translate"
             />
             <small>{{ 'MetaData.UI.IsParentAf' | translate }}</small>
           </div>
@@ -61,6 +65,7 @@
           <div>
             <small>{{ 'MetaData.UI.ParentAf' | translate }}</small>
             <select
+              [attr.aria-label]="'MetaData.UI.ParentAf' | translate"
               class="form-control form-control-sm"
               [formControl]="form.get('acquisition_framework_parent_id')"
             >
@@ -94,6 +99,7 @@
           <div>
             <small>{{ 'MetaData.UI.TerritoryDetails' | translate }}</small>
             <textarea
+              [attr.aria-label]="'MetaData.UI.TerritoryDetails' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('territory_desc')"
@@ -132,6 +138,7 @@
               <mat-icon [matTooltip]="'MetaData.UI.TargetsHelp' | translate">info</mat-icon>
             </small>
             <input
+              [attr.aria-label]="'MetaData.UI.Targets' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('ecologic_or_geologic_target')"
@@ -141,6 +148,7 @@
           <div>
             <small>{{ 'MetaData.UI.TargetDescription' | translate }}</small>
             <textarea
+              [attr.aria-label]="'MetaData.UI.TargetDescription' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('target_description')"
@@ -177,7 +185,6 @@
           <small
             *ngIf="form.errors?.invalidDate"
             class="error"
-            style="color: red"
           >
             {{ 'Errors.DatesReversed' | translate }}
           </small>
@@ -332,6 +339,7 @@
             mat-mini-fab
             color="primary"
             [matTooltip]="'MetaData.UI.AddActor' | translate"
+            [attr.aria-label]="'MetaData.UI.AddActor' | translate"
             (click)="addContact(afFormS.actors, false)"
             [disabled]="!afFormS.actors.valid"
           >

@@ -49,6 +49,7 @@
                 <button
                   mat-icon-button
                   class="btn-edit"
+                  [attr.aria-label]="'Occtax.UI.EditTaxonTooltip' | translate"
                   (click)="editOccurrence(occurrence)"
                 >
                   <mat-icon [matTooltip]="'Occtax.UI.EditTaxonTooltip' | translate">edit</mat-icon>
@@ -57,6 +58,7 @@
                   *ngIf="(occtaxTaxaListService.occurrences$ | async)?.length != 1 || i != 0"
                   mat-icon-button
                   class="btn-clear"
+                  [attr.aria-label]="'Occtax.UI.DeleteTaxonTooltip' | translate"
                   (click)="deleteOccurrence(occurrence)"
                 >
                   <mat-icon [matTooltip]="'Occtax.UI.DeleteTaxonTooltip' | translate">

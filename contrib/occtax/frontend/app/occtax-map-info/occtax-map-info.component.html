@@ -26,6 +26,7 @@
                     <button
                       mat-mini-fab
                       [matTooltip]="getTooltip('D')"
+                      [attr.aria-label]="getTooltip('D')"
                       color="warn"
                       class="float-right"
                       [class.disabled-look]="!isActionAllowed('D')"
@@ -37,6 +38,7 @@
                       mat-mini-fab
                       color="primary"
                       [matTooltip]="getTooltip('U')"
+                      [attr.aria-label]="getTooltip('U')"
                       class="float-right mr-2"
                       (click)="isActionAllowed('U') ? goToEdit(id) : null"
                       [class.disabled-look]="!isActionAllowed('U')"

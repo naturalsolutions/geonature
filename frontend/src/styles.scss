@@ -1,9 +1,6 @@
 @import 'conf/names_variables.scss';
+@import 'theme/tokens';
 @import 'material-icons/iconfont/material-icons.css';
-
-:root {
-  --green: green;
-}
 
 html,
 body,
@@ -12,12 +9,11 @@ mat-sidenav-container {
   margin: 0;
   width: 100%;
   height: 100%;
-  font-size: clamp(10px, 1vw, 20px);
 }
 
 mat-sidenav-content {
   height: 100%;
-  background-color: $solitude;
+  background-color: $app-bg;
 }
 
 .cdk-overlay-container {
@@ -25,11 +21,11 @@ mat-sidenav-content {
 }
 
 .purple {
-  color: #673ab7;
+  color: $teal-700;
 }
 
 .button-success {
-  background-color: #389938 !important;
+  background-color: $teal-800 !important;
   color: white !important;
 }
 
@@ -48,16 +44,15 @@ button.disabled-look {
 }
 
 .button-success:disabled {
-  background-color: #38993850 !important;
+  background-color: $divider !important;
+  color: $gray-strong !important;
 }
 
 .mat-toolbar {
   //min-height: 5vh !important;
   min-height: 40px !important;
-  box-shadow:
-    0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  background-color: $surface;
+  border-bottom: 1px solid $divider;
 }
 .mat-toolbar-row {
   //height: 5vh !important;
@@ -138,7 +133,7 @@ md-sidenav-layout ::ng-deep .md-sidenav-content {
 }
 
 .red {
-  color: red;
+  color: $danger;
 }
 
 #map {
@@ -146,7 +141,7 @@ md-sidenav-layout ::ng-deep .md-sidenav-content {
 }
 
 .underlined {
-  border-bottom: 2px solid black !important;
+  border-bottom: 2px solid $teal !important;
   display: inline-block;
   padding-bottom: 10px;
   padding-top: 5px;
@@ -159,11 +154,11 @@ md-sidenav-layout ::ng-deep .md-sidenav-content {
 }
 
 .underlined.main-color {
-  border-bottom-color: $main-color !important;
+  border-bottom-color: $teal !important;
 }
 
 .underlined.second-color {
-  border-bottom-color: $second-color !important;
+  border-bottom-color: $divider !important;
 }
 
 footer {
@@ -187,15 +182,15 @@ footer {
 }
 
 .error {
-  color: red;
+  color: $danger;
 }
 
 .warning {
-  color: orange;
+  color: $warning;
 }
 
 .success {
-  color: var(--green);
+  color: $success;
 }
 
 .btn-no-padding {
@@ -208,8 +203,7 @@ footer {
 }
 
 .btn-action {
-  font-weight: bold;
-  border-radius: 20px;
+  font-weight: 600;
 }
 
 .input-sm {
@@ -253,32 +247,6 @@ li.no-bullet {
   font-size: 13px;
 }
 
-.btn-outline-shadow:hover {
-  color: #292b2c;
-  background-color: #e6e6e6;
-  border-color: #adadad;
-}
-
-.btn-outline-shadow {
-  color: #292b2c !important;
-  background-color: #fff;
-  border-color: #ccc;
-}
-
-.btn-outline-shadow.active,
-.btn-outline-shadow:active,
-.show > btn-outline-shadow.dropdown-toggle {
-  color: #292b2c;
-  background-color: #e6e6e6;
-  background-image: none;
-  border-color: #adadad;
-}
-
-.btn-outline-shadow.focus,
-.btn-outline-shadow:focus {
-  box-shadow: 0 0 0 2px hsla(0, 0%, 80%, 0.5);
-}
-
 .btn-row {
   border: none;
   padding: 0;
@@ -291,20 +259,14 @@ li.no-bullet {
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
-    color: #6c757d;
+    color: $gray-strong;
   }
 }
 
-.box-shadow {
-  box-shadow:
-    4px 5px 8px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
+// ombres réservées aux overlays
+.box-shadow,
 .hard-shadow {
-  box-shadow:
-    4px 5px 8px 0 rgba(0, 0, 0, 0.49),
-    7px 6px 20px 0 rgba(0, 0, 0, 0.41) !important;
+  box-shadow: none;
 }
 
 .disabled {
@@ -322,7 +284,7 @@ li.no-bullet {
 .form-control.ng-invalid,
 ng-select.ng-invalid .ng-select-container,
 .mdc-text-field--invalid {
-  border-left: 5px solid #ff0000 !important;
+  border-left: 3px solid $danger !important;
 }
 
 .no-box-shadow {
@@ -335,10 +297,9 @@ ng-select.ng-invalid .ng-select-container,
 }
 .panel {
   margin-bottom: 20px;
-  background-color: #fff;
-  border: 1px solid transparent;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  background-color: $surface;
+  border: 1px solid $divider;
+  border-radius: $radius-lg;
 }
 
 .no-padding {
@@ -353,31 +314,34 @@ ng-select.ng-invalid .ng-select-container,
   border-radius: 0;
   background: none;
   text-align: center;
-  color: #333;
+  color: $text;
 }
 
-.uppercase {
+// buttons stay in sentence case, capitals are kept for titles
+.uppercase:not(.btn):not(.mat-mdc-button-base) {
   text-transform: uppercase;
 }
 
 .panel-widget .text-muted {
   margin-top: -6px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.8em;
+  letter-spacing: 0.04em;
+  color: $gray !important; // Bootstrap met .text-muted en !important
 }
 
 .panel-widget .large {
-  color: #373b45;
-  font-size: 3em;
+  color: $text;
+  font-size: 2.5em;
+  font-weight: 500;
 }
 
 .panel-heading {
   padding: 10px 15px;
   border-bottom: 1px solid transparent;
-  font-size: clamp(14px, 1.4vw, 32px);
-  font-weight: 300;
-  letter-spacing: 0.025em;
+  @include title-caps;
+  font-size: 1rem;
   // height: 60px;
   line-height: 38px;
 }
@@ -394,9 +358,8 @@ ng-select.ng-invalid .ng-select-container,
 }
 
 .title-spaced {
-  font-size: 20px;
-  font-weight: 300;
-  letter-spacing: 0.025em;
+  @include title-caps;
+  font-size: 1rem;
   height: 60px;
   line-height: 38px;
 }
@@ -413,18 +376,18 @@ ng-select.ng-invalid .ng-select-container,
 }
 
 .panel-default .panel-heading {
-  background: #fff;
-  border-bottom: 1px solid #e9ecf2;
-  color: #444444;
+  background: $surface;
+  border-bottom: 1px solid $divider;
+  color: $text;
 }
 
 .panel-default > .panel-heading {
-  color: #333;
-  border-color: #ddd;
+  color: $text;
+  border-color: $divider;
 }
 
 .text-muted {
-  color: #c5c7cc;
+  color: $gray;
 }
 
 .fa-xl {
@@ -436,19 +399,19 @@ ng-select.ng-invalid .ng-select-container,
 }
 
 .color-blue {
-  color: #30a5ff;
+  color: $teal-700;
 }
 
 .color-orange {
-  color: #ffb53e;
+  color: $teal-700;
 }
 
 .color-teal {
-  color: #1ebfae;
+  color: $teal-700;
 }
 
 .color-red {
-  color: #f9243f;
+  color: $teal-700;
 }
 
 .float-right {
@@ -520,7 +483,7 @@ pnx-root:empty + #cover-spin-removable {
   width: 40px;
   height: 40px;
   border-style: solid;
-  border-color: black;
+  border-color: $teal-700;
   border-top-color: transparent;
   border-width: 4px;
   border-radius: 50%;
@@ -566,7 +529,9 @@ pnx-root:empty + #cover-spin-removable {
   font-size: 13px;
 }
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
-  background-color: #64b5f6;
+  background-color: $teal-50;
+  border: 1px solid $teal-200;
+  color: $teal-900;
 }
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon {
   font-weight: bolder;
@@ -576,8 +541,8 @@ pnx-root:empty + #cover-spin-removable {
   .ng-value-container
   .ng-value
   .ng-value-icon:hover {
-  color: white;
-  background-color: #64b5f6;
+  color: $teal-900;
+  background-color: $teal-100;
 }
 .ng-select.ng-select-multiple
   .ng-select-container
@@ -613,7 +578,7 @@ ngb-modal-backdrop {
   display: none;
 }
 :root {
-  --mdc-typography-button-font-size: clamp(8px, 0.8vw, 18px);
+  --mdc-typography-button-font-size: 0.875rem;
 }
 
 .cdk-overlay-pane {
@@ -628,11 +593,11 @@ ngb-modal-backdrop {
 }
 
 .link-dark {
-  color: black;
+  color: $text;
 }
 
 .link-dark:hover {
-  color: #666;
+  color: $teal-800;
 }
 
 // To avoid unreadable tooltips when the text is too long
@@ -643,6 +608,6 @@ ngb-modal-backdrop {
 }
 
 .success-btn {
-  background-color: var(--green) !important;
+  background-color: $teal-800 !important;
   color: white !important;
 }

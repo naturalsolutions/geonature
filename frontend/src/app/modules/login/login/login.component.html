@@ -20,6 +20,7 @@
                 <button
                   mat-mini-fab
                   (click)="login_or_pass_recovery = false; errorMsg = ''"
+                  [attr.aria-label]="'Back' | translate"
                 >
                   <mat-icon>arrow_back</mat-icon>
                 </button>
@@ -90,11 +91,11 @@
               <ng-template #logPwdRecoBlock>
                 <ng-container *ngIf="login_or_pass_recovery">
                   <div>
-                    <small style="color: white !important">
+                    <small>
                       {{ 'Authentication.Messages.Recovery.MailAsked' | translate }}
                     </small>
                     <br />
-                    <small style="color: white !important">
+                    <small>
                       {{ 'Authentication.Messages.Recovery.Process' | translate }}
                     </small>
                   </div>
@@ -104,7 +105,10 @@
                     #identifiantForm="ngForm"
                   >
                     <div class="form-group">
-                      <i class="addon fa fa-envelope-o"></i>
+                      <i
+                        class="addon fa fa-envelope-o"
+                        aria-hidden="true"
+                      ></i>
                       <input
                         type="email"
                         id="email"
@@ -203,7 +207,10 @@
     #userForm="ngForm"
   >
     <div class="form-group">
-      <i class="addon fa fa-user"></i>
+      <i
+        class="addon fa fa-user"
+        aria-hidden="true"
+      ></i>
       <input
         type="text"
         id="login"
@@ -216,7 +223,10 @@
       />
     </div>
     <div class="form-group password-field">
-      <i class="addon fa fa-lock"></i>
+      <i
+        class="addon fa fa-lock"
+        aria-hidden="true"
+      ></i>
       <input
         #password
         [type]="showPassword ? 'text' : 'password'"
@@ -246,13 +256,14 @@
         <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     </div>
-    <div
+    <button
+      type="button"
       *ngIf="enable_user_management"
       class="forgot"
       (click)="login_or_pass_recovery = true; _authService.loginError = false"
     >
       {{ 'Authentication.Messages.Recovery.ForgotPasswordOrLogin' | translate }}
-    </div>
+    </button>
 
     <button
       class="btn btn-lg btn-success btn-block text-uppercase"

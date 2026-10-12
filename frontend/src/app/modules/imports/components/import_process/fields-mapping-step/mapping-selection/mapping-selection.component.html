@@ -78,6 +78,7 @@
         (click)="renameMapping()"
         mat-raised-button
         [matTooltip]="'Import.Process.Mapping.EditName' | translate"
+        [attr.aria-label]="'Import.Process.Mapping.EditName' | translate"
         [disabled]="
           !createOrRenameMappingForm.valid ||
           fieldMappingForm.value.label.trim() == this.createOrRenameMappingForm.value.trim()
@@ -116,7 +117,6 @@
     <button
       type="button"
       mat-raised-button
-      color="accent"
       (click)="modalDelete.close()"
       data-qa="import-fieldmapping-selection-modal-delete-cancel"
     >

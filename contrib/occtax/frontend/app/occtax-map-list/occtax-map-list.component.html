@@ -159,16 +159,20 @@
             [canAutoResize]="false"
           >
             <ng-template ngx-datatable-header-template>
-              <i
+              <button
+                type="button"
                 id="dropdownMenuButton"
-                class="fa fa-cog clickable"
-                aria-hidden="true"
+                class="icon-btn"
                 data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+                [attr.aria-label]="'Columns' | translate"
                 matTooltip="{{ 'Columns' | translate }}"
                 (click)="openModalCol($event, modalCol)"
-              ></i>
+              >
+                <i
+                  class="fa fa-cog"
+                  aria-hidden="true"
+                ></i>
+              </button>
             </ng-template>
             <ng-template
               ngx-datatable-cell-template
@@ -178,6 +182,8 @@
               <a
                 href="javascript:void(0)"
                 [matTooltip]="'Occtax.UI.ToggleDetail' | translate"
+                [attr.aria-label]="'Occtax.UI.ToggleDetail' | translate"
+                [attr.aria-expanded]="expanded"
                 [class.datatable-icon-right]="!expanded"
                 [class.datatable-icon-down]="expanded"
                 (click)="toggleExpandRow(row)"
@@ -197,6 +203,7 @@
                 [routerLink]="['form/releve', row.id_releve_occtax]"
                 [disabled]="!isActionAllowed(row, 'U')"
                 [matTooltip]="getTooltip(row, 'U')"
+                [attr.aria-label]="getTooltip(row, 'U')"
                 data-qa="edit-releve"
               >
                 <i
@@ -217,6 +224,7 @@
                 [matTooltip]="row.id_station"
                 [routerLink]="['info', row.id_releve_occtax]"
                 [disabled]="!row.rights.R"
+                [attr.aria-label]="('Occtax.Releve.Info' | translate) + ' ' + row.id_releve_occtax"
               >
                 <i
                   matTooltip="{{ 'Occtax.Releve.Info' | translate }} {{ row.id_releve_occtax }}"
@@ -237,6 +245,7 @@
                 class="btn btn-row"
                 [disabled]="!isActionAllowed(row, 'D')"
                 [matTooltip]="getTooltip(row, 'D')"
+                [attr.aria-label]="getTooltip(row, 'D')"
                 (click)="openDeleteModal($event, modalConfirm, iElement, row)"
                 data-qa="pnx-occtax-delete-taxa"
               >
@@ -295,7 +304,7 @@
                     matTooltipClass="mat-tooltip"
                   >
                     <span>
-                      <span class="badge badge-dark">
+                      <span class="badge badge-light">
                         {{ row.t_occurrences_occtax?.length || '0' }}
                       </span>
                       {{ displayTaxons(row).join(', ') || ('Occtax.UI.NoTaxon' | translate) }}

@@ -578,7 +578,8 @@
       "ChangeValidStatus": "Modifier le statut de validation",
       "RedirectToModule": "Voir dans le module de saisie",
       "PinObservation": "Épingler l'observation",
-      "UnpinObservation": "Supprimer l'épingle sur l'observation"
+      "UnpinObservation": "Supprimer l'épingle sur l'observation",
+      "ToggleFilters": "Afficher ou masquer les filtres"
     },
     "Messages": {
       "Copied": "Copié dans le presse-papier !",
@@ -1169,6 +1170,7 @@
 
   "Toolbar": {
     "OpenMenu": "Ouvrir le menu principal",
+    "MainMenu": "Menu principal",
     "OpenProfile": "Ouvrir le menu de mon profil",
     "AccountSettings": "Accéder aux paramètres de mon compte",
     "ObserverSheet": "Accéder à ma fiche observateur",

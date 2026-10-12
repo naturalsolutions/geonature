@@ -25,6 +25,7 @@
         (click)="searchBarHidden = !searchBarHidden"
         (click)="isCollapseValidationNavBar = !isCollapseValidationNavBar"
         [attr.aria-expanded]="!isCollapseValidationNavBar"
+        [attr.aria-label]="'Synthese.Actions.ToggleFilters' | translate"
         aria-controls="sidebar"
         type="button"
         id="sidebarCollapse"
@@ -33,6 +34,7 @@
         <i
           class="fa"
           [ngClass]="searchBarHidden ? 'fa-caret-left' : 'fa-caret-right'"
+          aria-hidden="true"
         ></i>
       </button>
       <pnx-validation-synthese-list

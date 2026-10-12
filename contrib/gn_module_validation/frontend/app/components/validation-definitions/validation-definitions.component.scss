@@ -9,14 +9,14 @@ th.table_status {
 
 td,
 th {
-  border: 1px solid black;
+  border: 1px solid var(--gn-divider);
   text-align: left;
   padding: 8px;
 }
 
 button#showDef,
 button#hideDef {
-  width: 100% !important;
+  width: 100%;
 }
 
 /*

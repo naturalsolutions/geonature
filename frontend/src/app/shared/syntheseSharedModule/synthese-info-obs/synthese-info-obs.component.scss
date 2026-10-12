@@ -13,9 +13,7 @@
   width: 20px;
   height: 20px;
   padding: 0px;
-  //background: #00ff00;
-  color: 'black';
-  border: 1px solid black;
+  border: 1px solid var(--gn-border);
   text-align: center;
   font:
     15px Arial,
@@ -31,22 +29,30 @@
 
 .action-tbar > button,
 .action-tbar > a:link {
-  background-color: #673ab7;
-  color: white;
   margin-right: 5px;
   outline: none;
   padding: 0;
   text-decoration: none;
 }
 
+// pinned and flagged states, also told by the tooltip and accessible name
+.action-tbar > button.is-active {
+  background-color: var(--gn-teal-100);
+  color: var(--gn-teal-800);
+}
+.action-tbar > button.is-flagged {
+  background-color: var(--gn-surface);
+  color: var(--gn-danger);
+  border: 1px solid var(--gn-danger);
+}
+
 .link-infos {
-  border: 1px solid #673ab7;
   margin: auto;
 }
 
 .no-link-style {
   text-decoration: none;
-  color: #673ab7;
+  color: var(--gn-teal-700);
 }
 
 .tbar-bottom {
@@ -57,12 +63,4 @@
 }
 .spacer {
   flex: 1 1 auto !important;
-}
-.status-badge {
-  border-radius: 50px;
-}
-
-.Link {
-  color: var(--purple);
-  filter: brightness(70%);
 }

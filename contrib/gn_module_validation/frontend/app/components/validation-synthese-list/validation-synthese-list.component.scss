@@ -15,11 +15,6 @@
   transform: translateX(0%);
 }
 
-.btn {
-  background-color: #1976d2;
-  border: none;
-}
-
 #details {
   width: 20px;
   height: 20px;
@@ -27,18 +22,19 @@
   padding: 0;
   background-color: transparent;
   border-color: transparent;
-  color: #212121;
+  color: var(--gn-text);
 }
 
 .modified_data:hover .modif_data {
   position: absolute;
   visibility: visible;
-  color: black;
+  color: var(--gn-text);
 }
 
 .modif_data {
   visibility: hidden;
   z-index: 1;
+  background: var(--gn-surface);
 }
 
 .material-icons {
@@ -82,19 +78,6 @@
 }
 
 :host ::ng-deep .datatable-body-row {
-  &.active .datatable-row-group {
-    background-color: #1976d2 !important;
-    .datatable-body-cell {
-      color: #fff;
-      button {
-        color: #fff !important;
-      }
-    }
-    button:focus {
-      outline: none;
-      box-shadow: none !important;
-    }
-  }
   .datatable-body-cell {
     font-size: 12px !important;
     //padding: 5px 5px !important;
@@ -113,16 +96,20 @@
     padding: 0px !important;
   }
   .datatable-checkbox input[type='checkbox']:before {
-    border-color: #bfbdbd !important;
+    border-color: var(--gn-border);
+  }
+  .datatable-checkbox input[type='checkbox']:checked:before {
+    border-color: var(--gn-teal-700);
+  }
+  // the library removes the outline of its checkboxes
+  .datatable-checkbox input[type='checkbox']:focus-visible {
+    outline: 2px solid var(--gn-focus);
+    outline-offset: 2px;
   }
 }
 
 :host ::ng-deep .datatable-body-cell i {
   font-size: 12px;
-}
-
-ngx-datatable {
-  box-shadow: none !important;
 }
 
 #download-btn {
@@ -147,12 +134,6 @@ button[disabled] {
   }
 } */
 
-button:focus,
-button:active {
-  outline: none;
-  box-shadow: none !important;
-}
-
 @media screen and (max-width: 1260px) {
   :host ::ng-deep .datatable-footer-inner {
     display: -webkit-box;
@@ -173,20 +154,20 @@ button:active {
   }
 }
 
-.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
-  color: white;
-}
-
+// score chips keep their meaning through the n/3 text, tinted with the semantic tokens
 .chip-alert {
-  background-color: red !important;
+  background-color: var(--gn-danger-bg) !important;
+  border: 1px solid var(--gn-danger);
 }
 
 .chip-warning {
-  background-color: rgb(255, 123, 0) !important;
+  background-color: var(--gn-warning-bg) !important;
+  border: 1px solid var(--gn-warning);
 }
 
 .chip-success {
-  background-color: green !important;
+  background-color: var(--gn-success-bg) !important;
+  border: 1px solid var(--gn-success);
 }
 
 .mat-chip {

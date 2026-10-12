@@ -118,12 +118,13 @@
     <button
       class="btn btn-sm btn-outline-shadow"
       (click)="occtaxFormReleveService.showTime = !occtaxFormReleveService.showTime"
+      [attr.aria-expanded]="occtaxFormReleveService.showTime"
       data-qa="pnx-occtax-releve-form-adddate"
     >
       <i
         class="fa fa-plus"
         [ngClass]="occtaxFormReleveService.showTime ? 'fa-minus' : 'fa-plus'"
-        aria-expanded="false"
+        aria-hidden="true"
       ></i>
     </button>
   </div>
@@ -131,7 +132,7 @@
 <div
   *ngIf="propertiesForm.hasError('invalidDate')"
   class="error"
-  style="color: red; font-size: 80%; font-weight: 400"
+  style="font-size: 80%; font-weight: 400"
 >
   {{ 'Occtax.Releve.Errors.DatesReversed' | translate }}
 </div>
@@ -188,7 +189,7 @@
 <div
   *ngIf="propertiesForm.hasError('invalidHour')"
   class="error"
-  style="margin-top: -0.8rem; margin-bottom: 0.5rem; color: red; font-size: 80%; font-weight: 400"
+  style="margin-top: -0.8rem; margin-bottom: 0.5rem; font-size: 80%; font-weight: 400"
 >
   {{ 'Occtax.Releve.Errors.HourMaxError' | translate }}
 </div>
@@ -235,7 +236,7 @@
 <div
   *ngIf="propertiesForm.hasError('invalidAlt')"
   class="error"
-  style="color: red; font-size: 80%; font-weight: 400"
+  style="font-size: 80%; font-weight: 400"
 >
   {{ 'Occtax.Releve.Errors.AltitudeError' | translate }}
 </div>
@@ -267,7 +268,7 @@
 <div
   *ngIf="propertiesForm.hasError('invalidDepth')"
   class="error"
-  style="color: red; font-size: 80%; font-weight: 400"
+  style="font-size: 80%; font-weight: 400"
 >
   {{ 'Occtax.Releve.Errors.DepthError' | translate }}
 </div>
@@ -356,7 +357,6 @@
   <ng-container>
     <button
       mat-raised-button
-      color="warn"
       class="uppercase mr-1"
       [routerLink]="['/' + moduleService.currentModule.module_path]"
     >

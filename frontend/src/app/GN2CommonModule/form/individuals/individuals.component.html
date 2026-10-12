@@ -8,6 +8,7 @@
 <div class="row">
   <div class="col-9">
     <ng-select
+      [inputAttrs]="label ? { 'aria-label': label } : {}"
       [ngClass]="null"
       [items]="values"
       [bindLabel]="keyLabel"

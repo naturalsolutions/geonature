@@ -8,7 +8,14 @@
 #filter {
   padding: 15px;
   padding-top: 50px;
-  background-color: white;
+  background-color: var(--gn-surface);
+}
+
+// fields share the row so that a full date fits in the one-twelfth date columns
+#filter > div[class*='col-'] {
+  flex: 1 1 0;
+  max-width: none;
+  min-width: 8.5rem;
 }
 
 .actions {
@@ -18,9 +25,6 @@
   padding: 8px;
 }
 
-#refresh-filter {
-  color: red;
-}
 #collapse-settings {
   padding: 5px 15px;
 }

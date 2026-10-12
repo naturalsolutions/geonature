@@ -72,6 +72,7 @@
     <small>{{ label }}</small>
 
     <ng-select
+      [inputAttrs]="label ? { 'aria-label': label } : {}"
       [items]="filteredValues"
       [bindLabel]="keyLabel"
       [bindValue]="keyValue"

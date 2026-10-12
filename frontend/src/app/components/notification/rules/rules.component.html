@@ -60,6 +60,7 @@
                       name="{{ ruleCategory.code }}-{{ ruleMethod.code }}"
                       type="checkbox"
                       [checked]="hasUserSubscribed(ruleCategory.code, ruleMethod.code)"
+                      [attr.aria-label]="ruleCategory.label + ', ' + ruleMethod.label"
                       (change)="updateRule(ruleCategory.code, ruleMethod.code, $event)"
                     />
                     <label

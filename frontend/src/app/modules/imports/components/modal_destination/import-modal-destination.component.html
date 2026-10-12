@@ -30,6 +30,7 @@
       <i
         id="warningDestination"
         class="material-icons"
+        aria-hidden="true"
       >
         warning
       </i>
@@ -58,6 +59,7 @@
   (click)="onOpenModal(content)"
   data-qa="import-modal-destination-start"
   [matTooltip]="'Import.Process.List.New' | translate"
+  [attr.aria-label]="'Import.Process.List.New' | translate"
 >
   <mat-icon>add</mat-icon>
 </button>

@@ -2,29 +2,35 @@
   <div class="occtax-form">
     <div class="tab">
       <div class="tab-left">
-        <a
+        <button
+          type="button"
           (click)="navigate('releve')"
           class="tablinks"
           [class.active]="occtaxFormService.currentTab === 'releve'"
         >
           <mat-icon class="example-tab-icon">place</mat-icon>
           {{ 'Occtax.Releve.Releve' | translate }}
-        </a>
+        </button>
         <ng-container *ngIf="occtaxFormService.editionMode | async; else buttonBlock">
-          <a
+          <button
+            type="button"
             (click)="navigate('taxons')"
             class="tablinks"
             [ngClass]="{ active: occtaxFormService.currentTab === 'taxons' }"
           >
             <mat-icon class="example-tab-icon">emoji_nature</mat-icon>
             {{ 'Taxons' | translate }}
-          </a>
+          </button>
         </ng-container>
         <ng-template #buttonBlock>
-          <a class="tablinks disabled">
+          <button
+            type="button"
+            class="tablinks disabled"
+            disabled
+          >
             <mat-icon class="example-tab-icon">emoji_nature</mat-icon>
             {{ 'Taxons' | translate }}
-          </a>
+          </button>
         </ng-template>
       </div>
 
@@ -33,6 +39,7 @@
         <mat-slide-toggle
           labelPosition="before"
           [matTooltip]="'Occtax.UI.ChainSurveys' | translate"
+          [aria-label]="'Occtax.UI.ChainSurveys' | translate"
           [checked]="occtaxFormService.chainRecording"
           (change)="occtaxFormService.chainRecording = !occtaxFormService.chainRecording"
           color="primary"
@@ -44,6 +51,7 @@
           class="setting-btn"
           (click)="openParametersDialog(modalComponent)"
           [matTooltip]="'Occtax.UI.SetDefaults' | translate"
+          [attr.aria-label]="'Occtax.UI.SetDefaults' | translate"
         >
           <mat-icon
             [matBadge]="occtaxFormParamService?.numberOfActive"

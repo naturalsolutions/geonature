@@ -8,10 +8,10 @@
 
 .dateTitle-notification span {
   font-weight: 400;
-  background-color: rgba(219, 219, 219, 0.438);
-  color: rgb(59, 59, 59);
+  background-color: var(--gn-hover);
+  color: var(--gn-text);
   padding: 10px 15px;
-  border-radius: 2px;
+  border-radius: var(--gn-radius);
 }
 
 .mat-card {
@@ -24,18 +24,8 @@
   border-radius: 0;
 }
 
-.cardNotification .btn {
-  color: var(--purple) !important;
-  border-color: var(--purple) !important;
-}
-
-.cardNotification .btn:hover {
-  color: white !important;
-  background-color: var(--purple) !important;
-}
-
 .cardIcon {
-  background-color: var(--purple);
+  background-color: var(--gn-teal-700);
   padding: 13px;
   width: 50px;
   height: 50px;
@@ -49,7 +39,7 @@
 }
 
 .cardTitle a {
-  color: #683ab7bd;
+  color: var(--gn-teal-700);
   font-weight: 500 !important;
   line-height: 1.3;
   text-decoration: none;
@@ -57,15 +47,15 @@
 
 /* Card unread */
 .UNREAD {
-  background-color: #c4b0e638;
-  border-left: #673ab7 4px solid;
+  background-color: var(--gn-teal-50);
+  border-left: var(--gn-teal-700) 4px solid;
 }
 
 .UNREAD .cardTitle {
-  color: #673ab7;
+  color: var(--gn-teal-800);
 }
 
 .URL.card:hover {
   cursor: pointer;
-  background-color: #c4b0e67d;
+  background-color: var(--gn-hover);
 }

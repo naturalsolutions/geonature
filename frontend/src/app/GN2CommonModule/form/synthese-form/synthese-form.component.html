@@ -42,6 +42,7 @@
       *ngIf="config.FRONTEND['ENABLE_PROFILES']"
       class="btn btn-sm btn-outline-shadow profile float-right"
       matTooltip="{{ 'Synthese.Form.FilterTaxaProfile' | translate }}"
+      [attr.aria-label]="'Synthese.Form.FilterTaxaProfile' | translate"
       matTooltipClass="validation-tooltip"
     >
       <i
@@ -163,11 +164,18 @@
           class="d-flex justify-content-between align-items-center"
         >
           {{ taxon.nom_valide }}
-          <i
+          <button
+            type="button"
+            class="btn-reset"
             (click)="formService.removeTaxon(i, formService.selectedtaxonFromComponent)"
-            class="fa fa-times clickable"
             [matTooltip]="'Synthese.Form.RemoveTaxon' | translate: { name: taxon.nom_valide }"
-          ></i>
+            [attr.aria-label]="'Synthese.Form.RemoveTaxon' | translate: { name: taxon.nom_valide }"
+          >
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+            ></i>
+          </button>
         </li>
       </ul>
     </div>
@@ -286,6 +294,7 @@
       [attr.aria-expanded]="!isCollapsePeriod"
       class="btn btn-sm btn-outline-shadow period"
       [matTooltip]="'Synthese.Form.AddPeriod' | translate"
+      [attr.aria-label]="'Synthese.Form.AddPeriod' | translate"
     >
       <i
         class="fa fa-cog"
@@ -310,7 +319,6 @@
         <small
           *ngIf="formService.searchForm.errors?.invalidPeriod"
           class="error"
-          style="color: rgb(18, 32, 155)"
         >
           {{ 'Synthese.Errors.PeriodCompleteness' | translate }}
         </small>
@@ -406,9 +414,9 @@
   <button
     id="refresh-btn"
     mat-raised-button
-    color="warn"
     (click)="refreshFilters()"
     matTooltip="{{ 'Filters.Actions.Refresh' | translate }}"
+    [attr.aria-label]="'Filters.Actions.Refresh' | translate"
     data-qa="synthese-refresh-btn"
   >
     <i

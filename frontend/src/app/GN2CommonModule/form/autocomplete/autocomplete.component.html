@@ -5,6 +5,7 @@
     class="form-control form-control-sm"
     [ngClass]="{ loading: isLoading && parentFormControl.value?.length >= 3 }"
     id="taxonInput"
+    [attr.aria-label]="label"
     [formControl]="parentFormControl"
     [disableControl]="false"
     [ngbTypeahead]="search"
@@ -23,7 +24,7 @@
 </div>
 <small
   *ngIf="!isLoading && noResult && parentFormControl.value?.length >= 3"
-  style="color: red"
+  class="error"
 >
   {{ 'DynamicForm.NoItemFound' | translate }}
 </small>

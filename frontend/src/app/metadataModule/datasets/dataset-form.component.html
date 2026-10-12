@@ -20,7 +20,12 @@
         </div>
         <div class="card-body">
           <div>
-            <small>{{ 'AcquisitionFramework' | translate }}</small>
+            <label
+              class="mb-0"
+              for="pnx-dataset-form-af"
+            >
+              <small>{{ 'AcquisitionFramework' | translate }}</small>
+            </label>
             <ng-container *ngIf="acquisitionFrameworks | async as frameworks">
               <div
                 *ngIf="!frameworks"
@@ -31,6 +36,7 @@
 
               <ng-select
                 *ngIf="frameworks"
+                labelForId="pnx-dataset-form-af"
                 [formControl]="form.get('id_acquisition_framework')"
                 [items]="frameworks"
                 bindLabel="acquisition_framework_name"
@@ -57,6 +63,7 @@
           <div>
             <small>{{ 'MetaData.DatasetName' | translate }}</small>
             <input
+              [attr.aria-label]="'MetaData.DatasetName' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('dataset_name')"
@@ -65,7 +72,6 @@
             <small
               *ngIf="form.get('dataset_name').errors?.maxlength"
               class="error"
-              style="color: red"
             >
               {{ 'MetaData.DatasetForm.Messages.SizeNameJDD' | translate }}
             </small>
@@ -75,6 +81,7 @@
             <div class="col-md-8">
               <small>{{ 'MetaData.DatasetForm.ShortNameJDD' | translate }}</small>
               <input
+                [attr.aria-label]="'MetaData.DatasetForm.ShortNameJDD' | translate"
                 class="form-control form-control-sm"
                 type="text"
                 [formControl]="form.get('dataset_shortname')"
@@ -83,7 +90,6 @@
               <small
                 *ngIf="form.get('dataset_shortname').errors?.maxlength"
                 class="error"
-                style="color: red"
               >
                 {{ 'MetaData.DatasetForm.Messages.SizeShortNameJDD' | translate }}
               </small>
@@ -93,6 +99,7 @@
           <div>
             <small>{{ 'Description' | translate }}</small>
             <textarea
+              [attr.aria-label]="'Description' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('dataset_desc')"
@@ -103,6 +110,7 @@
           <div>
             <small>{{ 'Keywords' | translate }}</small>
             <input
+              [attr.aria-label]="'Keywords' | translate"
               class="form-control form-control-sm"
               type="text"
               [formControl]="form.get('keywords')"
@@ -236,6 +244,9 @@
                   aria-hidden="false"
                   style="font-size: 1rem"
                   matTooltip="{{ 'MetaData.DatasetForm.RequiredToImportAndEnterData' | translate }}"
+                  [attr.aria-label]="
+                    'MetaData.DatasetForm.RequiredToImportAndEnterData' | translate
+                  "
                 >
                   info
                 </mat-icon>
@@ -261,6 +272,7 @@
           ></pnx-multiselect>
           <small>{{ 'MetaData.DatasetForm.FacultativeTaxaList' | translate }}</small>
           <select
+            [attr.aria-label]="'MetaData.DatasetForm.FacultativeTaxaList' | translate"
             class="form-control form-control-sm"
             [formControl]="form.get('id_taxa_list')"
           >
@@ -314,6 +326,7 @@
             mat-mini-fab
             color="primary"
             [matTooltip]="'MetaData.UI.AddMainContact' | translate"
+            [attr.aria-label]="'MetaData.UI.AddMainContact' | translate"
             (click)="addMainContact()"
             [disabled]="!(datasetFormS.genericActorForm.valid && datasetFormS.actors.valid)"
             data-qa="pnx-dataset-form-add-main-contact"
@@ -356,6 +369,7 @@
             mat-mini-fab
             color="primary"
             [matTooltip]="'MetaData.UI.AddActor' | translate"
+            [attr.aria-label]="'MetaData.UI.AddActor' | translate"
             (click)="addGenericContact()"
             [disabled]="!(datasetFormS.genericActorForm.valid && datasetFormS.actors.valid)"
           >

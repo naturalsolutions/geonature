@@ -20,8 +20,10 @@
   </div>
   <div class="modal-body">
     <div class="help">
-      <div
+      <button
+        type="button"
         class="display-help"
+        [attr.aria-expanded]="state !== 'collapsed'"
         (click)="collapse()"
       >
         <ng-container *ngIf="state === 'collapsed'; else hideBlock">
@@ -32,7 +34,7 @@
           {{ 'Occtax.UI.Params.HideHelp' | translate }}
           <mat-icon>arrow_drop_up</mat-icon>
         </ng-template>
-      </div>
+      </button>
       <p [@detailExpand]="state">
         {{ 'Occtax.UI.Params.Help1' | translate }}
         <br />
@@ -102,11 +104,11 @@
 
         <div class="copied-geometry">
           <ng-container *ngIf="paramsForm.get('geometry').value !== null; else noGeometryBlock">
-            <mat-icon style="color: green">check</mat-icon>
+            <mat-icon class="text-success">check</mat-icon>
             {{ 'Occtax.UI.Params.GeomSet' | translate }}
           </ng-container>
           <ng-template #noGeometryBlock>
-            <mat-icon style="color: red">close</mat-icon>
+            <mat-icon class="text-danger">close</mat-icon>
             {{ 'Occtax.UI.Params.NoGeom' | translate }}
           </ng-template>
         </div>

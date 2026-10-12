@@ -7,3 +7,15 @@
     flex-grow: 2;
   }
 }
+
+.TextContentContainer {
+  max-height: 70px;
+  overflow: hidden;
+  &:hover {
+    overflow-y: auto;
+  }
+
+  .TextContent {
+    white-space: pre-line;
+  }
+}

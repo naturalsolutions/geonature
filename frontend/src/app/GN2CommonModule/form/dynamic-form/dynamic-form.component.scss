@@ -1,7 +1,7 @@
 ::ng-deep .mat-icon.small-icon,
 ::ng-deep .small-icon {
   font-size: 18px;
-  color: darkgrey;
+  color: var(--gn-gray);
 }
 
 .bool-checkbox {
@@ -13,7 +13,7 @@
   padding-left: 2em;
 }
 .custom-checkbox.ng-invalid {
-  border-left: 5px solid #ff0000 !important;
+  border-left: 5px solid var(--gn-danger) !important;
 }
 
 ::ng-deep .form-tooltip {
@@ -29,8 +29,8 @@
 }
 
 .border-red {
-  border-left: 4px solid red;
-  border-radius: 4px 0 0 4px;
+  border-left: 4px solid var(--gn-danger);
+  border-radius: var(--gn-radius) 0 0 var(--gn-radius);
   outline: none;
   padding-left: 10px;
 }

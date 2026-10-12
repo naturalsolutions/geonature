@@ -21,10 +21,6 @@
   margin-right: 5px;
 }
 
-.btn-map-clicked {
-  background-color: #dce3e7;
-}
-
 :host ::ng-deep .dropdown-menu {
   z-index: 3000 !important;
 }
@@ -41,7 +37,7 @@
 }
 
 .loading {
-  background-color: #ffffff;
+  background-color: var(--gn-surface);
   background-image: url('../../../assets/images/Spinner.gif');
   background-size: 25px 25px;
   background-position: right center;

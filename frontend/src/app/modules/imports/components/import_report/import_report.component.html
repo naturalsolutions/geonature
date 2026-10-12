@@ -96,7 +96,7 @@
               {{ 'Import.Report.Pdf' | translate }}
               <mat-icon *ngIf="loadingPdf">
                 <mat-spinner
-                  color="warn"
+                  color="primary"
                   diameter="18"
                 ></mat-spinner>
               </mat-icon>
@@ -306,6 +306,7 @@
                         <button
                           mat-icon-button
                           [matTooltip]="'Import.Report.SeeMore' | translate"
+                          [attr.aria-label]="'Import.Report.SeeMore' | translate"
                           (click)="error.show = !error.show"
                         >
                           <mat-icon>expand_more</mat-icon>
@@ -316,6 +317,7 @@
                         <button
                           mat-icon-button
                           [matTooltip]="'Import.Report.SeeLess' | translate"
+                          [attr.aria-label]="'Import.Report.SeeLess' | translate"
                           *ngIf="error.rows.length >= 10"
                           (click)="error.show = !error.show"
                         >
@@ -374,6 +376,7 @@
                         <button
                           mat-icon-button
                           [matTooltip]="'Import.Report.SeeMore' | translate"
+                          [attr.aria-label]="'Import.Report.SeeMore' | translate"
                           (click)="error.show = !error.show"
                         >
                           <mat-icon>expand_more</mat-icon>
@@ -384,6 +387,7 @@
                         <button
                           mat-icon-button
                           [matTooltip]="'Import.Report.SeeLess' | translate"
+                          [attr.aria-label]="'Import.Report.SeeLess' | translate"
                           *ngIf="error.rows.length >= 10"
                           (click)="error.show = !error.show"
                         >

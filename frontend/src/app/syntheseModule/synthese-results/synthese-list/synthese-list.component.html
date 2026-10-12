@@ -23,16 +23,20 @@
     [sortable]="false"
   >
     <ng-template ngx-datatable-header-template>
-      <i
+      <button
+        type="button"
         id="dropdownMenuButton"
-        class="fa fa-cog clickable"
-        aria-hidden="true"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+        class="icon-btn"
+        aria-haspopup="dialog"
+        [attr.aria-label]="'Columns' | translate"
         matTooltip="{{ 'Columns' | translate }}"
         (click)="openModalCol($event, modalCol)"
-      ></i>
+      >
+        <i
+          class="fa fa-cog"
+          aria-hidden="true"
+        ></i>
+      </button>
     </ng-template>
     <ng-template
       let-row="row"
@@ -41,12 +45,13 @@
       <a
         class="link-dark"
         [routerLink]="['occurrence', row['id_synthese'], 'details']"
+        [attr.aria-label]="'Synthese.InfoObs.Tabs.Details' | translate"
       >
         <i
           #iElement
           matTooltip="{{ row[mapListService.idName] }}"
           class="fa fa-info-circle"
-          aria-hidden="true "
+          aria-hidden="true"
           data-qa="synthese-info-btn"
         ></i>
       </a>
@@ -61,17 +66,19 @@
       let-row="row"
       ngx-datatable-cell-template
     >
-      <a
+      <button
         *ngIf="row.url_source"
-        class="link-dark"
+        type="button"
+        class="icon-btn"
+        [attr.aria-label]="'Synthese.List.OpenInModule' | translate"
+        [matTooltip]="'Synthese.List.OpenInModule' | translate"
         (click)="backToModule(row.url_source, row.entity_source_pk_value)"
       >
         <i
-          [matTooltip]="'Synthese.List.OpenInModule' | translate"
           class="fa fa-file-text"
           aria-hidden="true"
         ></i>
-      </a>
+      </button>
     </ng-template>
   </ngx-datatable-column>
 
@@ -83,6 +90,7 @@
     [prop]="col.prop"
     [sortable]="true"
     cellClass="synthese-list-col-{{ col.prop }}"
+    headerClass="synthese-list-col-{{ col.prop }}"
   >
     <ng-template
       let-row="row"
@@ -135,7 +143,7 @@
       id="upload-btn"
       mat-raised-button
       color="primary"
-      class="btn-action uppercase"
+      class="btn-action"
       [routerLink]="['/import', destinationImportCode, 'process', 'upload']"
     >
       {{ 'Actions.Upload' | translate }}
@@ -145,7 +153,6 @@
   <div class="col-auto">
     <button
       type="button"
-      class="uppercase"
       id="download-btn"
       mat-raised-button
       color="primary"

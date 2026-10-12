@@ -1,16 +1,5 @@
-table {
-  width: 100%;
-  border-collapse: collapse;
-  color: black;
-  background-color: rgb(241, 241, 241);
-}
-
 .mat-icon {
   vertical-align: middle;
-}
-
-ngx-datatable {
-  box-shadow: none !important;
 }
 
 .navigate-btn {
@@ -28,12 +17,6 @@ ngx-datatable {
 
 .card-margin {
   margin-bottom: 10px;
-}
-
-.icone-recap {
-  margin-right: 8px;
-  margin-left: 8px;
-  color: blue;
 }
 
 .content-report {
@@ -66,10 +49,9 @@ ngx-datatable {
 }
 
 .error-import {
-  $error-color: red;
   max-width: 50%;
   &__title {
-    color: $error-color;
+    color: var(--gn-danger);
     font-weight: 700;
     margin-bottom: 1em;
   }
@@ -80,7 +62,7 @@ ngx-datatable {
     text-align: justify;
   }
   &__remark {
-    filter: brightness(0.5);
+    color: var(--gn-gray);
     font-style: italic;
   }
   &__description span {

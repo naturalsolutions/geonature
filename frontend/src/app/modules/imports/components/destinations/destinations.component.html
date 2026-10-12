@@ -1,6 +1,12 @@
-<small>{{ label }}</small>
+<label
+  class="mb-0"
+  [for]="inputId"
+>
+  <small>{{ label }}</small>
+</label>
 <ng-select
   [ngClass]="class"
+  [labelForId]="inputId"
   [items]="destinations"
   [bindValue]="bindValue"
   bindLabel="label"

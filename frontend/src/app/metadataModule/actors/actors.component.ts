@@ -11,6 +11,8 @@ import { OrganismFormDialogComponent } from '../organisms/organism-form-dialog.c
 import { CruvedStoreService } from '@geonature_common/service/cruved-store.service';
 import { TranslateService } from '@ngx-translate/core';
 
+let nextId = 0;
+
 @Component({
   selector: 'pnx-metadata-actor',
   templateUrl: 'actors.component.html',
@@ -24,6 +26,8 @@ export class ActorComponent implements OnInit {
   @Output() actorFormRemove = new EventEmitter<boolean>();
   @Input() metadataType: 'dataset' | 'af' = null;
   @Input() defaultTab: 'organism' | 'person' | 'all';
+  // identifiant propre à l'instance : plusieurs blocs acteur coexistent dans un même formulaire
+  readonly uid = `pnx-metadata-actor-${nextId++}`;
 
   // pour mettre en cache la liste des nomenclature role_acteur
   _roleTypes;

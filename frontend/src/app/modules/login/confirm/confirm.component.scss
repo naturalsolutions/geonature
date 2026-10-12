@@ -9,10 +9,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: var(--gn-surface);
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: var(--gn-radius-lg);
+  box-shadow: var(--gn-shadow-overlay);
 }
 
 .activate-button {

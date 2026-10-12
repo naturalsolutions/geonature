@@ -35,8 +35,9 @@
                   <td>{{ hab?.nom_cite }}</td>
                   <td>{{ hab?.id_nomenclature_abundance?.label_default }}</td>
                   <td>
-                    <span
+                    <button
                       [matTooltip]="'Occhab.UI.EditHabitat' | translate"
+                      [attr.aria-label]="'Occhab.UI.EditHabitat' | translate"
                       type="button"
                       class="btn btn-primary btn-sm"
                       (click)="editHab(i)"
@@ -45,9 +46,10 @@
                         class="fa fa-pencil-square-o"
                         aria-hidden="true"
                       ></i>
-                    </span>
-                    <span
+                    </button>
+                    <button
                       [matTooltip]="'Occhab.UI.RemoveHabitat' | translate"
+                      [attr.aria-label]="'Occhab.UI.RemoveHabitat' | translate"
                       type="button"
                       class="btn btn-danger btn-sm"
                       (click)="occHabForm.deleteHab(i)"
@@ -56,7 +58,7 @@
                         class="fa fa-times"
                         aria-hidden="true"
                       ></i>
-                    </span>
+                    </button>
                   </td>
                 </tr>
               </ng-container>
@@ -100,7 +102,7 @@
     ></div>
     <div class="all-form">
       <div
-        class="card border-primary"
+        class="card"
         id="station-card"
       >
         <h5 class="card-header bg-primary text-white">
@@ -187,7 +189,6 @@
             <small
               *ngIf="occHabForm.stationForm.errors?.invalidDate"
               class="error"
-              style="color: red"
             >
               {{ 'Errors.DatesReversed' | translate }}
             </small>
@@ -228,7 +229,7 @@
               >
                 <i
                   class="fa fa-plus"
-                  aria-expanded="false"
+                  aria-hidden="true"
                 ></i>
               </button>
               <button
@@ -240,14 +241,13 @@
               >
                 <i
                   class="fa fa-minus"
-                  aria-expanded="false"
+                  aria-hidden="true"
                 ></i>
               </button>
             </div>
             <small
               *ngIf="occHabForm.stationForm.errors?.invalidAlt"
               class="error"
-              style="color: red"
             >
               {{ 'Errors.AltitudeError' | translate }}
             </small>
@@ -379,7 +379,7 @@
         {{ 'Occhab.UI.ValidateStation' | translate }}
       </button>
 
-      <div class="card border-primary">
+      <div class="card">
         <div class="habitat-form">
           <h5
             class="card-header text-white"
@@ -394,11 +394,10 @@
               *ngIf="!showHabForm"
               type="button"
               id="add-hab-btn"
-              class="btn btn-sm float-right"
+              class="btn btn-sm btn-light float-right"
               (click)="addNewHab()"
             >
               <i
-                style="color: rgb(0, 233, 0)"
                 class="fa fa-plus"
                 aria-hidden="true"
               ></i>
@@ -407,7 +406,7 @@
             <button
               *ngIf="showHabForm"
               type="button"
-              class="btn btn-sm btn-danger float-right add-hab-btn"
+              class="btn btn-sm btn-light float-right add-hab-btn"
               (click)="cancelHab()"
             >
               <i
@@ -582,7 +581,6 @@
                   .errors?.invalidTechnicalValues
               "
               class="error"
-              style="color: red"
             >
               {{ 'Occhab.UI.TechniqueRequired' | translate }}
             </small>

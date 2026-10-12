@@ -4,6 +4,7 @@
     <select
       class="form-control form-control-sm"
       [formControl]="selectControl"
+      [attr.aria-label]="selectLabel || ('Filters.Actions.Add' | translate)"
     >
       <option [ngValue]="null"></option>
       <option

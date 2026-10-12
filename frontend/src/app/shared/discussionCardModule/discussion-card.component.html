@@ -8,6 +8,7 @@
       class="m-2 disccusion-action-btn"
       (click)="openCloseComment()"
       ngbTooltip="{{ 'Synthese.Actions.AddComment' | translate }}"
+      [attr.aria-label]="'Synthese.Actions.AddComment' | translate"
       placement="left"
       align="end"
     >
@@ -72,7 +73,7 @@
           <mat-card-subtitle class="mb-0 p-0 subtitle-card">
             <strong
               *ngIf="comment.user.nom_role && comment.user.prenom_role"
-              [ngStyle]="{ color: 'black' }"
+              class="author"
             >
               {{ comment.user.nom_role }}
               {{ comment.user.prenom_role }}
@@ -80,11 +81,11 @@
             {{ 'Synthese.Commented' | translate }}
             {{ formatDate(comment.creation_date) }}
           </mat-card-subtitle>
-          <span
-            align="end"
-            color="error"
+          <button
+            type="button"
             class="deleteComment"
             ngbTooltip="{{ 'Synthese.Actions.DeleteComment' | translate }}"
+            [attr.aria-label]="'Synthese.Actions.DeleteComment' | translate"
             placement="left"
             *ngIf="currentUser.id_role === comment.id_role"
             (click)="deleteComment(comment.id_report, comment.report_type.type)"
@@ -92,10 +93,11 @@
             <mat-icon
               class="rm-comment"
               color="primary"
+              aria-hidden="true"
             >
               delete
             </mat-icon>
-          </span>
+          </button>
         </mat-card-header>
         <mat-card-content class="content-card p-2">
           <p>
@@ -117,7 +119,7 @@
             class="py-1 px-2"
             [ngStyle]="{
               'background-color': validationColor[comment.cd_nomenclature],
-              'border-radius': '20px',
+              'border-radius': 'var(--gn-radius)',
               color: ['0', '6'].includes(comment.cd_nomenclature) ? 'darkslategray' : 'white',
               border: ['0', '6'].includes(comment.cd_nomenclature)
                 ? '1px solid rgba(0,0,0,0.2)'

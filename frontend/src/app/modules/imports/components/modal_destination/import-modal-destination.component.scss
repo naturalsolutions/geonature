@@ -1,5 +1,5 @@
 #warningDestination {
-  color: red;
+  color: var(--gn-danger);
 }
 
 ::ng-deep ngb-modal-window {
@@ -9,11 +9,10 @@
 }
 
 ::ng-deep .modal-content {
-  min-width: 500px;
+  min-width: min(500px, 100%);
 }
 
 .modal-header {
-  background-color: #dce3e7;
   padding: 10px 16px;
 }
 

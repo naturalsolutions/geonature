@@ -7,6 +7,7 @@
     class="form-control form-control-sm"
     ngbDatepicker
     data-qa="input-date"
+    [attr.aria-label]="label"
     #d1="ngbDatepicker"
     [formControl]="parentFormControl"
     [disableControl]="disabled"
@@ -21,6 +22,7 @@
       class="btn btn-sm btn-outline-shadow"
       (click)="d1.toggle(); openDatepicker(d1)"
       type="button"
+      [attr.aria-label]="label"
     >
       <i
         class="fa fa-calendar"

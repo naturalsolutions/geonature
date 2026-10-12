@@ -45,6 +45,7 @@
     class="form-control form-control-sm"
     [ngClass]="{ loading: isLoading && parentFormControl.value?.length >= 3 }"
     id="taxonInput"
+    [attr.aria-label]="label"
     [formControl]="parentFormControl"
     [placement]="'bottom-left'"
     [ngbTypeahead]="searchTaxon"
@@ -61,6 +62,7 @@
       [attr.aria-expanded]="!isCollapseTaxonomy"
       class="btn btn-sm btn-outline-shadow"
       [matTooltip]="'TaxonSearch.FilterHelp' | translate"
+      [attr.aria-label]="'TaxonSearch.FilterHelp' | translate"
     >
       <i
         class="fa fa-filter"
@@ -79,7 +81,7 @@
 </div>
 <small
   *ngIf="!isLoading && noResult && parentFormControl.value?.length >= 3"
-  style="color: red"
+  class="error"
 >
   {{ 'TaxonSearch.Messages.NoTaxonFound' | translate }}
 </small>

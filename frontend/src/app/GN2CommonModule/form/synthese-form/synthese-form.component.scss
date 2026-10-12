@@ -1,30 +1,12 @@
-.pnx-card {
-  padding: 10px;
-  border-color: #cccccc;
-  background-color: white;
-}
-
 fieldset {
   padding: 0.35em 0.625em 0.75em !important;
-  border: 1px solid silver !important;
+  border: 1px solid var(--gn-divider) !important;
   margin: 0 2px !important;
-  border-radius: 3px;
+  border-radius: var(--gn-radius);
 }
 
 .small-icon {
   font-size: 15px;
-}
-
-.cdk-overlay-pane {
-  &.mat-tooltip-panel {
-    .validation-tooltip.mat-tooltip {
-      color: black;
-      background-color: rgba(231, 228, 228, 0.85);
-      border-radius: 3px;
-      font-size: 15px;
-      padding: 10px;
-    }
-  }
 }
 
 .overflow-x-visible {
@@ -57,6 +39,15 @@ legend {
 .taxon-list {
   margin-bottom: 0px;
   font-size: 12px;
+}
+
+.btn-reset {
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .taxon-list li:hover {

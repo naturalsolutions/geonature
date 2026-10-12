@@ -94,12 +94,16 @@
         type="submit"
         class="btn btn-secondary box-shadow d-flex justify-content-center align-content-between"
         mat-raised-button
-        color="primary"
         (click)="onPreviousStep()"
         id="validate"
         data-qa="import-file-decode-back-btn"
       >
-        <i class="material-icons">navigate_before</i>
+        <i
+          class="material-icons"
+          aria-hidden="true"
+        >
+          navigate_before
+        </i>
         {{ 'Previous' | translate }}
       </button>
       <button
@@ -113,7 +117,13 @@
         data-qa="import-new-decode-validate"
       >
         {{ 'Next' | translate }}
-        <i class="material-icons">navigate_next</i>
+        <i
+          class="material-icons"
+          aria-hidden="true"
+          iconPositionEnd
+        >
+          navigate_next
+        </i>
       </button>
     </div>
   </div>

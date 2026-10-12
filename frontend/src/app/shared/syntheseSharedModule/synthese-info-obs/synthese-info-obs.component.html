@@ -24,9 +24,6 @@
     class="close"
     aria-label="Close"
     (click)="activeModal.dismiss('Cross click')"
-    [ngStyle]="{
-      outlineWidth: '0px'
-    }"
     data-qa="synthese-info-obs-close-btn"
   >
     <span aria-hidden="true">&times;</span>
@@ -86,6 +83,7 @@
           mat-mini-fab
           *ngIf="selectedObs?.source?.url_source"
           ngbTooltip="{{ 'Synthese.Actions.RedirectToModule' | translate }}"
+          [attr.aria-label]="'Synthese.Actions.RedirectToModule' | translate"
           placement="bottom"
           (click)="
             backToModule(selectedObs?.source?.url_source, selectedObs?.entity_source_pk_value)
@@ -97,6 +95,7 @@
           *ngIf="config.FRONTEND.DISPLAY_EMAIL_INFO_OBS && email"
           mat-mini-fab
           ngbTooltip="{{ 'Synthese.Actions.Mailto' | translate }}"
+          [attr.aria-label]="'Synthese.Actions.Mailto' | translate"
           placement="bottom"
           (click)="sendMail()"
         >
@@ -105,6 +104,7 @@
         <button
           mat-mini-fab
           ngbTooltip="{{ 'Synthese.Actions.CopyPermalink' | translate }}"
+          [attr.aria-label]="'Synthese.Actions.CopyPermalink' | translate"
           placement="bottom"
           (click)="copyToClipBoard()"
         >
@@ -118,10 +118,12 @@
             (pinExists() ? 'Synthese.Actions.UnpinObservation' : 'Synthese.Actions.PinObservation')
               | translate
           }}"
-          (click)="pinSelectedObs()"
-          [ngStyle]="
-            activatePin && pinExists() ? { 'background-color': '#3fb8a8', color: 'white' } : ''
+          [attr.aria-label]="
+            (pinExists() ? 'Synthese.Actions.UnpinObservation' : 'Synthese.Actions.PinObservation')
+              | translate
           "
+          (click)="pinSelectedObs()"
+          [class.is-active]="activatePin && pinExists()"
         >
           <mat-icon>push_pin</mat-icon>
         </button>
@@ -129,13 +131,10 @@
           mat-mini-fab
           *ngIf="activateAlert"
           [ngbTooltip]="alertExists() ? 'Signalement en cours' : 'Signaler'"
+          [attr.aria-label]="alertExists() ? 'Signalement en cours' : 'Signaler'"
           placement="bottom"
           (click)="openCloseAlert()"
-          [ngStyle]="
-            activateAlert && alertExists()
-              ? { 'background-color': 'white', color: 'rgb(252,63,42)' }
-              : ''
-          "
+          [class.is-flagged]="activateAlert && alertExists()"
         >
           <mat-icon>flag</mat-icon>
         </button>

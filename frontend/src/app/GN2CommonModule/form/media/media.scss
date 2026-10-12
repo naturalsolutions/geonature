@@ -6,37 +6,21 @@
   position: relative;
 }
 
-.color-add-media {
-  color: white;
-  background-color: blue;
-}
-
 .btn-add-media {
   margin-bottom: 5px;
 }
 
 .btn-clear {
-  color: #d40303;
-}
-
-.error {
-  color: #d40303;
-}
-
-.btn-upload,
-.icon-loading {
-  color: orange;
+  color: var(--gn-danger);
 }
 
 .btn-valid-media {
   margin-top: 15px;
-  background-color: green;
 }
 
 .btn-cancel-media {
   margin-top: 15px;
   margin-left: 15px;
-  background-color: red;
 }
 
 .float-right {
@@ -44,11 +28,11 @@
 }
 
 .valid {
-  color: green;
+  color: var(--gn-success);
 }
 
 .not-valid {
-  color: orange;
+  color: var(--gn-warning);
 }
 
 .media-diapo-link {
@@ -60,10 +44,6 @@
   width: 50px;
   border-radius: 25px;
   object-fit: cover;
-}
-
-.media-icon {
-  background-color: white;
 }
 
 .DisplayMedias {
@@ -139,7 +119,6 @@ mat-expansion-panel-header {
     bottom: 0;
     margin: auto;
     opacity: 0.4;
-    background-color: lightgray;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 

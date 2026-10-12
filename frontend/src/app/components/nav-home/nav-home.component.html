@@ -1,217 +1,232 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container
+  class="sidenav-container"
+  [class.sidenav-container--rail]="!sideNavService.expanded"
+>
   <mat-sidenav
     id="app-sidenav"
     #sidenav
     mode="side"
-    [opened]="sideNavService.opened"
+    [opened]="true"
+    [disableClose]="true"
+    (transitionend)="onSidenavResized($event)"
   >
     <pnx-sidenav-items data-qa="gn-sidenav"></pnx-sidenav-items>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar
-      id="app-toolbar"
-      class="row"
-    >
-      <button
-        class="mat-elevation-z1 mr-2"
-        mat-icon-button
-        [matTooltip]="'Toolbar.OpenMenu' | translate"
-        (click)="closeSideBar()"
-        data-qa="pnx-home-content-sidebar-open-button"
+    <header>
+      <mat-toolbar
+        id="app-toolbar"
+        class="row"
       >
-        <mat-icon [attr.aria-label]="'Toolbar.OpenMenu' | translate">menu</mat-icon>
-      </button>
-
-      <span class="mx-2">
-        <a
-          data-qa="nav-home-module-name"
-          class="home-link"
-          [routerLink]="moduleUrl"
+        <button
+          class="mr-2"
+          mat-icon-button
+          [matTooltip]="'Toolbar.OpenMenu' | translate"
+          [attr.aria-label]="'Toolbar.MainMenu' | translate"
+          [attr.aria-expanded]="sideNavService.expanded"
+          aria-controls="app-sidenav"
+          (click)="closeSideBar()"
+          data-qa="pnx-home-content-sidebar-open-button"
         >
-          {{ isHome ? ('Home' | translate) : moduleName }}
-        </a>
-      </span>
+          <mat-icon>menu</mat-icon>
+        </button>
 
-      <img
-        id="logo-structure"
-        class="mx-2"
-        src="{{ this.config.API_ENDPOINT }}{{ this.config.STATIC_URL }}/images/logo_structure.png"
-        alt=""
-      />
-
-      <span class="toolbar-spacer"></span>
-
-      <span id="appName">
-        <h3>{{ config.appName }}</h3>
-      </span>
-
-      <span class="toolbar-spacer"></span>
-
-      <ng-container
-        *ngIf="config.PUBLIC_ACCESS_USERNAME != currentUser?.user_login; else publicAccessUser"
-      >
-        <ng-container
-          *ngIf="
-            useLocalProvider && config.ACCOUNT_MANAGEMENT.ENABLE_USER_MANAGEMENT;
-            else noUserManagement
-          "
-        >
-          <button
-            class="user-button mx-1"
-            mat-raised-button
-            [matTooltip]="'Toolbar.OpenProfile' | translate"
-            [matMenuTriggerFor]="userMenu"
+        <span class="mx-2">
+          <a
+            data-qa="nav-home-module-name"
+            class="home-link"
+            [routerLink]="moduleUrl"
           >
-            <mat-icon>person</mat-icon>
-            <div class="user-info">
-              <div class="user-info__name">{{ displayName }}</div>
-              <div
-                *ngIf="displayOrganism"
-                class="user-info__organism"
+            {{ isHome ? ('Home' | translate) : moduleName }}
+          </a>
+        </span>
+
+        <img
+          id="logo-structure"
+          class="mx-2"
+          src="{{ this.config.API_ENDPOINT }}{{ this.config.STATIC_URL }}/images/logo_structure.png"
+          alt=""
+        />
+
+        <span class="toolbar-spacer"></span>
+
+        <span id="appName">
+          <h3>{{ config.appName }}</h3>
+        </span>
+
+        <span class="toolbar-spacer"></span>
+
+        <ng-container
+          *ngIf="config.PUBLIC_ACCESS_USERNAME != currentUser?.user_login; else publicAccessUser"
+        >
+          <ng-container
+            *ngIf="
+              useLocalProvider && config.ACCOUNT_MANAGEMENT.ENABLE_USER_MANAGEMENT;
+              else noUserManagement
+            "
+          >
+            <button
+              class="user-button mx-1"
+              mat-raised-button
+              [matTooltip]="'Toolbar.OpenProfile' | translate"
+              [matMenuTriggerFor]="userMenu"
+            >
+              <mat-icon>person</mat-icon>
+              <div class="user-info">
+                <div class="user-info__name">{{ displayName }}</div>
+                <div
+                  *ngIf="displayOrganism"
+                  class="user-info__organism"
+                >
+                  {{ displayOrganism }}
+                </div>
+              </div>
+            </button>
+
+            <mat-menu #userMenu>
+              <a
+                mat-menu-item
+                [matTooltip]="'Toolbar.AccountSettings' | translate"
+                matTooltipPosition="before"
+                routerLink="/user"
               >
-                {{ displayOrganism }}
+                {{ 'MyAccount.MyAccount' | translate }}
+              </a>
+              <a
+                *ngIf="hasObserverSheet()"
+                mat-menu-item
+                [matTooltip]="'Toolbar.ObserverSheet' | translate"
+                matTooltipPosition="before"
+                [routerLink]="getObserverSheetUrl()"
+              >
+                {{ 'MyAccount.MyObserverSheet' | translate }}
+              </a>
+            </mat-menu>
+          </ng-container>
+
+          <ng-template #noUserManagement>
+            <ng-container *ngIf="hasObserverSheet(); else userDisplay">
+              <a
+                class="Link"
+                [matTooltip]="'Toolbar.ObserverSheet' | translate"
+                [routerLink]="getObserverSheetUrl()"
+              >
+                <ng-container *ngTemplateOutlet="userDisplay"></ng-container>
+              </a>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #userDisplay>
+            <div class="UserDisplay">
+              <mat-icon>person</mat-icon>
+              <div class="user-info">
+                <div class="user-info__name">{{ displayName }}</div>
+                <div
+                  *ngIf="displayOrganism"
+                  class="user-info__organism"
+                >
+                  {{ displayOrganism }}
+                </div>
               </div>
             </div>
+          </ng-template>
+
+          <!-- add notification only if notification enabled -->
+          <ng-container *ngIf="config.NOTIFICATIONS_ENABLED == true">
+            <button
+              type="button"
+              class="mx-2"
+              mat-icon-button
+              [matTooltip]="'Toolbar.Notifications' | translate"
+              [attr.aria-label]="'Toolbar.Notifications' | translate"
+              matBadge="{{ notificationNumber }}"
+              matBadgeHidden="{{ notificationNumber == 0 }}"
+              (click)="openNotification()"
+            >
+              <mat-icon>notifications</mat-icon>
+            </button>
+          </ng-container>
+        </ng-container>
+
+        <ng-template #publicAccessUser>
+          <mat-icon>accessibility_new</mat-icon>
+          <span class="user-name">{{ 'Authentication.Actions.PublicAccess' | translate }}</span>
+        </ng-template>
+
+        <ng-container *ngIf="config.FRONTEND.MULTILINGUAL">
+          <button
+            class="mx-2"
+            mat-icon-button
+            matTooltip="{{ 'LanguageSelection' | translate }}"
+            [attr.aria-label]="'LanguageSelection' | translate"
+            [matMenuTriggerFor]="languagesMenu"
+          >
+            <mat-icon>language</mat-icon>
           </button>
 
-          <mat-menu #userMenu>
-            <a
+          <mat-menu #languagesMenu>
+            <button
               mat-menu-item
-              [matTooltip]="'Toolbar.AccountSettings' | translate"
+              (click)="changeLanguage('fr')"
+              [disabled]="locale == 'fr'"
+              [matTooltip]="'Toolbar.LangFr' | translate"
               matTooltipPosition="before"
-              routerLink="/user"
             >
-              {{ 'MyAccount.MyAccount' | translate }}
-            </a>
-            <a
-              *ngIf="hasObserverSheet()"
+              <mat-icon *ngIf="locale == 'fr'">check</mat-icon>
+              {{ 'AvailableLanguages.French' | translate }}
+            </button>
+            <button
               mat-menu-item
-              [matTooltip]="'Toolbar.ObserverSheet' | translate"
+              (click)="changeLanguage('en')"
+              [disabled]="locale == 'en'"
+              [matTooltip]="'Toolbar.LangEn' | translate"
               matTooltipPosition="before"
-              [routerLink]="getObserverSheetUrl()"
             >
-              {{ 'MyAccount.MyObserverSheet' | translate }}
-            </a>
+              <mat-icon *ngIf="locale == 'en'">check</mat-icon>
+              {{ 'AvailableLanguages.English' | translate }}
+            </button>
+            <button
+              mat-menu-item
+              (click)="changeLanguage('zh')"
+              [disabled]="locale == 'zh'"
+              [matTooltip]="'Toolbar.LangZh' | translate"
+              matTooltipPosition="before"
+            >
+              <mat-icon *ngIf="locale == 'zh'">check</mat-icon>
+              {{ 'AvailableLanguages.Chinese' | translate }}
+            </button>
           </mat-menu>
         </ng-container>
 
-        <ng-template #noUserManagement>
-          <ng-container *ngIf="hasObserverSheet(); else userDisplay">
-            <a
-              class="Link"
-              [matTooltip]="'Toolbar.ObserverSheet' | translate"
-              [routerLink]="getObserverSheetUrl()"
-            >
-              <ng-container *ngTemplateOutlet="userDisplay"></ng-container>
-            </a>
-          </ng-container>
-        </ng-template>
-
-        <ng-template #userDisplay>
-          <div class="UserDisplay">
-            <mat-icon>person</mat-icon>
-            <div class="user-info">
-              <div class="user-info__name">{{ displayName }}</div>
-              <div
-                *ngIf="displayOrganism"
-                class="user-info__organism"
-              >
-                {{ displayOrganism }}
-              </div>
-            </div>
-          </div>
-        </ng-template>
-
-        <!-- add notification only if notification enabled -->
-        <ng-container *ngIf="config.NOTIFICATIONS_ENABLED == true">
-          <a
-            class="mx-2 mat-elevation-z1"
-            mat-icon-button
-            [matTooltip]="'Toolbar.Notifications' | translate"
-            matBadge="{{ notificationNumber }}"
-            matBadgeHidden="{{ notificationNumber == 0 }}"
-            (click)="openNotification()"
-          >
-            <mat-icon>notifications</mat-icon>
-          </a>
-        </ng-container>
-      </ng-container>
-
-      <ng-template #publicAccessUser>
-        <mat-icon>accessibility_new</mat-icon>
-        <span class="user-name">{{ 'Authentication.Actions.PublicAccess' | translate }}</span>
-      </ng-template>
-
-      <ng-container *ngIf="config.FRONTEND.MULTILINGUAL">
-        <button
-          class="mx-2 mat-elevation-z1"
+        <a
+          class="mx-2"
           mat-icon-button
-          matTooltip="{{ 'LanguageSelection' | translate }}"
-          [matMenuTriggerFor]="languagesMenu"
+          [matTooltip]="'Toolbar.Documentation' | translate"
+          [attr.aria-label]="'Toolbar.Documentation' | translate"
+          [href]="currentDocUrl"
+          target="_blank"
         >
-          <mat-icon>language</mat-icon>
+          <mat-icon id="documentation_link">library_books</mat-icon>
+        </a>
+
+        <button
+          class="mx-2"
+          mat-icon-button
+          matTooltip="{{ 'Authentication.Actions.LogOut' | translate }}"
+          [attr.aria-label]="'Authentication.Actions.LogOut' | translate"
+          (click)="authService.logout()"
+          data-qa="pnx-home-content-exit-button"
+        >
+          <mat-icon>exit_to_app</mat-icon>
         </button>
+      </mat-toolbar>
+    </header>
 
-        <mat-menu #languagesMenu>
-          <button
-            mat-menu-item
-            (click)="changeLanguage('fr')"
-            [disabled]="locale == 'fr'"
-            [matTooltip]="'Toolbar.LangFr' | translate"
-            matTooltipPosition="before"
-          >
-            <mat-icon *ngIf="locale == 'fr'">check</mat-icon>
-            {{ 'AvailableLanguages.French' | translate }}
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeLanguage('en')"
-            [disabled]="locale == 'en'"
-            [matTooltip]="'Toolbar.LangEn' | translate"
-            matTooltipPosition="before"
-          >
-            <mat-icon *ngIf="locale == 'en'">check</mat-icon>
-            {{ 'AvailableLanguages.English' | translate }}
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeLanguage('zh')"
-            [disabled]="locale == 'zh'"
-            [matTooltip]="'Toolbar.LangZh' | translate"
-            matTooltipPosition="before"
-          >
-            <mat-icon *ngIf="locale == 'zh'">check</mat-icon>
-            {{ 'AvailableLanguages.Chinese' | translate }}
-          </button>
-        </mat-menu>
-      </ng-container>
-
-      <a
-        class="mx-2 mat-elevation-z1"
-        mat-icon-button
-        [matTooltip]="'Toolbar.Documentation' | translate"
-        [href]="currentDocUrl"
-        target="_blank"
-      >
-        <mat-icon id="documentation_link">library_books</mat-icon>
-      </a>
-
-      <button
-        class="mx-2 mat-elevation-z1"
-        mat-icon-button
-        matTooltip="{{ 'Authentication.Actions.LogOut' | translate }}"
-        (click)="authService.logout()"
-        data-qa="pnx-home-content-exit-button"
-      >
-        <mat-icon>exit_to_app</mat-icon>
-      </button>
-    </mat-toolbar>
-
-    <div class="app-content">
+    <main class="app-content">
       <div>
         <router-outlet></router-outlet>
       </div>
-    </div>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfigService } from '@geonature/services/config.service';
 import { ModuleService } from '../../services/module.service';
 import { SideNavService } from './sidenav-service';
@@ -22,7 +23,8 @@ export class SidenavItemsComponent implements OnInit {
     public moduleService: ModuleService,
     public _sidenavService: SideNavService,
     public utilsService: UtilsService,
-    public config: ConfigService
+    public config: ConfigService,
+    private _router: Router
   ) {
     this.version = this.config.GEONATURE_VERSION;
   }
@@ -33,6 +35,12 @@ export class SidenavItemsComponent implements OnInit {
 
   setHome() {
     this.moduleService.currentModule$.next(null);
+  }
+
+  // in-app links declared as external urls (e.g. monitoring sub-modules) carry a hash route
+  isCurrentExternal(module: Module): boolean {
+    const route = module.module_external_url?.split('#')[1];
+    return !!route && this._router.url.startsWith(route);
   }
 
   getModulesVersionTooltip(): Module[] {

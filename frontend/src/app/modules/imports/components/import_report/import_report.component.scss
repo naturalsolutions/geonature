@@ -1,9 +1,6 @@
 .ImportReport {
   background-color: transparent;
   border: none;
-  font:
-    400 14px/20px Roboto,
-    sans-serif;
 
   h3 {
     margin-bottom: 0;
@@ -41,22 +38,28 @@
       font-weight: bold;
 
       &.unfinished {
-        color: orange;
+        color: var(--gn-warning);
       }
 
       &.inerror {
-        color: red;
+        color: var(--gn-danger);
       }
 
       &.importdone {
-        color: green;
+        color: var(--gn-success);
       }
     }
   }
 
   &__content {
     .mat-expansion-panel-header.mat-expanded {
-      background: #f7f7f7 !important;
+      background: var(--gn-hover) !important;
+    }
+
+    // in-flow panels: thin border instead of the Material elevation
+    .mat-expansion-panel:not([class*='mat-elevation-z']) {
+      box-shadow: none;
+      border: 1px solid var(--gn-divider);
     }
 
     table {

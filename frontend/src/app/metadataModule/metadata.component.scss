@@ -1,5 +1,5 @@
 .mat-expansion-panel-header.mat-expanded {
-  background-color: #f7f7f7 !important;
+  background-color: var(--gn-hover) !important;
 }
 
 .mat-paginator {
@@ -17,6 +17,13 @@ td {
   vertical-align: top;
   //padding: 10px;
   text-align: center;
+}
+
+// keeps the four action icons on one line when the table has room for them
+@media (min-width: 1280px) {
+  td:last-child {
+    white-space: nowrap;
+  }
 }
 
 .tab-title {
@@ -42,6 +49,15 @@ mat-expansion-panel {
   }
 }
 
+// in-flow panels: thin border instead of the Material elevation
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+  border: 1px solid var(--gn-divider);
+}
+.mat-expansion-panel:not(.mat-expanded) + .mat-expansion-panel:not(.mat-expanded) {
+  border-top-width: 0;
+}
+
 .tab-title > div {
   //padding: 10px;
   font-weight: bold;
@@ -55,7 +71,7 @@ mat-expansion-panel {
 }
 
 .bt-edit:disabled {
-  color: grey;
+  color: var(--gn-gray);
 }
 
 .bt-edit:hover {
@@ -100,7 +116,7 @@ mat-expansion-panel {
 }
 
 .alert-actor {
-  color: #cc2424;
+  color: var(--gn-danger);
 }
 
 .alert-actor mat-icon {
@@ -114,6 +130,10 @@ mat-expansion-panel {
 
 [data-qa='pnx-metadata-dataset-name-Mon jeu de données'] .delete-btn {
   background-color: black !important;
+}
+
+.uuid {
+  color: var(--gn-gray-strong);
 }
 
 .metadata-area-value {

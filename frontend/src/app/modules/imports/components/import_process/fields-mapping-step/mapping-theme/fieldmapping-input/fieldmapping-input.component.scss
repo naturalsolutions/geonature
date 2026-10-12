@@ -1,19 +1,14 @@
 .CSVColumnList {
   &__item {
     &--used {
-      color: #787878;
+      color: var(--gn-gray);
       font-style: italic;
     }
   }
 }
 
 .hint-condition {
-  color: #666;
-}
-
-.custom-tooltip {
-  font-size: 20px;
-  background: black !important;
+  color: var(--gn-gray);
 }
 
 .InputFieldContainer {
@@ -42,18 +37,19 @@
   }
 
   &__button {
-    color: #c2c2c2;
-    border-color: #c2c2c2;
+    color: var(--gn-gray);
+    border-color: var(--gn-border);
     height: 36px;
     padding: 5px;
     display: flex;
-    background-color: white;
+    background-color: var(--gn-surface);
     /* flex-direction: row; */
     align-content: center;
     flex-wrap: wrap;
     &--selected {
-      color: var(--purple);
-      border-color: var(--purple);
+      color: var(--gn-teal-700);
+      border-color: var(--gn-teal-700);
+      background-color: var(--gn-teal-50);
     }
   }
 }

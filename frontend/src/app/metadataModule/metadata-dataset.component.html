@@ -15,7 +15,7 @@
     {{ dataset.dataset_name }}
 
     <br />
-    <small style="color: gray">{{ dataset.unique_dataset_id }}</small>
+    <small class="uuid">{{ dataset.unique_dataset_id }}</small>
   </a>
 </td>
 <td>{{ dataset.meta_create_date | date: 'dd/MM/yyyy' }}</td>
@@ -54,6 +54,7 @@
     mat-icon-button
     [routerLink]="['/metadata/dataset_detail', dataset.id_dataset]"
     [matTooltip]="'MetaData.UI.SeeDataset' | translate"
+    [attr.aria-label]="'MetaData.UI.SeeDataset' | translate"
   >
     <mat-icon>info</mat-icon>
   </a>
@@ -64,6 +65,12 @@
     [routerLink]="['/synthese']"
     [queryParams]="{ id_dataset: dataset.id_dataset }"
     [attr.data-qa]="'pnx-metadata-jdd-display-data-' + dataset.unique_dataset_id"
+    [attr.aria-label]="
+      (dataset?.synthese_records_count == 0
+        ? 'MetaData.UI.DatasetEmpty'
+        : 'MetaData.UI.ShowInSynthese'
+      ) | translate
+    "
   >
     <mat-icon
       *ngIf="dataset?.synthese_records_count == 0; else elseSynthese"
@@ -82,6 +89,7 @@
       mat-icon-button
       [routerLink]="['/metadata/dataset', dataset.id_dataset]"
       [matTooltip]="'MetaData.UI.EditDataset' | translate"
+      [attr.aria-label]="'MetaData.UI.EditDataset' | translate"
     >
       <mat-icon>create</mat-icon>
     </a>
@@ -90,6 +98,7 @@
     <button
       mat-icon-button
       [disabled]="true"
+      [attr.aria-label]="'MetaData.UI.NoEditDataset' | translate"
     >
       <mat-icon [matTooltip]="'MetaData.UI.NoEditDataset' | translate">create</mat-icon>
     </button>
@@ -102,6 +111,7 @@
       mat-icon-button
       [disabled]="true"
       [attr.data-qa]="'pnx-metadata-jdd-delete-' + dataset.unique_dataset_id"
+      [attr.aria-label]="'MetaData.UI.DeleteDataset' | translate"
     >
       <mat-icon
         [matTooltip]="
@@ -120,6 +130,7 @@
       class="delete-btn"
       (click)="deleteDs(dataset)"
       [attr.data-qa]="'pnx-metadata-jdd-delete-' + dataset.unique_dataset_id"
+      [attr.aria-label]="'MetaData.UI.DeleteDataset' | translate"
     >
       <mat-icon [matTooltip]="'MetaData.UI.DeleteDataset' | translate">delete</mat-icon>
     </button>

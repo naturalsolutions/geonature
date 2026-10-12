@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: var(--gn-surface);
 }
 
 .nav-content {
@@ -11,33 +12,81 @@
 }
 
 .appnav {
-  margin-top: 10px;
+  padding: 8px 0;
   height: 100%; // Adapt to disponible size
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .logo {
   margin-bottom: 0px;
-  padding: 10px;
+  padding: 12px;
   flex-shrink: 0;
+  border: 0;
+  border-bottom: 1px solid var(--gn-divider);
+  border-radius: 0;
 }
 
-.navbar-footer {
-  padding: 5px;
-  font-size: 11px;
-  background-color: white;
-  flex-shrink: 0;
-  bottom: 0px;
+// same left padding in both states, so that icons do not move when the rail expands
+.sidenav-item {
+  height: 44px;
+  padding: 0 12px 0 17px;
+  border-left: 3px solid transparent;
+  border-radius: 0;
+  color: var(--gn-text);
+
+  &:hover {
+    background-color: var(--gn-hover);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--gn-focus);
+    outline-offset: -2px;
+  }
+}
+
+.sidenav-item--active,
+.sidenav-item--active:hover {
+  background-color: var(--gn-teal-50);
+  border-left-color: var(--gn-teal-700);
+
+  .picto,
+  .module-name {
+    color: var(--gn-teal-800);
+  }
+  .module-name {
+    font-weight: 600;
+  }
+}
+
+// forced colors repaint transparent borders: only the current page keeps its bar
+@media (forced-colors: active) {
+  .sidenav-item {
+    border-left-color: Canvas;
+  }
+  .sidenav-item--active,
+  .sidenav-item--active:hover {
+    border-left-color: Highlight;
+  }
 }
 
 .picto {
-  font-size: 25px;
-  padding-right: 10px;
-  width: 35px;
+  font-size: 1.25rem;
+  width: 24px;
+  margin-right: 16px;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--gn-gray-strong);
 }
 
 .module-name {
-  margin-top: 3px;
+  display: inline-block;
+  max-width: calc(100% - 40px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  font-size: 0.9375rem;
+  color: var(--gn-text);
 }
 
 .mat-card-image {
@@ -56,19 +105,70 @@ a:hover {
   text-decoration: none;
 }
 
+.navbar-footer {
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  color: var(--gn-gray-strong);
+  background-color: var(--gn-surface);
+  border-top: 1px solid var(--gn-divider);
+  flex-shrink: 0;
+  bottom: 0px;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
 .navbar-footer .p-small {
-  font-size: 11px;
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 
 .menu-content {
-  font-size: 11px;
+  font-size: 0.75rem;
   padding: 8px;
   color: inherit;
   white-space: pre-line;
 }
 
-.navbar-footer .info-icon {
-  font-size: 11px;
+.info-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--gn-radius);
+  background: none;
+  color: var(--gn-gray-strong);
   vertical-align: middle;
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--gn-hover);
+  }
+  .info-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// icon rail: labels stay in the accessible name, the footer comes back when the sidenav expands
+:host-context(.sidenav-container--rail) {
+  .logo {
+    padding: 8px;
+  }
+  .module-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .navbar-footer {
+    display: none;
+  }
 }

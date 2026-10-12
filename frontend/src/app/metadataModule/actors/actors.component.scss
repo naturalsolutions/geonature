@@ -12,9 +12,16 @@ form.ng-invalid {
   margin-top: 10px;
 }
 
+// in-flow control: thin border instead of the legacy elevation
+.mat-button-toggle-group:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+  border: 1px solid var(--gn-divider);
+}
+
 .mat-button-toggle-checked {
-  border-bottom: solid;
-  color: black;
+  border-bottom: 2px solid var(--gn-teal-700);
+  background-color: var(--gn-teal-50);
+  color: var(--gn-teal-800);
 }
 .organism-form {
   display: flex;
@@ -27,7 +34,7 @@ form.ng-invalid {
   }
   button {
     border: none;
-    border-radius: 5px;
+    border-radius: var(--gn-radius);
     font-size: 1rem;
     min-width: 40px;
   }

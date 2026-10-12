@@ -6,7 +6,8 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class SideNavService {
   sidenav: MatSidenav;
-  opened: boolean;
+  // collapsed, the sidenav stays visible as an icon rail
+  expanded = false;
   private _module = new Subject<any>();
   public currentModule: any;
   gettingCurrentModule = this._module.asObservable();
@@ -15,16 +16,20 @@ export class SideNavService {
   public home_page;
   public exportModule;
 
-  constructor() {
-    this.opened = false;
-  }
-
   setSideNav(sidenav: MatSidenav) {
     this.sidenav = sidenav;
   }
 
   setHome(sidenav: MatSidenav) {
-    sidenav.open();
+    this.open();
+  }
+
+  open() {
+    this.expanded = true;
+  }
+
+  close() {
+    this.expanded = false;
   }
 
   getCurrentApp() {
@@ -42,6 +47,6 @@ export class SideNavService {
   }
 
   toggleSideNav() {
-    this.sidenav.toggle();
+    this.expanded = !this.expanded;
   }
 }

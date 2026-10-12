@@ -4,6 +4,7 @@
     *ngIf="!stateChangeSaving"
     [checked]="dataset.active"
     [matTooltip]="getTooltip()"
+    [aria-label]="getTooltip()"
     (change)="switchDatasetState($event)"
     [attr.data-qa]="'pnx-metadata-jdd-actif-' + dataset.unique_dataset_id"
   ></mat-slide-toggle>
@@ -19,6 +20,7 @@
     [disabled]="true"
     color="primary"
     [matTooltip]="getTooltip()"
+    [aria-label]="getTooltip()"
     [attr.data-qa]="'pnx-metadata-jdd-inactif-' + dataset.unique_dataset_id"
   ></mat-slide-toggle>
 </ng-template>

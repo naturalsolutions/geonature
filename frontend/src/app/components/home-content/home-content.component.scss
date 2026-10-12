@@ -6,8 +6,19 @@
   margin-bottom: 2px;
 }
 
+// one frame around the four counters, not one per counter
+.panel-widget {
+  border: 0;
+  border-radius: 0;
+}
+
 .border-right {
-  border-right: 1px solid #dadbda;
+  border-right: 1px solid var(--gn-divider) !important;
+}
+
+pnx-footer {
+  display: block;
+  padding: 0 15px 16px;
 }
 
 .panel-top {

@@ -1,0 +1,42 @@
+// Palette. WCAG ratios against white unless stated.
+$teal: #1fb5ad; // 2.54:1, decorative only
+$teal-50: #e6f8f7;
+$teal-100: #aef1f0;
+$teal-200: #8ed6d3;
+$teal-700: #0b7a75; // text, links, icons, focus: 5.18:1
+$teal-800: #086560; // primary button background: 6.91:1 under white text, 5.47:1 on $teal-100
+$teal-900: #065450;
+
+$text: #2b2724; // 14.8:1
+$gray: #78716b; // 4.8:1, on white only (4.43:1 on $app-bg)
+$gray-strong: #5f5953; // secondary text on tinted backgrounds: 6.37:1 on $app-bg
+$border: #8a847e; // form control border, 3.7:1
+$divider: #e7e5e4;
+$hover: #f5f5f4;
+$surface: #fff;
+$app-bg: #f4f6f7;
+
+$danger: #a3362b; // 6.73:1, 5.9:1 on $danger-bg
+$danger-bg: #fbedeb;
+$warning: #8a5a00; // 5.93:1
+$warning-bg: #fdf5e4;
+$success: #2f6b3a; // 6.39:1
+$success-bg: #eef6ef;
+
+$radius: 4px;
+$radius-lg: 6px;
+$shadow-overlay:
+  0 4px 12px rgba(28, 25, 23, 0.12),
+  0 1px 3px rgba(28, 25, 23, 0.08);
+$transition: 180ms ease;
+
+$font: 'Source Sans 3', 'Source Sans Pro', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+// small caps fallback: the Source Sans 3 latin subset has no smcp feature
+@mixin title-caps {
+  text-transform: uppercase;
+  font-size: 0.875em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}

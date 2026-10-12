@@ -29,7 +29,8 @@ button .mat-spinner {
 }
 
 .disabled-form {
-  background-color: #00000061;
+  background-color: var(--gn-app-bg);
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
@@ -43,14 +44,14 @@ button .mat-spinner {
   line-height: 1.5;
   display: block;
   width: 100%;
-  color: #495057;
+  color: var(--gn-text);
   background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.2rem;
+  border: 1px solid var(--gn-border);
+  border-radius: var(--gn-radius);
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
-  background-color: #ddd;
+  background-color: var(--gn-app-bg);
   cursor: not-allowed;
 }
 

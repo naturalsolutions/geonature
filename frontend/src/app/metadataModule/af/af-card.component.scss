@@ -62,21 +62,7 @@ div.c {
 }
 
 .card {
-  position: relative;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid #edf2f9;
-  border-radius: 0.5rem;
   margin-bottom: 1.5rem;
-  border-color: #edf2f9;
-  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
 }
 
 .card-header {
@@ -84,8 +70,6 @@ div.c {
   gap: 15px;
   padding: 1rem 1.5rem;
   padding-bottom: 0.5rem;
-  background-color: transparent;
-  border-bottom: 1px solid #edf2f9;
   h5 {
     font-weight: bold;
   }
@@ -96,7 +80,7 @@ div.c {
 }
 
 .alert-actor {
-  color: #cc2424;
+  color: var(--gn-danger);
 }
 
 .alert-actor mat-icon {
@@ -106,11 +90,6 @@ div.c {
 .alert-actor span {
   vertical-align: middle;
   margin-left: 5px;
-}
-
-.af-edit-button {
-  color: #fff;
-  background-color: #f39c12;
 }
 
 .chart-wrapper {
@@ -124,9 +103,9 @@ div.c {
   font-size: 0.95rem;
   font-weight: 600;
   padding: 0.5rem 0.8rem;
-  background-color: #f1f3f5;
-  border-color: #ced4da !important;
-  color: #212529;
+  background-color: var(--gn-surface);
+  border-color: var(--gn-divider) !important; // overrides the Bootstrap .border utility
+  color: var(--gn-text);
 
   img {
     width: 1.25rem;
@@ -140,9 +119,9 @@ div.c {
     justify-content: center;
     min-width: 2.1rem;
     padding: 0.15rem 0.45rem;
-    border-radius: 999px;
-    background-color: #495057;
-    color: #fff;
+    border-radius: var(--gn-radius);
+    background-color: var(--gn-teal-50);
+    color: var(--gn-teal-800);
     font-weight: 700;
     line-height: 1.1;
   }
@@ -172,7 +151,7 @@ div.c {
   .number {
     font-size: 1.2rem;
     // background-color: #666;
-    color: #666;
+    color: var(--gn-gray-strong);
     border-radius: 5px;
     padding: 0px 10px 0px 10px;
     display: flex;

@@ -42,7 +42,7 @@
             data-qa="pnx-metadata-search"
           />
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-auto">
           <button
             mat-raised-button
             color="primary"
@@ -52,9 +52,9 @@
           </button>
           <button
             mat-raised-button
-            color="accent"
             class="ml-2"
             matTooltip="{{ 'MetaData.Actions.ResetSearch' | translate }}"
+            [attr.aria-label]="'MetaData.Actions.ResetSearch' | translate"
             (click)="refreshFilters()"
             data-qa="pnx-metadata-refresh"
           >
@@ -123,7 +123,7 @@
                     >
                       {{ af.acquisition_framework_name }}
                       <br />
-                      <small style="color: gray">{{ af.unique_acquisition_framework_id }}</small>
+                      <small class="uuid">{{ af.unique_acquisition_framework_id }}</small>
                     </a>
                   </div>
                   <div class="col-md-2">
@@ -162,7 +162,7 @@
                       mat-icon-button
                       [routerLink]="['/metadata/af_detail', af.id_acquisition_framework]"
                       matTooltip="{{ 'MetaData.Actions.SeeAFSheet' | translate }}"
-                      style="color: black"
+                      [attr.aria-label]="'MetaData.Actions.SeeAFSheet' | translate"
                     >
                       <mat-icon>info</mat-icon>
                     </a>
@@ -170,6 +170,7 @@
                       mat-icon-button
                       [disabled]="!af.cruved.U"
                       matTooltip="{{ 'MetaData.Actions.EditAF' | translate }}"
+                      [attr.aria-label]="'MetaData.Actions.EditAF' | translate"
                       [routerLink]="['/metadata/af', af.id_acquisition_framework]"
                     >
                       <mat-icon>create</mat-icon>

@@ -7,7 +7,7 @@
   /* font-size:2; */
 }
 ::ng-deep .Observations .custom-control {
-  background-color: rgba(255, 255, 255);
+  background-color: var(--gn-surface);
 }
 ::ng-deep .Observations .custom-control-label {
   margin: 0.2rem;
@@ -21,12 +21,17 @@
 ::ng-deep .legend {
   line-height: 10px;
   font-size: 14px;
-  color: #555;
-  background-color: white;
+  color: var(--gn-text);
+  background-color: var(--gn-surface);
   opacity: 0.7;
   padding: 5px;
-  border-radius: 4px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--gn-border);
+  border-radius: var(--gn-radius);
+}
+// the legend line height is sized for the swatches, the title needs its own
+::ng-deep .legend strong {
+  display: inline-block;
+  line-height: 1.2;
 }
 ::ng-deep .legend i {
   width: 18px;

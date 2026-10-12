@@ -1,6 +1,3 @@
-.selected {
-  background-color: red;
-}
 ngx-datatable {
   // position: absolute;
   // left:0;
@@ -8,10 +5,6 @@ ngx-datatable {
   // right:0;
   // top:0;
   // overflow:scroll;
-}
-
-:host ::ng-deep .datatable-body-row.active .datatable-row-group {
-  background-color: rgb(117, 227, 118) !important;
 }
 
 :host ::ng-deep .datatable-body-row {
@@ -25,16 +18,29 @@ ngx-datatable {
   padding-top: 8px !important;
   padding-left: 15px !important;
 }
+// tighter gutters on the text columns only, the icon columns are sized by their padding
+:host ::ng-deep [class*='synthese-list-col-'] {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+// clipped values end with an ellipsis, the full value stays in the cell title
+:host ::ng-deep [class*='synthese-list-col-'] .datatable-body-cell-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // keeps the focus ring of the links inside the clipping box
+  margin: -4px;
+  padding: 4px;
+  div {
+    display: inline;
+  }
+}
 :host ::ng-deep .datatable-body-cell i {
   font-size: 12px;
 }
 
 :host ::ng-deep .datatable-body {
-  overflow-x: scroll;
-}
-
-ngx-datatable {
-  box-shadow: none !important;
+  overflow-x: auto;
 }
 
 .actions-btns {
@@ -53,6 +59,17 @@ button[disabled] {
 }
 
 .Link {
-  color: var(--purple);
-  filter: brightness(70%);
+  color: var(--gn-teal-700);
+}
+
+// icon actions are buttons for keyboard access, with the look of the former bare icon
+.icon-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  line-height: inherit;
+  &:hover {
+    color: var(--gn-teal-800);
+  }
 }

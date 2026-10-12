@@ -3,9 +3,10 @@
     class="mx-2"
     mat-fab
     [matTooltip]="'Notifications.ManageRules' | translate"
+    [attr.aria-label]="'Notifications.ManageRules' | translate"
     routerLink="/notification/rules"
   >
-    <mat-icon>build</mat-icon>
+    <mat-icon aria-hidden="true">build</mat-icon>
   </a>
 </div>
 <div class="containerCards">
@@ -19,14 +20,10 @@
       [ngClass]="{ URL: notificationData.url != null }"
     >
       <div class="row align-items-center">
-        <div
-          class="col-md-1"
-          style="text-align: center"
-        >
+        <div class="col-md-1 text-center">
           <mat-icon
             class="cardIcon"
-            aria-hidden="false"
-            aria-label="Icon desccription"
+            aria-hidden="true"
           >
             description
           </mat-icon>

@@ -1,12 +1,10 @@
 .MappingTheme {
   fieldset {
-    border: 1px solid silver !important;
-    border-radius: 3px;
+    border: 1px solid var(--gn-divider);
+    border-radius: var(--gn-radius);
     legend {
       margin-left: 0.5rem;
       width: auto;
-      font-size: inherit;
-      color: black !important;
     }
   }
 }

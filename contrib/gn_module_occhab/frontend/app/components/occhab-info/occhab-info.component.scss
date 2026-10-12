@@ -1,5 +1,5 @@
 .content {
-  border-top: 1px solid rgb(235, 235, 235) !important;
+  border-top: 1px solid var(--gn-divider) !important;
   padding: 5px 0px !important;
 }
 
@@ -13,4 +13,18 @@
 .right-side {
   height: 87vh;
   overflow-y: auto;
+}
+
+// reset so the info triggers keep their icon-only look
+.icon-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+// selected habitat row, Bootstrap paints it blue
+.table-primary > td,
+.table-hover .table-primary:hover > td {
+  background-color: var(--gn-teal-100);
 }

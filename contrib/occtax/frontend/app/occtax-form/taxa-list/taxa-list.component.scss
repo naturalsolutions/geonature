@@ -8,10 +8,8 @@
 #taxalist-container {
   height: 90%;
   overflow-y: auto;
-  background-color: #95949833;
-  box-shadow:
-    2px 3px 4px 0px rgba(0, 0, 0, 0.2),
-    -2px 3px 4px 0px rgba(0, 0, 0, 0.2);
+  background-color: var(--gn-app-bg);
+  border: 1px solid var(--gn-divider);
 }
 
 #zero-taxon-container {
@@ -36,18 +34,13 @@
 }
 
 .btn-edit {
-  color: #5343da;
+  color: var(--gn-teal-700);
   margin-right: 5px;
 }
 
 .btn-clear {
   margin-right: 8px;
-  color: #d40303;
-}
-
-.btn-inpn {
-  margin-left: 15px;
-  color: #555;
+  color: var(--gn-danger);
 }
 
 .list-values > div {
@@ -56,13 +49,13 @@
 }
 
 .list-values > div:nth-child(odd) {
-  background-color: #eee;
+  background-color: var(--gn-hover);
 }
 
 .label {
   font-weight: bold;
   display: inline-block;
-  color: #333;
+  color: var(--gn-text);
 }
 
 .value {
@@ -73,25 +66,13 @@
 .counting-title {
   padding: 10px 5px 0px;
   font-weight: bold;
-  color: #7d1bbb;
-  text-decoration: underline;
+  color: var(--gn-teal-800);
   font-size: 1.2em;
 }
 
 .in-progress-panel {
-  box-shadow:
-    0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  -moz-box-shadow:
-    0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  -webkit-box-shadow:
-    0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
+  border: 1px solid var(--gn-divider);
+  border-radius: var(--gn-radius);
   overflow: hidden;
   padding: 0 24px;
   // margin-left: 60px !important;
@@ -100,13 +81,14 @@
 }
 
 .in-progress-panel.in_progress {
-  background-color: #9dc1e0;
+  background-color: var(--gn-teal-50);
   cursor: not-allowed;
 }
 
 .in-progress-panel.error {
-  background-color: #ff4a4a;
-  color: #fff;
+  background-color: var(--gn-danger-bg);
+  border-color: var(--gn-danger);
+  color: var(--gn-danger);
   cursor: pointer;
 }
 

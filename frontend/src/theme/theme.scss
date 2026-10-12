@@ -1,0 +1,914 @@
+// Instance theme, loaded last in angular.json: replaces the prebuilt Material theme and aligns
+// Bootstrap, ng-select, ngx-datatable, Leaflet and toastr on the same tokens.
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use 'tokens' as *;
+
+// self-hosted latin subset, accented Latin included, no font service call
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/source-sans-3-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/source-sans-3-latin-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./fonts/source-sans-3-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/source-sans-3-latin-600-normal.woff2') format('woff2');
+}
+
+:root {
+  --gn-teal: #{$teal};
+  --gn-teal-50: #{$teal-50};
+  --gn-teal-100: #{$teal-100};
+  --gn-teal-200: #{$teal-200};
+  --gn-teal-700: #{$teal-700};
+  --gn-teal-800: #{$teal-800};
+  --gn-teal-900: #{$teal-900};
+  --gn-text: #{$text};
+  --gn-gray: #{$gray};
+  --gn-gray-strong: #{$gray-strong};
+  --gn-border: #{$border};
+  --gn-divider: #{$divider};
+  --gn-hover: #{$hover};
+  --gn-surface: #{$surface};
+  --gn-app-bg: #{$app-bg};
+  --gn-danger: #{$danger};
+  --gn-danger-bg: #{$danger-bg};
+  --gn-warning: #{$warning};
+  --gn-warning-bg: #{$warning-bg};
+  --gn-success: #{$success};
+  --gn-success-bg: #{$success-bg};
+  --gn-radius: #{$radius};
+  --gn-radius-lg: #{$radius-lg};
+  --gn-shadow-overlay: #{$shadow-overlay};
+  --gn-font: #{$font};
+  --gn-focus: #{$teal-700};
+  // legacy variables still read by styles.scss and modules
+  --green: #{$success};
+  --purple: #{$teal-700};
+  --mdc-typography-button-text-transform: none;
+  --mdc-typography-button-letter-spacing: 0.01em;
+}
+
+// ---------------------------------------------------------------- Angular Material
+$teal-palette: (
+  50: $teal-50,
+  100: $teal-100,
+  200: $teal-200,
+  300: #5cc7c1,
+  400: $teal,
+  500: #179c95,
+  600: #0f8a84,
+  700: $teal-700,
+  800: $teal-800,
+  900: $teal-900,
+  A100: $teal-100,
+  A200: $teal-200,
+  A400: $teal,
+  A700: $teal-700,
+  contrast: (
+    50: $text,
+    100: $text,
+    200: $text,
+    300: $text,
+    400: $text,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    A100: $text,
+    A200: $text,
+    A400: $text,
+    A700: #fff,
+  ),
+);
+$danger-palette: map.merge(
+  mat.$red-palette,
+  (
+    500: $danger,
+    700: $danger,
+    800: #8a2c23,
+  )
+);
+
+$gn-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette($teal-palette, 800, 100, 900),
+      accent: mat.define-palette($teal-palette, 700, 100, 900),
+      warn: mat.define-palette($danger-palette, 700, 100, 800),
+    ),
+    typography:
+      mat.define-typography-config(
+        $font-family: $font,
+        $subtitle-1: mat.define-typography-level(1rem, 1.5, 500, $letter-spacing: normal),
+        $subtitle-2: mat.define-typography-level(0.875rem, 1.4, 500, $letter-spacing: normal),
+        $body-1: mat.define-typography-level(1rem, 1.5, 400, $letter-spacing: normal),
+        $body-2: mat.define-typography-level(0.875rem, 1.45, 400, $letter-spacing: normal),
+        $caption: mat.define-typography-level(0.75rem, 1.35, 400, $letter-spacing: normal),
+        $button: mat.define-typography-level(0.875rem, 1.4, 500, $letter-spacing: 0.01em),
+      ),
+    density: 0,
+  )
+);
+@include mat.core();
+@include mat.all-component-themes($gn-theme);
+
+// ---------------------------------------------------------------- base
+html {
+  // original 1vw scale, rem bounds follow the browser text size and keep 14px on small screens
+  font-size: clamp(0.875rem, 1vw, 1.25rem);
+}
+body {
+  font-family: $font;
+  color: $text;
+  line-height: 1.5;
+  background-color: $app-bg;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: $font;
+  font-weight: 600;
+  color: $text;
+}
+a {
+  color: $teal-700;
+  &:hover {
+    color: $teal-900;
+  }
+}
+// inline links are only 2.86:1 against body text, the underline tells them apart
+p a:not([class]),
+li a:not([class]),
+td a:not([class]),
+.card-body a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+:focus-visible,
+.btn:focus-visible,
+.mat-mdc-button-base:focus-visible,
+.leaflet-container a:focus-visible,
+.leaflet-container .leaflet-control-layers-toggle:focus-visible {
+  outline: 2px solid $teal-700;
+  outline-offset: 2px;
+}
+// Bootstrap reboot outlines buttons on mouse focus too; keyboard focus keeps the ring above
+button:focus:not(:focus-visible) {
+  outline: 0;
+}
+.sr-only-focusable:focus-visible {
+  outline-offset: 0;
+}
+
+::selection {
+  background-color: $teal-100;
+  color: $text;
+}
+
+// page and section titles only: labels, fields, tables and taxon names keep their case
+.card-header > h1,
+.card-header > h2,
+.card-header > h3,
+.card-header > h4,
+.card-header > h5,
+h4.card-header,
+h5.card-header {
+  @include title-caps;
+  font-size: 1.0625rem;
+  margin-bottom: 0;
+}
+legend {
+  @include title-caps;
+  font-size: 0.8125rem;
+  color: $gray-strong;
+}
+
+// ---------------------------------------------------------------- elevation
+// shadows are kept for overlays, in-flow surfaces are separated by a thin border
+@for $i from 1 through 24 {
+  .mat-elevation-z#{$i},
+  .mat-mdc-elevation-specific.mat-elevation-z#{$i} {
+    box-shadow: none;
+  }
+}
+.mat-expansion-panel:not([class*='mat-elevation-z']),
+.mat-button-toggle-group:not(.mat-button-toggle-group-appearance-standard) {
+  box-shadow: none;
+  border: 1px solid $divider;
+}
+.mat-mdc-card {
+  box-shadow: none;
+  border: 1px solid $divider;
+  border-radius: $radius-lg;
+}
+.cdk-overlay-container {
+  .mat-mdc-menu-panel,
+  .mat-mdc-select-panel,
+  .mat-mdc-autocomplete-panel,
+  .mat-datepicker-content,
+  .mdc-dialog__surface,
+  .mat-mdc-elevation-specific {
+    box-shadow: $shadow-overlay;
+    border-radius: $radius-lg;
+  }
+}
+.dropdown-menu,
+.popover,
+.modal-content,
+.ng-dropdown-panel,
+ngb-datepicker.dropdown-menu,
+.ngx-toastr {
+  box-shadow: $shadow-overlay;
+}
+
+// ---------------------------------------------------------------- Material buttons
+.mat-mdc-raised-button:not(:disabled),
+.mat-mdc-raised-button:not(:disabled):hover,
+.mat-mdc-raised-button:not(:disabled):focus,
+.mat-mdc-raised-button:not(:disabled):active,
+.mat-mdc-fab:not(:disabled),
+.mat-mdc-mini-fab:not(:disabled) {
+  box-shadow: none;
+}
+.mat-mdc-button-base {
+  font-weight: 500;
+  &:not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-mini-fab) {
+    border-radius: $radius;
+  }
+}
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-outlined-button,
+.mat-mdc-button {
+  min-height: 2.25rem;
+  height: auto;
+}
+// raised without color renders as secondary
+.mat-mdc-raised-button:not(.mat-primary):not(.mat-accent):not(.mat-warn):not(:disabled),
+.mat-mdc-outlined-button:not(:disabled) {
+  background-color: $surface;
+  color: $teal-800;
+  border: 1px solid $teal-800;
+}
+.mat-mdc-raised-button.mat-primary:not(:disabled),
+.mat-mdc-unelevated-button.mat-primary:not(:disabled),
+.mat-mdc-raised-button.mat-accent:not(:disabled),
+.mat-mdc-unelevated-button.mat-accent:not(:disabled) {
+  background-color: $teal-800;
+  color: #fff;
+  &:hover {
+    background-color: $teal-900;
+  }
+}
+// destructive or reset action: sober, identified by its icon and label
+.mat-mdc-raised-button.mat-warn:not(:disabled),
+.mat-mdc-unelevated-button.mat-warn:not(:disabled) {
+  background-color: $surface;
+  color: $danger;
+  border: 1px solid $danger;
+  &:hover {
+    background-color: $danger-bg;
+  }
+}
+.mat-mdc-button.mat-primary:not(:disabled),
+.mat-mdc-button.mat-accent:not(:disabled),
+.mat-mdc-icon-button.mat-primary:not(:disabled),
+.mat-mdc-icon-button.mat-accent:not(:disabled) {
+  color: $teal-700;
+}
+.mat-mdc-button.mat-warn:not(:disabled),
+.mat-mdc-icon-button.mat-warn:not(:disabled) {
+  color: $danger;
+}
+.mat-mdc-fab.mat-primary:not(:disabled),
+.mat-mdc-mini-fab.mat-primary:not(:disabled),
+.mat-mdc-fab.mat-accent:not(:disabled),
+.mat-mdc-mini-fab.mat-accent:not(:disabled) {
+  background-color: $teal-800;
+  color: #fff;
+}
+.mat-mdc-fab.mat-warn:not(:disabled),
+.mat-mdc-mini-fab.mat-warn:not(:disabled) {
+  background-color: $surface;
+  color: $danger;
+  border: 1px solid $danger;
+}
+.mat-mdc-raised-button:disabled,
+.mat-mdc-unelevated-button:disabled,
+.mat-mdc-outlined-button:disabled {
+  background-color: $divider;
+  color: $gray-strong;
+  border: 1px solid $divider;
+}
+
+// ---------------------------------------------------------------- Bootstrap buttons
+.btn {
+  border-radius: $radius;
+  font-weight: 500;
+  box-shadow: none;
+  transition:
+    background-color $transition,
+    border-color $transition,
+    color $transition;
+  &:focus,
+  &.focus,
+  &:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+  }
+  &:disabled,
+  &.disabled {
+    opacity: 1;
+    background-color: $divider;
+    border-color: $divider;
+    color: $gray-strong;
+  }
+}
+@mixin btn-primary {
+  background-color: $teal-800;
+  border-color: $teal-800;
+  color: #fff;
+  &:hover,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background-color: $teal-900;
+    border-color: $teal-900;
+    color: #fff;
+  }
+}
+@mixin btn-secondary {
+  background-color: $surface;
+  border-color: $teal-800;
+  color: $teal-800;
+  &:hover,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background-color: $teal-50;
+    border-color: $teal-800;
+    color: $teal-900;
+  }
+}
+@mixin btn-neutral {
+  background-color: $surface;
+  border-color: $border;
+  color: $text;
+  &:hover,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background-color: $hover;
+    border-color: $gray-strong;
+    color: $text;
+  }
+}
+@mixin btn-tone($color, $bg) {
+  background-color: $surface;
+  border-color: $color;
+  color: $color;
+  &:hover,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background-color: $bg;
+    border-color: $color;
+    color: $color;
+  }
+}
+.btn-primary,
+.btn-success,
+.button-success,
+.success-btn {
+  @include btn-primary;
+}
+.btn-outline-primary,
+.btn-outline-success,
+.btn-secondary,
+.btn-info,
+.btn-outline-info {
+  @include btn-secondary;
+}
+.btn-light,
+.btn-outline-secondary,
+.btn-outline-dark,
+.btn-outline-light,
+.btn-outline-shadow {
+  @include btn-neutral;
+}
+.btn-danger,
+.btn-outline-danger {
+  @include btn-tone($danger, $danger-bg);
+}
+.btn-warning,
+.btn-outline-warning {
+  @include btn-tone($warning, $warning-bg);
+}
+.btn-link {
+  color: $teal-700;
+  &:hover {
+    color: $teal-900;
+  }
+}
+.btn.text-uppercase {
+  text-transform: none !important; // Bootstrap utility is !important; buttons stay in sentence case
+}
+.btn-group > .btn.active {
+  font-weight: 600;
+}
+
+// ---------------------------------------------------------------- semantic text and backgrounds
+.text-primary,
+.text-info {
+  color: $teal-700 !important; // Bootstrap utilities are !important
+}
+.text-success {
+  color: $success !important;
+}
+.text-danger {
+  color: $danger !important;
+}
+.text-warning {
+  color: $warning !important;
+}
+.text-muted,
+.text-secondary {
+  color: $gray !important;
+}
+.bg-primary,
+.bg-info {
+  background-color: $teal-800 !important;
+}
+.bg-light {
+  background-color: $app-bg !important;
+}
+.badge {
+  font-weight: 600;
+  border-radius: $radius;
+}
+.badge-primary,
+.badge-info {
+  background-color: $teal-800;
+  color: #fff;
+}
+.badge-secondary {
+  background-color: $gray-strong;
+  color: #fff;
+}
+.badge-light {
+  background-color: $teal-50;
+  color: $teal-800;
+}
+.badge-success {
+  background-color: $success;
+  color: #fff;
+}
+.badge-danger {
+  background-color: $danger;
+  color: #fff;
+}
+.badge-warning {
+  background-color: $warning;
+  color: #fff;
+}
+.alert {
+  border-radius: $radius;
+  border: 1px solid transparent;
+  border-left-width: 4px;
+  color: $text;
+}
+.alert-info,
+.alert-primary {
+  background-color: $teal-50;
+  border-color: $teal-700;
+}
+.alert-success {
+  background-color: $success-bg;
+  border-color: $success;
+}
+.alert-warning {
+  background-color: $warning-bg;
+  border-color: $warning;
+}
+.alert-danger {
+  background-color: $danger-bg;
+  border-color: $danger;
+}
+.alert-secondary,
+.alert-light,
+.alert-dark {
+  background-color: $app-bg;
+  border-color: $border;
+}
+
+.bg-danger {
+  background-color: $danger !important;
+}
+.border-danger {
+  border-color: $danger !important;
+}
+.border-primary {
+  border-color: $teal-700 !important;
+}
+
+// ---------------------------------------------------------------- Bootstrap surfaces
+.card {
+  border: 1px solid $divider;
+  border-radius: $radius-lg;
+}
+.card-header {
+  background-color: $surface;
+  border-bottom: 1px solid $divider;
+}
+.card-footer {
+  background-color: $surface;
+  border-top: 1px solid $divider;
+}
+.modal-content {
+  border: 1px solid $divider;
+  border-radius: $radius-lg;
+}
+.modal-header,
+.modal-footer {
+  border-color: $divider;
+}
+.modal-backdrop.show {
+  opacity: 0.4;
+}
+.list-group-item.active {
+  background-color: $teal-50;
+  border-color: $divider;
+  color: $teal-800;
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 $teal-700;
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: $teal-100;
+  color: $text;
+}
+.nav-tabs {
+  border-bottom-color: $divider;
+  .nav-link {
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: $gray-strong;
+    &:hover {
+      color: $text;
+      border-bottom-color: $divider;
+    }
+    &.active {
+      color: $teal-800;
+      font-weight: 600;
+      border-bottom-color: $teal-700;
+      background-color: transparent;
+    }
+  }
+}
+.nav-pills .nav-link.active {
+  background-color: $teal-800;
+}
+.page-link {
+  color: $teal-700;
+  border-color: $divider;
+}
+.page-item.active .page-link {
+  background-color: $teal-800;
+  border-color: $teal-800;
+}
+
+// ---------------------------------------------------------------- forms
+.form-control,
+.custom-select {
+  border-color: $border;
+  border-radius: $radius;
+  color: $text;
+  &:focus {
+    border-color: $teal-700;
+    box-shadow: 0 0 0 1px $teal-700;
+  }
+  &::placeholder {
+    color: $gray;
+  }
+  &:disabled,
+  &[readonly] {
+    background-color: $app-bg;
+  }
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: $teal-800;
+  border-color: $teal-800;
+}
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow:
+    0 0 0 2px $surface,
+    0 0 0 4px $teal-700;
+}
+.input-group-text {
+  background-color: $app-bg;
+  border-color: $border;
+  color: $gray-strong;
+}
+.invalid-feedback,
+.text-error {
+  color: $danger;
+}
+label {
+  color: $text;
+}
+
+// ng-select
+.ng-select {
+  .ng-select-container {
+    border-color: $border;
+    border-radius: $radius;
+    color: $text;
+  }
+  .ng-placeholder {
+    color: $gray !important; // ng-select sets the placeholder color as !important
+  }
+  &.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    border-color: $teal-700;
+    box-shadow: 0 0 0 1px $teal-700;
+  }
+  &.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    background-color: $teal-50;
+    border: 1px solid $teal-200;
+    color: $teal-900;
+    border-radius: $radius;
+    .ng-value-icon {
+      border-color: $teal-200;
+      &:hover {
+        background-color: $teal-100;
+        color: $teal-900;
+      }
+    }
+  }
+}
+.ng-dropdown-panel {
+  border-color: $divider;
+  .ng-dropdown-panel-items .ng-option {
+    color: $text;
+    &.ng-option-marked {
+      background-color: $hover;
+      color: $text;
+    }
+    &.ng-option-selected,
+    &.ng-option-selected.ng-option-marked {
+      background-color: $teal-100;
+      color: $text;
+      font-weight: 600;
+    }
+  }
+}
+
+// ---------------------------------------------------------------- Material tabs, badges, tooltips
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: $teal-800;
+  font-weight: 600;
+}
+.mat-mdc-tab .mdc-tab__text-label {
+  color: $gray-strong;
+  letter-spacing: 0.01em;
+}
+.mat-mdc-tab-header {
+  border-bottom: 1px solid $divider;
+}
+.mat-badge-content {
+  font-family: $font;
+  font-weight: 600;
+}
+.mat-mdc-tooltip .mdc-tooltip__surface {
+  background-color: $text;
+  color: #fff;
+  font-family: $font;
+  font-size: 0.8125rem;
+  border-radius: $radius;
+}
+.mat-mdc-menu-item .mat-icon {
+  color: $gray-strong;
+}
+// MDC removes the outline on list, menu and option items
+.mdc-list-item:focus-visible,
+.mat-mdc-menu-item.cdk-keyboard-focused,
+.mat-mdc-option.mat-mdc-option-active {
+  outline: 2px solid $teal-700;
+  outline-offset: -2px;
+}
+.mat-mdc-option.mat-mdc-option-active,
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: $teal-50;
+}
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: $teal-800;
+  font-weight: 600;
+}
+
+// ngb-datepicker: component styles are injected after this sheet, hence the element-qualified selectors
+ngb-datepicker.dropdown-menu,
+ngb-datepicker {
+  border-color: $divider;
+  border-radius: $radius-lg;
+  background-color: $surface;
+  .ngb-dp-header,
+  .ngb-dp-week {
+    background-color: $surface;
+  }
+  .ngb-dp-weekday {
+    color: $gray-strong;
+    font-style: normal;
+    font-weight: 600;
+  }
+  .ngb-dp-week {
+    border-bottom: 0;
+  }
+  .ngb-dp-day .btn-light {
+    background-color: transparent;
+    border: 0;
+    &:hover {
+      background-color: $teal-50;
+    }
+    &.bg-primary {
+      color: #fff;
+    }
+  }
+  .ngb-dp-today .btn-light:not(.bg-primary) {
+    box-shadow: inset 0 0 0 1px $teal-700;
+  }
+  .ngb-dp-arrow-btn {
+    color: $teal-700;
+  }
+  .ngb-dp-navigation-chevron {
+    border-width: 0.15em 0.15em 0 0;
+  }
+  .custom-select {
+    border-color: $border;
+  }
+}
+
+// ---------------------------------------------------------------- ngx-datatable
+.ngx-datatable.material {
+  box-shadow: none;
+  border: 1px solid $divider;
+  border-radius: $radius-lg;
+  font-family: $font;
+  .datatable-header {
+    border-bottom: 1px solid $divider;
+    .datatable-header-cell {
+      color: $gray-strong;
+      font-weight: 600;
+      font-size: 0.8125rem;
+    }
+  }
+  .datatable-body .datatable-body-row {
+    border-bottom: 1px solid $divider;
+    color: $text;
+    .datatable-body-cell {
+      color: $text;
+    }
+  }
+  &.striped .datatable-row-odd {
+    background-color: #fafaf9;
+  }
+  &:not(.cell-selection) .datatable-body-row:hover,
+  &:not(.cell-selection) .datatable-body-row:hover .datatable-row-group {
+    background-color: $hover;
+  }
+  &.single-selection,
+  &.multi-selection,
+  &.multi-click-selection {
+    .datatable-body-row.active,
+    .datatable-body-row.active .datatable-row-group,
+    .datatable-body-row.active:hover,
+    .datatable-body-row.active:hover .datatable-row-group {
+      background-color: $teal-100;
+      color: $text;
+    }
+    .datatable-body-row.active .datatable-body-cell {
+      color: $text;
+    }
+  }
+  .datatable-body-row:focus,
+  .datatable-body-row:focus .datatable-row-group {
+    background-color: $hover;
+  }
+  .datatable-body-row:focus-visible {
+    outline: 2px solid $teal-700;
+    outline-offset: -2px;
+  }
+  .datatable-footer {
+    border-top: 1px solid $divider;
+    color: $gray-strong;
+    .datatable-pager li.active a {
+      background-color: $teal-800;
+      color: #fff;
+      font-weight: 600;
+    }
+    .datatable-pager li:not(.disabled):hover a {
+      background-color: $teal-50;
+    }
+  }
+}
+
+// ---------------------------------------------------------------- Leaflet: controls only
+.leaflet-bar,
+.leaflet-touch .leaflet-bar,
+.leaflet-control-layers,
+.leaflet-touch .leaflet-control-layers {
+  border: 1px solid $border;
+  border-radius: $radius;
+  box-shadow: none;
+  background-clip: padding-box;
+}
+.leaflet-bar a,
+.leaflet-touch .leaflet-bar a {
+  color: $text;
+  border-bottom-color: $divider;
+  &:hover {
+    background-color: $hover;
+  }
+}
+.leaflet-touch .leaflet-bar a:first-child {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+.leaflet-touch .leaflet-bar a:last-child {
+  border-bottom-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+.leaflet-control-scale-line {
+  border-color: $gray-strong;
+  color: $text;
+}
+.leaflet-container {
+  font-family: $font;
+  .leaflet-control-attribution a {
+    color: $teal-700;
+  }
+}
+
+// ---------------------------------------------------------------- toastr notifications
+.toast-container .ngx-toastr {
+  opacity: 1;
+  border-radius: $radius;
+  &:hover {
+    box-shadow: $shadow-overlay;
+  }
+}
+.toast-success {
+  background-color: $success;
+}
+.toast-error {
+  background-color: $danger;
+}
+.toast-info {
+  background-color: $teal-800;
+}
+.toast-warning {
+  background-color: $warning;
+}
+
+// ---------------------------------------------------------------- system preferences
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important; // only way to reach library transitions
+    scroll-behavior: auto !important;
+  }
+}
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+  .btn,
+  .mat-mdc-button-base {
+    border: 1px solid ButtonText;
+  }
+}

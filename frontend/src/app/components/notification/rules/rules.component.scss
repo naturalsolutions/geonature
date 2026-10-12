@@ -5,8 +5,16 @@
 }
 
 /* Btn switch --> Custom checkbox with CSS properties */
+// visually hidden but focusable, the label draws the switch
 #manageNotif .btn-switch > input[type='checkbox'] {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+#manageNotif .btn-switch > input[type='checkbox']:focus-visible + label::before {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 4px;
 }
 
 #manageNotif .btn-switch > label {
@@ -17,21 +25,19 @@
 }
 
 #manageNotif .btn-switch > label::before {
-  background: rgb(0, 0, 0);
-  box-shadow: inset 0px 0px 10px rgb(0 0 0 / 50%);
+  background: var(--gn-border);
   border-radius: 8px;
   content: '';
   height: 14px;
   margin-top: -6px;
   position: absolute;
-  opacity: 0.3;
   transition: all 0.4s ease-in-out;
   width: 40px;
 }
 #manageNotif .btn-switch > label::after {
-  background: rgb(255, 255, 255);
+  background: var(--gn-surface);
+  border: 1px solid var(--gn-border);
   border-radius: 16px;
-  box-shadow: 0px 0px 5px rgb(0 0 0 / 30%);
   content: '';
   height: 20px;
   left: -4px;
@@ -42,32 +48,17 @@
   width: 20px;
 }
 #manageNotif .btn-switch > input[type='checkbox']:checked + label::before {
-  background: inherit;
-  opacity: 0.5;
+  background: var(--gn-teal-200);
 }
 #manageNotif .btn-switch > input[type='checkbox']:checked + label::after {
-  background: inherit;
+  background: var(--gn-teal-700);
+  border-color: var(--gn-teal-700);
   left: 20px;
-}
-#manageNotif .label-default {
-  background-color: #673ab7;
 }
 
 /* Cards */
 #manageNotif .list-group-item {
   padding: 1rem 1.25rem;
-}
-
-/* Btn purple */
-#manageNotif .btn-purple {
-  color: #fff;
-  background-color: #673ab7;
-  border-color: #673ab7;
-}
-
-#manageNotif .btn-purple:hover {
-  color: #fff !important;
-  opacity: 0.8;
 }
 
 #manageNotif .text-small {
