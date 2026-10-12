@@ -154,8 +154,23 @@
       "FieldRequired": "Ce champ est nécessaire",
       "InvalidEmailFormat": "Format d'email invalide",
       "EmailChangeSuccess": "Votre adresse email a été validée avec succès.",
-      "EmailChangeError": "Une erreur s'est produite"
-    }
+      "EmailChangeError": "Une erreur s'est produite",
+      "ConfirmationError": "Erreur de confirmation"
+    },
+    "MyInformation": "Mes informations",
+    "LastName": "Nom",
+    "FirstName": "Prenom",
+    "Email": "Adresse mail",
+    "PasswordChangeTitle": "Changement de mot de passe",
+    "Remarks": "Remarques",
+    "RemarksPlaceholder": "Informations complémentaires...",
+    "EditTooltip": "Editer ces informations",
+    "CancelTooltip": "Annuler modifications",
+    "SaveTooltip": "Enregistrer modifications",
+    "CurrentPassword": "Mot de passe actuel",
+    "NewPassword": "Nouveau mot de passe",
+    "PasswordConfirmation": "Confirmation du mot de passe",
+    "Change": "Modifier"
   },
 
   "Observer": "Observateur",
@@ -1203,5 +1218,10 @@
     "Metadata": "Métadonnées",
     "User": "Utilisateur",
     "Notifications": "Notifications"
+  },
+  "Notifications": {
+    "RulesTitle": "Gestion des règles de notification",
+    "RulesLead": "Gérer vos règles de notification selon le type d'action",
+    "RestoreDefaults": "Restaurer les règles de notification par défaut"
   }
 }
