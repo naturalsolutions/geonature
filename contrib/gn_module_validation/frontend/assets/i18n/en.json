@@ -28,7 +28,10 @@
       "CommentPlaceholder": "Your comment...",
       "ModifiedSinceValidation": "Warning: data modified since the last validation",
       "StatusSaved": "New validation status saved",
-      "Last100": "The last 100 observations"
+      "Last100": "The last 100 observations",
+      "EditStatus": "Edit the validation status",
+      "ObservationInfo": "Observation information",
+      "ObsLimit": "The module displays at most {{ limit }} observations"
     }
   }
 }
