@@ -54,7 +54,12 @@
     "ErrorOccurs": "Une erreur s'est produite",
     "DatesReversed": "La date de début ne peut pas être postérieure à la date de fin",
     "AltitudeError": "L'altitude max ne peut être inférieure à l'altitude min",
-    "NotAllowed": "Vous n'avez pas les permissions pour effectuer cette action"
+    "NotAllowed": "Vous n'avez pas les permissions pour effectuer cette action",
+    "Title": "Erreur",
+    "Timeout": "La requête n’a pas abouti dans le temps imparti",
+    "RequestColon": "Requête :",
+    "Unknown": "Une erreur inconnue est survenue.",
+    "ModuleAccess": "Vous n'avez pas les droits d'accès au module {{ module }}"
   },
 
   "Authentication": {
@@ -547,7 +552,8 @@
         "Previous": "Page précédente",
         "ItemsPerPage": "Éléments par page",
         "Of": "sur"
-      }
+      },
+      "ConfirmDeleteActor": "Êtes-vous certain de supprimer cet acteur ?"
     }
   },
   "Filters": {
@@ -837,6 +843,22 @@
         "CitedName": "Nom cite",
         "Rank": "Rang taxonomique"
       }
+    },
+    "Alert": {
+      "Description": "Description du signalement :",
+      "Detail": "Détailler ici le signalement :",
+      "Back": "Retour",
+      "Delete": "Supprimer ce signalement",
+      "Handled": "Signalement pris en compte !",
+      "Saved": "Signalement sauvegardé !"
+    },
+    "Discussion": {
+      "CommentColon": "Commentaire :",
+      "Placeholder": "Votre commentaire....",
+      "Required": "Veuillez saisir un commentaire",
+      "ChangedStatus": "a changé le statut en",
+      "DeletedOn": "a supprimé le commentaire du {{ date }}",
+      "Saved": "Commentaire sauvegardé !"
     }
   },
   "Media": {
@@ -928,7 +950,9 @@
         "ConfirmMappingDeletion": "Supprimer le modèle",
         "DefineUniqueValue": "Définir une valeur unique",
         "SelectASourceFileColumn": "Sélectionner une colonne du fichier"
-      }
+      },
+      "IsFilled": "est renseignée",
+      "AreFilled": "sont renseignées"
     },
     "ContentMapping": {
       "Title": "Correspondance des nomenclatures",
@@ -1109,7 +1133,12 @@
       "SubmissionErrors": "La soumission comporte <b>{{ n }}</b> erreur(s)",
       "SubmissionWarnings": "La soumission comporte <b>{{ n }}</b> avertissement(s)",
       "SeeMore": "Voir plus",
-      "SeeLess": "Voir moins"
+      "SeeLess": "Voir moins",
+      "Status": {
+        "unfinished": "EN COURS",
+        "inerror": "EN ERREUR",
+        "importdone": "TERMINE"
+      }
     }
   },
   "Releve": {
