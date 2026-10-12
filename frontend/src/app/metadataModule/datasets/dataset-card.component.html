@@ -158,13 +158,19 @@
 
           <div class="b">{{ 'MetaData.DatasetCard.DataType' | translate }}</div>
           <div class="a">
-            {{ dataset?.nomenclature_data_type.label_default || 'Non renseigné' }}
+            {{
+              dataset?.nomenclature_data_type.label_default ||
+                ('MetaData.DatasetCard.NotFilled' | translate)
+            }}
           </div>
           <br />
 
           <div class="b">{{ 'Aims' | translate }}</div>
           <div class="a">
-            {{ dataset?.nomenclature_dataset_objectif.label_default || 'Non renseigné' }}
+            {{
+              dataset?.nomenclature_dataset_objectif.label_default ||
+                ('MetaData.DatasetCard.NotFilled' | translate)
+            }}
           </div>
           <br />
 
@@ -174,11 +180,11 @@
           </ul>
           <div class="a">
             <b>{{ 'MetaData.DatasetCard.LandCoverage' | translate }} :</b>
-            {{ dataset.terrestrial_domain ? 'oui' : 'non' }}
+            {{ (dataset.terrestrial_domain ? 'Yes' : 'No') | translate | lowercase }}
           </div>
           <div class="a">
             <b>{{ 'MetaData.DatasetCard.MarineAreaCoverage' | translate }} :</b>
-            {{ dataset.marine_domain ? 'oui' : 'non' }}
+            {{ (dataset.marine_domain ? 'Yes' : 'No') | translate | lowercase }}
           </div>
 
           <br />
@@ -197,11 +203,17 @@
           <div class="b">{{ 'MetaData.DatasetForm.CollectionMethod' | translate }}</div>
           <div class="a">
             <b>{{ 'Label' | translate }} :</b>
-            {{ dataset?.nomenclature_collecting_method.label_default || 'Non renseigné' }}
+            {{
+              dataset?.nomenclature_collecting_method.label_default ||
+                ('MetaData.DatasetCard.NotFilled' | translate)
+            }}
           </div>
           <div class="a">
             <b>{{ 'Description' | translate }} :</b>
-            {{ dataset?.nomenclature_collecting_method.definition_default || 'Non renseigné' }}
+            {{
+              dataset?.nomenclature_collecting_method.definition_default ||
+                ('MetaData.DatasetCard.NotFilled' | translate)
+            }}
           </div>
 
           <br />
@@ -243,7 +255,7 @@
 
           <div class="a">
             <b>{{ 'MetaData.DatasetCard.DatasetCreator' | translate }} :</b>
-            {{ dataset.creator?.nom_complet || 'Non renseigné' }}
+            {{ dataset.creator?.nom_complet || ('MetaData.DatasetCard.NotFilled' | translate) }}
           </div>
 
           <br />
@@ -270,11 +282,11 @@
             data-qa="pnx-metadata-dataset-status"
           >
             <b>{{ 'Active' | translate }} :</b>
-            {{ dataset.active ? 'Oui' : 'Non' }}
+            {{ (dataset.active ? 'Yes' : 'No') | translate }}
           </div>
           <div class="align">
             <b>{{ 'Validable' | translate }} :</b>
-            {{ dataset.validable ? 'Oui' : 'Non' }}
+            {{ (dataset.validable ? 'Yes' : 'No') | translate }}
           </div>
           <div
             *ngIf="dataset.id_taxa_list"
@@ -403,8 +415,8 @@
             *ngIf="dataset.cruved.E"
             [matTooltip]="
               nbObservations
-                ? 'Télécharger le rapport sensibilité'
-                : 'Le jeu de données ne comporte aucune donnée'
+                ? ('MetaData.DatasetCard.DownloadSensitivityReport' | translate)
+                : ('MetaData.DatasetCard.NoData' | translate)
             "
           >
             <button
@@ -424,8 +436,8 @@
             *ngIf="dataset.cruved.E"
             [matTooltip]="
               nbObservations
-                ? 'Télécharger le rapport d\'UUID'
-                : 'Le jeu de données ne comporte aucune donnée'
+                ? ('MetaData.DatasetCard.DownloadUuidReport' | translate)
+                : ('MetaData.DatasetCard.NoData' | translate)
             "
           >
             <button
@@ -442,7 +454,9 @@
           <div *ngFor="let module of dataset?.modules">
             <span
               *ngIf="module.input_label"
-              [matTooltip]="dataset.active ? module.input_label : 'Le jeu de données est inactif'"
+              [matTooltip]="
+                dataset.active ? module.input_label : ('MetaData.DatasetCard.Inactive' | translate)
+              "
             >
               <button
                 [disabled]="!dataset.active"

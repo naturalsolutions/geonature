@@ -35,7 +35,12 @@
     "ErrorOccurs": "Une erreur s'est produite",
     "DatesReversed": "La date de début ne peut pas être postérieure à la date de fin",
     "AltitudeError": "L'altitude max ne peut être inférieure à l'altitude min",
-    "NotAllowed": "Vous n'avez pas les permissions pour effectuer cette action"
+    "NotAllowed": "Vous n'avez pas les permissions pour effectuer cette action",
+    "Title": "Erreur",
+    "Timeout": "La requête n’a pas abouti dans le temps imparti",
+    "RequestColon": "Requête :",
+    "Unknown": "Une erreur inconnue est survenue.",
+    "ModuleAccess": "Vous n'avez pas les droits d'accès au module {{ module }}"
   },
 
   "Authentication": {
@@ -277,7 +282,8 @@
       "NoMetadata": "Oups ! Il n'y a aucune métadonnée à afficher.",
       "UUIDFormPlaceHolder": "Si non renseigné, l'identifiant est généré lors de la création du {{ entity }}",
       "ImpossibleActionAFClosed": "Cadre d'acquisition fermé, action impossible",
-      "OpenAFImpossible": "L'ouverture d'un cadre d'acquisition préalablement fermé n'est pas autorisée"
+      "OpenAFImpossible": "L'ouverture d'un cadre d'acquisition préalablement fermé n'est pas autorisée",
+      "CloseAfMailError": "Erreur lors de l'envoi de l'email de confirmation. Le cadre d'acquisition a bien été fermé"
     },
     "Actions": {
       "AddDataset": "Ajouter un jeu de données",
@@ -365,7 +371,12 @@
       "MarineAreaCoverage": "Couverture du territoire marin",
       "TermsReference": "Cadre de référence",
       "TitleAF": "Titre du cadre d'acquisition",
-      "IDAF": "Identifiant du cadre d'acquisition"
+      "IDAF": "Identifiant du cadre d'acquisition",
+      "NotFilled": "Non renseigné",
+      "DownloadSensitivityReport": "Télécharger le rapport sensibilité",
+      "DownloadUuidReport": "Télécharger le rapport d'UUID",
+      "NoData": "Le jeu de données ne comporte aucune donnée",
+      "Inactive": "Le jeu de données est inactif"
     },
     "DatasetForm": {
       "Actions": {
@@ -474,7 +485,11 @@
       "ActorExists": "Cet acteur est déjà présent dans la liste",
       "SaveAf": "Enregistrer le cadre d'acquisition",
       "FundingTypeColon": "Type de financement :",
-      "FundingColon": "Financement :"
+      "FundingColon": "Financement :",
+      "ConfirmDeleteActor": "Êtes-vous certain de supprimer cet acteur ?",
+      "ConfirmDeleteAf": "Voulez-vous supprimer ce cadre d'acquisition ?",
+      "DatasetHasData": "Ce jeu de données contient des données et ne peut pas être supprimé",
+      "NoDeleteDataset": "Vous n'avez pas les droits nécessaires pour supprimer ce jeu de données"
     }
   },
   "Filters": {
@@ -747,6 +762,22 @@
         "Rank": "Rang taxonomique"
       },
       "AdditionalFieldsNoColon": "Champs additionnels"
+    },
+    "Alert": {
+      "Description": "Description du signalement :",
+      "Detail": "Détailler ici le signalement :",
+      "Back": "Retour",
+      "Delete": "Supprimer ce signalement",
+      "Handled": "Signalement pris en compte !",
+      "Saved": "Signalement sauvegardé !"
+    },
+    "Discussion": {
+      "CommentColon": "Commentaire :",
+      "Placeholder": "Votre commentaire....",
+      "Required": "Veuillez saisir un commentaire",
+      "ChangedStatus": "a changé le statut en",
+      "DeletedOn": "a supprimé le commentaire du {{ date }}",
+      "Saved": "Commentaire sauvegardé !"
     }
   },
   "Media": {
@@ -821,7 +852,9 @@
         "ConfirmMappingDeletion": "Supprimer le modèle",
         "DefineUniqueValue": "Définir une valeur unique",
         "SelectASourceFileColumn": "Sélectionner une colonne du fichier"
-      }
+      },
+      "IsFilled": "est renseignée",
+      "AreFilled": "sont renseignées"
     },
     "ContentMapping": {
       "Title": "Correspondance des nomenclatures",
@@ -1002,7 +1035,12 @@
       "SubmissionErrors": "La soumission comporte <b>{{ n }}</b> erreur(s)",
       "SubmissionWarnings": "La soumission comporte <b>{{ n }}</b> avertissement(s)",
       "SeeMore": "Voir plus",
-      "SeeLess": "Voir moins"
+      "SeeLess": "Voir moins",
+      "Status": {
+        "unfinished": "EN COURS",
+        "inerror": "EN ERREUR",
+        "importdone": "TERMINE"
+      }
     }
   },
   "Releve": {

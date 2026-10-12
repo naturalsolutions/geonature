@@ -37,7 +37,12 @@
     "ErrorOccurs": "An error occurred",
     "DatesReversed": "The start date cannot be later than the end date",
     "AltitudeError": "The maximum altitude cannot be less than the minimum altitude",
-    "NotAllowed": "You do not have permission to perform this action"
+    "NotAllowed": "You do not have permission to perform this action",
+    "Title": "Error",
+    "Timeout": "The request did not complete in time",
+    "RequestColon": "Request:",
+    "Unknown": "An unknown error occurred.",
+    "ModuleAccess": "You do not have access rights to the module {{ module }}"
   },
 
   "Authentication": {
@@ -282,7 +287,8 @@
       "NoMetadata": "Oops! There is no metadata to display.",
       "UUIDFormPlaceHolder": "If not specified, identifier will be generated when the JDD is created.",
       "ImpossibleActionAFClosed": "Acquisition framework is closed, action cannot be performed",
-      "OpenAFImpossible": "A previously closed acquisition framework cannot be reopened"
+      "OpenAFImpossible": "A previously closed acquisition framework cannot be reopened",
+      "CloseAfMailError": "Error while sending the confirmation email. The acquisition framework has been closed"
     },
     "Actions": {
       "AddDataset": "Add a dataset",
@@ -371,7 +377,12 @@
       "MarineAreaCoverage": "Marine territory coverage",
       "TermsReference": "Reference framework",
       "TitleAF": "Title of the acquisition framework",
-      "IDAF": "ID of the acquisition framework"
+      "IDAF": "ID of the acquisition framework",
+      "NotFilled": "Not specified",
+      "DownloadSensitivityReport": "Download the sensitivity report",
+      "DownloadUuidReport": "Download the UUID report",
+      "NoData": "The dataset contains no data",
+      "Inactive": "The dataset is inactive"
     },
     "DatasetForm": {
       "Actions": {
@@ -480,7 +491,11 @@
       "ActorExists": "This actor is already in the list",
       "SaveAf": "Save the acquisition framework",
       "FundingTypeColon": "Funding type:",
-      "FundingColon": "Funding:"
+      "FundingColon": "Funding:",
+      "ConfirmDeleteActor": "Are you sure you want to delete this actor?",
+      "ConfirmDeleteAf": "Do you want to delete this acquisition framework?",
+      "DatasetHasData": "This dataset contains data and cannot be deleted",
+      "NoDeleteDataset": "You do not have the rights to delete this dataset"
     }
   },
   "Filters": {
@@ -753,6 +768,22 @@
         "Rank": "Taxonomic rank"
       },
       "AdditionalFieldsNoColon": "Additional fields"
+    },
+    "Alert": {
+      "Description": "Report description:",
+      "Detail": "Describe the report here:",
+      "Back": "Back",
+      "Delete": "Delete this report",
+      "Handled": "Report taken into account!",
+      "Saved": "Report saved!"
+    },
+    "Discussion": {
+      "CommentColon": "Comment:",
+      "Placeholder": "Your comment....",
+      "Required": "Please enter a comment",
+      "ChangedStatus": "changed the status to",
+      "DeletedOn": "deleted the comment of {{ date }}",
+      "Saved": "Comment saved!"
     }
   },
   "Media": {
@@ -827,7 +858,9 @@
         "ConfirmMappingDeletion": "Delete the model",
         "DefineUniqueValue": "Set a unique value",
         "SelectASourceFileColumn": "Select a file column"
-      }
+      },
+      "IsFilled": "is filled in",
+      "AreFilled": "are filled in"
     },
     "ContentMapping": {
       "Title": "Nomenclature correspondence",
@@ -1008,7 +1041,12 @@
       "SubmissionErrors": "The submission contains <b>{{ n }}</b> error(s)",
       "SubmissionWarnings": "The submission contains <b>{{ n }}</b> warning(s)",
       "SeeMore": "See more",
-      "SeeLess": "See less"
+      "SeeLess": "See less",
+      "Status": {
+        "unfinished": "IN PROGRESS",
+        "inerror": "FAILED",
+        "importdone": "COMPLETED"
+      }
     }
   },
   "Releve": {

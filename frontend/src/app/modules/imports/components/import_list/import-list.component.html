@@ -220,7 +220,7 @@
               </button>
               <button
                 class="Datatable__button"
-                matTooltip="Rapport"
+                [matTooltip]="'Report' | translate"
                 mat-icon-button
                 color="primary"
                 [routerLink]="[row.destination.code, row.id_import, 'report']"

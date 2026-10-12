@@ -33,10 +33,7 @@ export class MetadataComponent implements OnInit {
   public organisms: any[] = [];
   /* liste des roles issues de l'API pour le select. */
   public roles: any[] = [];
-  public meta_type: any[] = [
-    { label: 'Jeu de données', value: 'ds' },
-    { label: "Cadre d'acquisition", value: 'af' },
-  ];
+  public meta_type: any[] = [];
 
   public areaFilters: Array<any>;
 
@@ -60,6 +57,12 @@ export class MetadataComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.translate.stream(['Dataset', 'AcquisitionFramework']).subscribe((labels) => {
+      this.meta_type = [
+        { label: labels['Dataset'], value: 'ds' },
+        { label: labels['AcquisitionFramework'], value: 'af' },
+      ];
+    });
     this._dfs.getOrganisms().subscribe((organisms) => (this.organisms = organisms));
 
     this._dfs.getRoles({ group: false }).subscribe((roles) => (this.roles = roles));
