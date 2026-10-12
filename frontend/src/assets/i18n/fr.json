@@ -318,7 +318,8 @@
       "MyPlaces": "Liste de mes lieux",
       "NoneSelected": "Aucun lieu sélectionné",
       "ConfirmDelete": "Êtes-vous sûr de vouloir supprimer ce lieu?",
-      "Delete": "Supprimer le lieu"
+      "Delete": "Supprimer le lieu",
+      "SaveTitle": "Mes lieux"
     },
     "Gps": {
       "Title": "Coordonnées GPS",
@@ -656,7 +657,8 @@
       "AddPeriod": "Ajouter une période",
       "PeriodStart": "Periode début",
       "PeriodEnd": "Periode fin",
-      "ObserversTooltip": "Pour rechercher plusieurs observateurs, séparez-les par des virgules"
+      "ObserversTooltip": "Pour rechercher plusieurs observateurs, séparez-les par des virgules",
+      "SelectionColon": "Sélection :"
     },
     "FicheTaxon": {
       "Messages": {
@@ -842,6 +844,14 @@
         "ValidName": "Nom valide",
         "CitedName": "Nom cite",
         "Rank": "Rang taxonomique"
+      },
+      "AutoValidation": "Attribution automatique",
+      "Mail": {
+        "NoMedia": "Aucun media",
+        "Title": "Titre :",
+        "Link": "Lien vers le media :",
+        "Description": "Description :",
+        "Author": "Auteur :"
       }
     },
     "Alert": {

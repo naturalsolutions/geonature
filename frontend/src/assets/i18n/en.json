@@ -319,7 +319,8 @@
       "MyPlaces": "My places",
       "NoneSelected": "No place selected",
       "ConfirmDelete": "Are you sure you want to delete this place?",
-      "Delete": "Delete the place"
+      "Delete": "Delete the place",
+      "SaveTitle": "My places"
     },
     "Gps": {
       "Title": "GPS coordinates",
@@ -658,7 +659,8 @@
       "AddPeriod": "Add a period",
       "PeriodStart": "Period start",
       "PeriodEnd": "Period end",
-      "ObserversTooltip": "To search for several observers, separate them with commas"
+      "ObserversTooltip": "To search for several observers, separate them with commas",
+      "SelectionColon": "Selection:"
     },
     "FicheTaxon": {
       "Messages": {
@@ -844,6 +846,14 @@
         "ValidName": "Valid name",
         "CitedName": "Cited name",
         "Rank": "Taxonomic rank"
+      },
+      "AutoValidation": "Automatic assignment",
+      "Mail": {
+        "NoMedia": "No media",
+        "Title": "Title:",
+        "Link": "Link to the media:",
+        "Description": "Description:",
+        "Author": "Author:"
       }
     },
     "Alert": {
