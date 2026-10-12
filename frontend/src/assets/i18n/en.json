@@ -45,7 +45,8 @@
     "DownloadData": "Download data",
     "Copy": "Copy",
     "Clear": "Clear",
-    "Send": "Send"
+    "Send": "Send",
+    "Save": "Save"
   },
   "Messages": {
     "FillGeometryFirst": "Veuillez saisir un pointage sur la carte avant de remplir le formulaire"
@@ -307,7 +308,19 @@
     "Places": {
       "Save": "Save a place",
       "DrawFirst": "Please draw a geometry on the map first.",
-      "Added": "Place added."
+      "Added": "Place added.",
+      "Name": "Place name",
+      "List": "List of places",
+      "MyPlaces": "My places",
+      "NoneSelected": "No place selected",
+      "ConfirmDelete": "Are you sure you want to delete this place?",
+      "Delete": "Delete the place"
+    },
+    "Gps": {
+      "Title": "GPS coordinates",
+      "DecimalDegrees": "Decimal degrees (WGS84)",
+      "TextFormat": "OR text format (WGS84)",
+      "Example": "Example: 47.619, -3.425"
     }
   },
   "MapList": {
