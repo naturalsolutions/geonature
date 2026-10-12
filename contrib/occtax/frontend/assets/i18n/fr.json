@@ -209,7 +209,9 @@
       "NoObserver": "Aucun observateurs",
       "NoDataset": "Aucun JDD",
       "SavingInProgress": "Enregistrement en cours",
-      "SaveError": "Une erreur est survenue lors de l'enregistrement"
+      "SaveError": "Une erreur est survenue lors de l'enregistrement",
+      "LocationTab": "Localisation",
+      "Taxonomy": "Taxonomie"
     }
   }
 }
