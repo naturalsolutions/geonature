@@ -156,8 +156,23 @@
       "FieldRequired": "This field is required",
       "InvalidEmailFormat": "Invalid email format",
       "EmailChangeSuccess": "Your email address has been successfully validated.",
-      "EmailChangeError": "An error occurred"
-    }
+      "EmailChangeError": "An error occurred",
+      "ConfirmationError": "Confirmation error"
+    },
+    "MyInformation": "My information",
+    "LastName": "Last name",
+    "FirstName": "First name",
+    "Email": "Email address",
+    "PasswordChangeTitle": "Change password",
+    "Remarks": "Remarks",
+    "RemarksPlaceholder": "Additional information...",
+    "EditTooltip": "Edit this information",
+    "CancelTooltip": "Cancel changes",
+    "SaveTooltip": "Save changes",
+    "CurrentPassword": "Current password",
+    "NewPassword": "New password",
+    "PasswordConfirmation": "Password confirmation",
+    "Change": "Change"
   },
 
   "Observer": "Observer",
@@ -1204,5 +1219,10 @@
     "Metadata": "Metadata",
     "User": "User",
     "Notifications": "Notifications"
+  },
+  "Notifications": {
+    "RulesTitle": "Notification rules",
+    "RulesLead": "Manage your notification rules by type of action",
+    "RestoreDefaults": "Restore the default notification rules"
   }
 }
