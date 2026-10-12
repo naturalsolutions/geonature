@@ -230,7 +230,9 @@ export class ObservationsComponent extends Loadable implements OnInit {
       let grades: number[] = this.config['SYNTHESE']['AREA_AGGREGATION_LEGEND_CLASSES']
         .map((legendClass: { min: number; color: string }) => legendClass.min)
         .reverse();
-      let labels: string[] = ["<strong> Nombre <br> d'observations </strong> <br>"];
+      let labels: string[] = [
+        `<strong>${this.translateService.instant('Synthese.Map.AggregationLegend')}</strong> <br>`,
+      ];
 
       for (let i = 0; i < grades.length; i++) {
         labels.push(

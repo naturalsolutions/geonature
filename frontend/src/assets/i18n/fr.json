@@ -25,7 +25,8 @@
     "Validate": "Valider",
     "PDFExport": "Exporter en PDF",
     "DownloadData": "Télécharger les données",
-    "Copy": "Copier"
+    "Copy": "Copier",
+    "Save": "Enregistrer"
   },
   "Messages": {
     "FillGeometryFirst": "Veuillez saisir un pointage sur la carte avant de remplir le formulaire"
@@ -231,7 +232,19 @@
     "Places": {
       "Save": "Enregistrer un lieu",
       "DrawFirst": "Veuillez d'abord saisir une géométrie sur la carte.",
-      "Added": "Lieux ajouté avec succès."
+      "Added": "Lieux ajouté avec succès.",
+      "Name": "Nom du lieu",
+      "List": "Liste des lieux",
+      "MyPlaces": "Liste de mes lieux",
+      "NoneSelected": "Aucun lieu sélectionné",
+      "ConfirmDelete": "Êtes-vous sûr de vouloir supprimer ce lieu?",
+      "Delete": "Supprimer le lieu"
+    },
+    "Gps": {
+      "Title": "Coordonnées GPS",
+      "DecimalDegrees": "Degrés décimaux (WGS84)",
+      "TextFormat": "OU Format texte (WGS84)",
+      "Example": "Exemple : 47.619, -3.425"
     }
   },
   "MapList": {

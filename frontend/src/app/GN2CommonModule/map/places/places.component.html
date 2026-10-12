@@ -19,7 +19,7 @@
       <div class="form-group">
         <input
           class="form-control col-sm-12 col-md-12"
-          placeholder="Nom du lieu"
+          [placeholder]="'Map.Places.Name' | translate"
           [formControl]="placeForm"
           type="text"
         />
@@ -33,7 +33,7 @@
       class="btn btn-success"
       (click)="addPlace(placeForm.value)"
     >
-      Enregistrer
+      {{ 'Actions.Save' | translate }}
     </button>
   </div>
 </ng-template>

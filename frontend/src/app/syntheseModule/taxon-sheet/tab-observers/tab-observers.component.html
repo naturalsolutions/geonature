@@ -45,7 +45,7 @@
     [loadingIndicator]="isLoading"
   >
     <ngx-datatable-column
-      name="Observateur"
+      [name]="'Observer' | translate"
       [prop]="PROP_OBSERVER"
     >
       <ng-template
