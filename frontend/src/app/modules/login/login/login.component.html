@@ -156,7 +156,7 @@
                 style="margin-left: 40%"
                 *ngIf="_authService.isLoading"
                 src="assets/images/Spinner.gif"
-                alt="Chargement..."
+                [alt]="'Synthese.Loading' | translate"
                 height="60"
                 width="60"
               />
