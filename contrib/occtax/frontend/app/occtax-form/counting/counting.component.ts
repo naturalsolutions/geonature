@@ -11,6 +11,7 @@ import { ConfigService } from '@geonature/services/config.service';
 import { ValidationErrorsId } from '@geonature/services/validators';
 import { ViewChild } from '@angular/core';
 import { MediasComponent } from '@geonature_common/form/media/medias.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pnx-occtax-form-counting',
@@ -37,7 +38,8 @@ export class OcctaxFormCountingComponent implements OnInit, OnDestroy {
     public occtaxFormService: OcctaxFormService,
     public occtaxFormOccurrenceService: OcctaxFormOccurrenceService,
     private occtaxFormCountingService: OcctaxFormCountingService,
-    public config: ConfigService
+    public config: ConfigService,
+    private _translate: TranslateService
   ) {}
 
   // Expose enum to html
@@ -97,7 +99,10 @@ export class OcctaxFormCountingComponent implements OnInit, OnDestroy {
       displayDetails: false,
       author: author,
       title_fr: `${date_txt}_${lb_nom.replace(' ', '_')}_${cd_nom}`,
-      description_fr: `${lb_nom} observé le ${date_txt2}`,
+      description_fr: this._translate.instant('Occtax.Counting.MediaDescription', {
+        taxon: lb_nom,
+        date: date_txt2,
+      }),
     };
   }
 }
