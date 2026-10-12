@@ -12,6 +12,7 @@ import { ModuleService } from '@geonature/services/module.service';
 import { ConfigService } from '@geonature/services/config.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 import { Taxon } from '@geonature_common/form/taxonomy/taxonomy.component';
 import { HttpParams } from '@angular/common/http';
 
@@ -111,7 +112,8 @@ export class SyntheseInfoObsComponent implements OnInit, OnChanges {
     public config: ConfigService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -269,20 +271,21 @@ export class SyntheseInfoObsComponent implements OnInit, OnChanges {
         .join(', ');
 
       let contentMedias = '';
+      const t = (key) => this._translate.instant(`Synthese.InfoObs.Mail.${key}`);
       if (!this.selectedObs.medias) {
-        contentMedias = 'Aucun media';
+        contentMedias = t('NoMedia');
       } else {
         if (!this.selectedObs.medias.length) {
-          contentMedias = 'Aucun media';
+          contentMedias = t('NoMedia');
         }
         this.selectedObs.medias.map((media) => {
-          contentMedias += '\n\tTitre : ' + media.title_fr;
-          contentMedias += '\n\tLien vers le media : ' + this.mediaService.href(media);
+          contentMedias += `\n\t${t('Title')} ` + media.title_fr;
+          contentMedias += `\n\t${t('Link')} ` + this.mediaService.href(media);
           if (media.description_fr) {
-            contentMedias += '\n\tDescription : ' + media.description_fr;
+            contentMedias += `\n\t${t('Description')} ` + media.description_fr;
           }
           if (media.author) {
-            contentMedias += '\n\tAuteur : ' + media.author;
+            contentMedias += `\n\t${t('Author')} ` + media.author;
           }
           contentMedias += '\n';
         });
@@ -327,7 +330,9 @@ export class SyntheseInfoObsComponent implements OnInit, OnChanges {
         }
         // format validator
         if (this.validationHistory[row].typeValidation === 'True') {
-          this.validationHistory[row].validator = 'Attribution automatique';
+          this.validationHistory[row].validator = this._translate.instant(
+            'Synthese.InfoObs.AutoValidation'
+          );
         }
       }
     });
@@ -340,7 +345,7 @@ export class SyntheseInfoObsComponent implements OnInit, OnChanges {
       },
       (err) => {
         if (err.status === 404) {
-          this._commonService.translateToaster('warning', 'Aucun profile');
+          this._commonService.translateToaster('warning', 'Synthese.InfoObs.NoProfile');
         } else if (err.statusText === 'Unknown Error') {
           // show error message if no connexion
           this._commonService.translateToaster(

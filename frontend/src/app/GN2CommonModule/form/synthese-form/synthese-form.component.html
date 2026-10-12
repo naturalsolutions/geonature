@@ -201,7 +201,11 @@
 
           <i
             class="fa fa-info-circle clickable"
-            [matTooltip]="'Sélection : ' + formService.getSelectedTaxonsSummary()"
+            [matTooltip]="
+              ('Synthese.Form.SelectionColon' | translate) +
+              ' ' +
+              formService.getSelectedTaxonsSummary()
+            "
             matTooltipPosition="above"
           ></i>
         </li>
@@ -214,7 +218,11 @@
 
           <i
             class="fa fa-info-circle clickable"
-            [matTooltip]="'Sélection : ' + formService.selectedRedLists.join(', ')"
+            [matTooltip]="
+              ('Synthese.Form.SelectionColon' | translate) +
+              ' ' +
+              formService.selectedRedLists.join(', ')
+            "
             matTooltipPosition="above"
           ></i>
         </li>
@@ -227,7 +235,11 @@
 
           <i
             class="fa fa-info-circle clickable"
-            [matTooltip]="'Sélection : ' + formService.selectedStatus.join(', ')"
+            [matTooltip]="
+              ('Synthese.Form.SelectionColon' | translate) +
+              ' ' +
+              formService.selectedStatus.join(', ')
+            "
             matTooltipPosition="above"
           ></i>
         </li>
@@ -240,7 +252,11 @@
 
           <i
             class="fa fa-info-circle clickable"
-            [matTooltip]="'Sélection : ' + formService.selectedTaxRefAttributs.join(', ')"
+            [matTooltip]="
+              ('Synthese.Form.SelectionColon' | translate) +
+              ' ' +
+              formService.selectedTaxRefAttributs.join(', ')
+            "
             matTooltipPosition="above"
           ></i>
         </li>
