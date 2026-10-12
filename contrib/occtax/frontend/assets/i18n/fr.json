@@ -37,7 +37,8 @@
         "AltitudeError": "L'altitude max ne peut être inférieure à l'altitude min",
         "DepthError": "La profondeur max ne peut être inférieure à la profondeur min",
         "HourMaxError": "L'heure de début ne peut pas être supérieure à l'heure de fin",
-        "DoesNotExist": "Ce relevé n'existe pas"
+        "DoesNotExist": "Ce relevé n'existe pas",
+        "NotAllowed": "Action non permise: {{ error }}"
       }
     },
     "Taxon": {
@@ -112,7 +113,8 @@
         "LifeStageRequiredError": "Veuillez indiquer le stade de vie",
         "SexRequiredError": "Veuillez indiquer le sexe",
         "CountingObjectRequiredError": "Veuillez indiquer l'objet du dénombrement"
-      }
+      },
+      "MediaDescription": "{{ taxon }} observé le {{ date }}"
     },
     "UI": {
       "ObserversColon": "Observateur(s) :",
