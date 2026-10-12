@@ -108,7 +108,8 @@
         "SexRequiredError": "Veuillez indiquer le sexe",
         "CountingObjectRequiredError": "Veuillez indiquer l'objet du dénombrement"
       },
-      "MediaDescription": "{{ taxon }} observé le {{ date }}"
+      "MediaDescription": "{{ taxon }} observé le {{ date }}",
+      "MediaNeedsTaxon": "Veuillez choisir un taxon avant de renseigner les médias"
     },
     "UI": {
       "ObserversColon": "Observateur(s) :",
@@ -199,7 +200,10 @@
       "EditSaveTaxon": "Modifier et enregistrer ce taxon",
       "SurveyIdFilter": "Identifiant du relevé",
       "CloseConfirm": "Êtes-vous sûr de vouloir fermer le formulaire ?<br>Des modifications non sauvegardées seront perdues.",
-      "NoObserver": "Aucun observateurs"
+      "NoObserver": "Aucun observateurs",
+      "NoDataset": "Aucun JDD",
+      "SavingInProgress": "Enregistrement en cours",
+      "SaveError": "Une erreur est survenue lors de l'enregistrement"
     }
   }
 }

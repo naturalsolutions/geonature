@@ -108,7 +108,7 @@
 >
   <pnx-dynamic-form-generator
     #dynamicForm
-    selectLabel="Autres Critères"
+    [selectLabel]="'Filters.Actions.Other' | translate"
     [myFormGroup]="occtaxMapListService.dynamicFormGroup"
     [formsDefinition]="formsDefinition"
   ></pnx-dynamic-form-generator>

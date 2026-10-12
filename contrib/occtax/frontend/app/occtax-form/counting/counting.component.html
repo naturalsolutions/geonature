@@ -155,7 +155,7 @@
       [default]="defaultsMedia()"
       [details]="config.OCCTAX.MEDIA_FIELDS_DETAILS"
       [disabled]="!taxref"
-      disabledTxt="Veuillez choisir un taxon avant de renseigner les médias"
+      [disabledTxt]="'Occtax.Counting.MediaNeedsTaxon' | translate"
     ></pnx-medias>
   </div>
 </div>

@@ -12,8 +12,8 @@
         [ngClass]="occ_in_progress.state"
         [matTooltip]="
           occ_in_progress.state == 'in_progress'
-            ? 'Enregistrement en cours'
-            : 'Une erreur est survenue lors de l\'enregistrement'
+            ? ('Occtax.UI.SavingInProgress' | translate)
+            : ('Occtax.UI.SaveError' | translate)
         "
         matTooltipPosition="left"
         (click)="inProgressErrorToForm(occ_in_progress)"
