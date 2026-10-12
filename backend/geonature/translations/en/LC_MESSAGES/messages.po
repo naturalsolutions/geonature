@@ -479,3 +479,9 @@ msgstr "Generate"
 
 msgid "Groupe : {}"
 msgstr "Group: {}"
+
+msgid "Import terminé"
+msgstr "Import completed"
+
+msgid "Nouveau commentaire sur une observation"
+msgstr "New comment on an observation"

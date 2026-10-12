@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import current_app
+from flask_babel import gettext as _
 import sqlalchemy as sa
 from sqlalchemy import func, select, delete
 from sqlalchemy.dialects.postgresql import array_agg, aggregate_order_by
@@ -209,7 +210,7 @@ def notify_import_done(imprt: TImports):
     dispatch_notifications(
         code_categories=["IMPORT-DONE%"],
         id_roles=id_authors,
-        title="Import terminé",
+        title=_("Import terminé"),
         url=(
             current_app.config["URL_APPLICATION"]
             + f"/#/import/{imprt.destination.code}/{imprt.id_import}/report"

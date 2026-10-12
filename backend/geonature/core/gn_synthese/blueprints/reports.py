@@ -2,6 +2,7 @@ import datetime
 
 import sqlalchemy as sa
 from flask import Blueprint, abort, current_app, g, jsonify, request
+from flask_babel import gettext as _
 from geonature.core.gn_permissions.decorators import (
     login_required,
     permissions_required,
@@ -134,7 +135,7 @@ def notify_new_report_change(synthese, user, id_roles, content):
     dispatch_notifications(
         code_categories=["OBSERVATION-COMMENT"],
         id_roles=id_roles,
-        title="Nouveau commentaire sur une observation",
+        title=_("Nouveau commentaire sur une observation"),
         url=(
             current_app.config["URL_APPLICATION"]
             + "/#/synthese/occurrence/"
