@@ -299,12 +299,16 @@ export class SyntheseFormService {
             const targetKey = key.replace('cd_nomenclature_', 'id_nomenclature_');
             const nomenclatureType = this.syntheseNomenclatureTypes[targetKey];
             if (!nomenclatureType) {
-              const errorMsg = `Filtres par défaut: le type de nomenclature n'a pas été trouvé pour la clé ${key}`;
+              const errorMsg = this._translate.instant('Synthese.Errors.DefaultFilterType', {
+                key,
+              });
               console.error(errorMsg);
               this._common.regularToaster('error', errorMsg);
             }
             if (!Array.isArray(value)) {
-              const errorMsg = `Filtres par défaut: la valeur du filtre par défaut pour ${key} doit être une liste de codes`;
+              const errorMsg = this._translate.instant('Synthese.Errors.DefaultFilterList', {
+                key,
+              });
               console.error(errorMsg);
               this._common.regularToaster('error', errorMsg);
             }
@@ -314,7 +318,13 @@ export class SyntheseFormService {
                   (n) => n['type'] == nomenclatureType && n['cd_nomenclature'] == cdNomenclature
                 );
                 if (!nomenclature) {
-                  const errorMsg = `Filtres par défaut: pas de nomenclature trouvée pour <type.cd_nomenclature> = ${nomenclatureType}.${cdNomenclature}`;
+                  const errorMsg = this._translate.instant(
+                    'Synthese.Errors.DefaultFilterNomenclature',
+                    {
+                      type: nomenclatureType,
+                      code: cdNomenclature,
+                    }
+                  );
                   console.error(errorMsg);
                   this._common.regularToaster('error', errorMsg);
                   return;

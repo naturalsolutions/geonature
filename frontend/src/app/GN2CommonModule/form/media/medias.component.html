@@ -56,10 +56,12 @@
                     display="icon"
                   ></pnx-media-item>
                   <span>
-                    Titre: {{ media.title_fr }}
+                    {{ 'Media.TitleColon' | translate }} {{ media.title_fr }}
                     <i>
                       ({{ ms.typeMedia(media) }}
-                      <span *ngIf="media.author">par {{ media.author }}</span>
+                      <span *ngIf="media.author">
+                        {{ 'Media.ByAuthor' | translate: { author: media.author } }}
+                      </span>
                       )
                     </i>
                   </span>

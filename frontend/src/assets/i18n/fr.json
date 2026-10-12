@@ -107,7 +107,8 @@
       "ShowPassword": "Afficher le mot de passe",
       "HidePassword": "Masquer le mot de passe",
       "InvalidMail": "Veuillez saisir une adresse email valide.",
-      "HelpContact": "Un problème de connexion ? Contactez-nous"
+      "HelpContact": "Un problème de connexion ? Contactez-nous",
+      "AccountActivated": "Votre compte a bien été activé !"
     },
     "OtherAuthProviders": "Autres moyens de connexion",
     "SignUp": {
@@ -155,7 +156,9 @@
       "InvalidEmailFormat": "Format d'email invalide",
       "EmailChangeSuccess": "Votre adresse email a été validée avec succès.",
       "EmailChangeError": "Une erreur s'est produite",
-      "ConfirmationError": "Erreur de confirmation"
+      "ConfirmationError": "Erreur de confirmation",
+      "EmailLoadError": "Erreur lors de la récupération de l'email",
+      "EmailValidated": "Email validé avec succès"
     },
     "MyInformation": "Mes informations",
     "LastName": "Nom",
@@ -207,7 +210,11 @@
     "Name": "Nom de l'individu",
     "Raw": "Individu(s)",
     "Select": "Sélectionner un individu",
-    "SelectPlural": "Sélectionner des individus"
+    "SelectPlural": "Sélectionner des individus",
+    "Add": "Ajouter un individu",
+    "CreateTitle": "Création d'un individu",
+    "Create": "Créer un individu",
+    "Comments": "Commentaires"
   },
   "SelectModules": "Sélectionner un ou plusieurs modules",
   "Habitat": "Habitat",
@@ -303,7 +310,14 @@
       "FrenchTooltip": "Afficher l'interface en français",
       "EnglishTooltip": "Afficher l'interface en anglais",
       "ChineseTooltip": "Afficher l'interface en chinois"
-    }
+    },
+    "OpenMenu": "Ouvrir le menu principal",
+    "OpenProfile": "Ouvrir le menu de mon profil",
+    "AccountSettings": "Accéder aux paramètres de mon compte",
+    "ObserverSheet": "Accéder à ma fiche observateur",
+    "Notifications": "Accéder aux notifications",
+    "MoreOptions": "Plus d'options",
+    "PublicAccess": "Accès public"
   },
   "Map": {
     "Actions": {
@@ -313,7 +327,8 @@
       "AddPolygon": "Localisez l'observation (polygone)"
     },
     "Errors": {
-      "LocationError": "Localisation non trouvée"
+      "LocationError": "Localisation non trouvée",
+      "UnsupportedGeometry": "Le type de géométrie \"{{ type }}\" n'est pas supporté."
     },
     "Messages": {
       "ZoomWarning": "Echelle de saisie inadaptée, veuillez zoomer davantage pour pointer le relevé",
@@ -586,7 +601,11 @@
     },
     "KingdomColon": "Règne:",
     "GroupColon": "Groupe:",
-    "FilterHelp": "Filtrer les taxons proposés à l'autocompletion  par règne et groupe INPN"
+    "FilterHelp": "Filtrer les taxons proposés à l'autocompletion  par règne et groupe INPN",
+    "ClearAll": "Supprimer tous les noms",
+    "AddTag": "Ajouter un nom",
+    "TypeToSearch": "Commencer à saisir un nom ...",
+    "GroupPlaceholder": "Taxonomiques"
   },
   "Geo": {
     "Municipality": "Commune",
@@ -626,7 +645,10 @@
       "MapLimit": "Pour des raisons de performances, le nombre d'observations affichées est limité à {{ nb }}"
     },
     "Errors": {
-      "PeriodCompleteness": "Le champs 'periode début' ET 'periode fin' doivent être remplis si vous souhaitez faire une recherche par période"
+      "PeriodCompleteness": "Le champs 'periode début' ET 'periode fin' doivent être remplis si vous souhaitez faire une recherche par période",
+      "DefaultFilterType": "Filtres par défaut: le type de nomenclature n'a pas été trouvé pour la clé {{ key }}",
+      "DefaultFilterList": "Filtres par défaut: la valeur du filtre par défaut pour {{ key }} doit être une liste de codes",
+      "DefaultFilterNomenclature": "Filtres par défaut: pas de nomenclature trouvée pour <type.cd_nomenclature> = {{ type }}.{{ code }}"
     },
 
     "Commented": "a commenté le",
@@ -908,7 +930,8 @@
       "UrlRequired": "Veuillez compléter le formulaire et Renseigner une URL valide",
       "RequestError": "Erreur avec la requête :",
       "Incomplete": "Veuillez compléter le formulaire.",
-      "Valid": "Le media est valide"
+      "Valid": "Le media est valide",
+      "FileTooBig": "La taille du fichier ({{ size }} Mo) est supérieure à la taille maximale autorisée ({{ max }} Mo)"
     },
     "MediaType": "Type de média",
     "Form": {
@@ -921,7 +944,10 @@
       "Url": "Renseigner une URL",
       "title_fr": "Titre",
       "author": "Auteur"
-    }
+    },
+    "Thumbnail": "Miniature",
+    "TitleColon": "Titre:",
+    "ByAuthor": "par {{ author }}"
   },
   "Import": {
     "Destination": "Destination",
@@ -995,7 +1021,8 @@
       "Questions": {
         "SaveMappingMessage?": "Souhaitez sauvegarder vos correspondances dans un modèle pour les réutiliser lors d’un futur import ?",
         "CreateOrUpdateMappingModel?": "Le modèle de correspondance a été modifié ; souhaitez-vous mettre à jour le modèle existant ou créer un nouveau modèle ?"
-      }
+      },
+      "DefaultValueColon": "Valeur par défaut:"
     },
     "ObserverMapping": {
       "Title": "Correspondance des observateurs",
@@ -1180,7 +1207,10 @@
       "SubjectRequired": "Sujet requis",
       "ContentRequired": "Contenu requis",
       "ContentToShort": "Contenu trop court"
-    }
+    },
+    "Title": "Envoyer un email",
+    "Subject": "Sujet",
+    "Content": "Contenu"
   },
 
   "HomePage": {
@@ -1222,6 +1252,12 @@
   "Notifications": {
     "RulesTitle": "Gestion des règles de notification",
     "RulesLead": "Gérer vos règles de notification selon le type d'action",
-    "RestoreDefaults": "Restaurer les règles de notification par défaut"
+    "RestoreDefaults": "Restaurer les règles de notification par défaut",
+    "ManageRules": "Gérer vos règles de notification",
+    "DeleteAll": "Supprimer toutes vos notifications"
+  },
+  "Download": {
+    "InProgress": "Téléchargement en cours",
+    "Done": "Export téléchargé avec succès ! Veuillez patienter ..."
   }
 }
