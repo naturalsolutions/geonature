@@ -26,7 +26,8 @@
     "PDFExport": "Exporter en PDF",
     "DownloadData": "Télécharger les données",
     "Copy": "Copier",
-    "Save": "Enregistrer"
+    "Save": "Enregistrer",
+    "Send": "Envoyer"
   },
   "Messages": {
     "FillGeometryFirst": "Veuillez saisir un pointage sur la carte avant de remplir le formulaire"
@@ -83,10 +84,31 @@
       "InvalidMail": "Veuillez saisir une adresse email valide.",
       "ShowPassword": "Afficher le mot de passe",
       "HidePassword": "Masquer le mot de passe",
-      "InvalidMail": "Veuillez saisir une adresse email valide."
+      "InvalidMail": "Veuillez saisir une adresse email valide.",
+      "AccountActivated": "Votre compte a bien été activé !"
     },
     "OtherAuthProviders": "Autres moyens de connexion",
-    "ConnectToProvider": "Se connecter au {{ provider }}"
+    "ConnectToProvider": "Se connecter au {{ provider }}",
+    "NewPassword": {
+      "FormLabel": "Nouveau mot de passe",
+      "Submit": "Changer le mot de passe"
+    },
+    "SignUp": {
+      "ConfirmationError": "Erreur de confirmation",
+      "FieldRequired": "Ce champ est nécessaire",
+      "Firstname": "Prénom",
+      "Identifiant": "Identifiant",
+      "IdentifiantTooltip": "Cet identifiant vous sera demandé pour vous authentifier dans GeoNature.",
+      "PasswordConfirmationTooltip": "Répéter le mot de passe précédemment saisi.",
+      "Remarks": "Remarques",
+      "RemarksPlaceholder": "Précisions diverses...",
+      "SectionAccount": "Identification",
+      "SectionAdditional": "Informations complémentaires",
+      "SectionUser": "Informations personnelles",
+      "Submit": "S'inscrire",
+      "Title": "Création de compte"
+    },
+    "UsernamePlaceholder": "Votre identifiant"
   },
   "MyAccount": {
     "MyAccount": "Mon compte",
@@ -111,7 +133,9 @@
       "InvalidEmailFormat": "Format d'email invalide",
       "EmailChangeSuccess": "Votre adresse email a été validée avec succès.",
       "EmailChangeError": "Une erreur s'est produite",
-      "ConfirmationError": "Erreur de confirmation"
+      "ConfirmationError": "Erreur de confirmation",
+      "EmailLoadError": "Erreur lors de la récupération de l'email",
+      "EmailValidated": "Email validé avec succès"
     },
     "MyInformation": "Mes informations",
     "LastName": "Nom",
@@ -527,7 +551,8 @@
     },
     "KingdomColon": "Règne:",
     "GroupColon": "Groupe:",
-    "FilterHelp": "Filtrer les taxons proposés à l'autocompletion  par règne et groupe INPN"
+    "FilterHelp": "Filtrer les taxons proposés à l'autocompletion  par règne et groupe INPN",
+    "GroupPlaceholder": "Taxonomiques"
   },
   "Geo": {
     "Municipality": "Commune",
@@ -566,7 +591,10 @@
       "MapLimit": "Pour des raisons de performances, le nombre d'observations affichées est limité à {{ nb }}"
     },
     "Errors": {
-      "PeriodCompleteness": "Le champs 'periode début' ET 'periode fin' doivent être remplis si vous souhaitez faire une recherche par période"
+      "PeriodCompleteness": "Le champs 'periode début' ET 'periode fin' doivent être remplis si vous souhaitez faire une recherche par période",
+      "DefaultFilterType": "Filtres par défaut: le type de nomenclature n'a pas été trouvé pour la clé {{ key }}",
+      "DefaultFilterList": "Filtres par défaut: la valeur du filtre par défaut pour {{ key }} doit être une liste de codes",
+      "DefaultFilterNomenclature": "Filtres par défaut: pas de nomenclature trouvée pour <type.cd_nomenclature> = {{ type }}.{{ code }}"
     },
 
     "Commented": "a commenté le",
@@ -843,7 +871,8 @@
       "UrlRequired": "Veuillez compléter le formulaire et Renseigner une URL valide",
       "RequestError": "Erreur avec la requête :",
       "Incomplete": "Veuillez compléter le formulaire.",
-      "Valid": "Le media est valide"
+      "Valid": "Le media est valide",
+      "FileTooBig": "La taille du fichier ({{ size }} Mo) est supérieure à la taille maximale autorisée ({{ max }} Mo)"
     },
     "MediaType": "Type de média",
     "Form": {
@@ -856,7 +885,10 @@
       "Url": "Renseigner une URL",
       "title_fr": "Titre",
       "author": "Auteur"
-    }
+    },
+    "Thumbnail": "Miniature",
+    "TitleColon": "Titre:",
+    "ByAuthor": "par {{ author }}"
   },
   "Import": {
     "Destination": "Destination",
@@ -930,7 +962,8 @@
       "Questions": {
         "SaveMappingMessage?": "Souhaitez sauvegarder vos correspondances dans un modèle pour les réutiliser lors d’un futur import ?",
         "CreateOrUpdateMappingModel?": "Le modèle de correspondance a été modifié ; souhaitez-vous mettre à jour le modèle existant ou créer un nouveau modèle ?"
-      }
+      },
+      "DefaultValueColon": "Valeur par défaut:"
     },
     "ObserverMapping": {
       "Title": "Correspondance des observateurs",
@@ -1159,5 +1192,21 @@
     "Metadata": "Métadonnées",
     "User": "Utilisateur",
     "Notifications": "Notifications"
+  },
+  "Download": {
+    "InProgress": "Téléchargement en cours",
+    "Done": "Export téléchargé avec succès ! Veuillez patienter ..."
+  },
+  "Individual": {
+    "CreateTitle": "Création d'un individu",
+    "Create": "Créer un individu",
+    "Comments": "Commentaires",
+    "Name": "Nom de l'individu",
+    "Add": "Ajouter un individu"
+  },
+  "Mail": {
+    "Title": "Envoyer un email",
+    "Subject": "Sujet",
+    "Content": "Contenu"
   }
 }

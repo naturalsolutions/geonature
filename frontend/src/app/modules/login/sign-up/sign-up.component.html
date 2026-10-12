@@ -21,25 +21,25 @@
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
-            INSCRIPTION
+            {{ 'Authentication.SignUp.Title' | translate | uppercase }}
           </div>
           <div class="panel-body">
             <form [formGroup]="form">
-              <h5>Utilisateur</h5>
+              <h5>{{ 'Authentication.SignUp.SectionUser' | translate }}</h5>
 
               <div class="form-group row">
                 <label
                   for="prenom_role"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Prénom
+                  {{ 'Authentication.SignUp.Firstname' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
                     type="text"
                     class="form-control"
                     id="prenom_role"
-                    placeholder="Prénom"
+                    [placeholder]="'Authentication.SignUp.Firstname' | translate"
                     formControlName="prenom_role"
                   />
                   <small
@@ -48,7 +48,7 @@
                       form.get('prenom_role').touched
                     "
                   >
-                    Ce champ est nécessaire
+                    {{ 'Authentication.SignUp.FieldRequired' | translate }}
                   </small>
                 </div>
               </div>
@@ -58,14 +58,14 @@
                   for="nom_role"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Nom
+                  {{ 'Name' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
                     type="text"
                     class="form-control"
                     id="nom_role"
-                    placeholder="Nom"
+                    [placeholder]="'Name' | translate"
                     formControlName="nom_role"
                   />
                   <small
@@ -73,7 +73,7 @@
                       form.get('nom_role').hasError('required') && form.get('nom_role').touched
                     "
                   >
-                    Ce champ est nécessaire
+                    {{ 'Authentication.SignUp.FieldRequired' | translate }}
                   </small>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                   for="email"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Adresse email
+                  {{ 'Authentication.Email' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
@@ -99,31 +99,31 @@
                       form.get('password_confirmation').touched
                     "
                   >
-                    Ce champ est nécessaire
+                    {{ 'Authentication.SignUp.FieldRequired' | translate }}
                   </small>
                 </div>
               </div>
 
               <mat-divider></mat-divider>
 
-              <h5>Compte</h5>
+              <h5>{{ 'Authentication.SignUp.SectionAccount' | translate }}</h5>
 
               <div class="form-group row">
                 <label
                   for="identifiant"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Identifiant
+                  {{ 'Authentication.SignUp.Identifiant' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
                     type="text"
                     class="form-control"
                     id="identifiant"
-                    placeholder="Identifiant"
+                    [placeholder]="'Authentication.SignUp.Identifiant' | translate"
                     formControlName="identifiant"
                     matTooltipPosition="above"
-                    matTooltip="Cet identifiant vous sera demandé pour vous authentifier dans GeoNature."
+                    [matTooltip]="'Authentication.SignUp.IdentifiantTooltip' | translate"
                   />
                   <small
                     *ngIf="
@@ -131,7 +131,7 @@
                       form.get('identifiant').touched
                     "
                   >
-                    Ce champ est nécessaire
+                    {{ 'Authentication.SignUp.FieldRequired' | translate }}
                   </small>
                 </div>
               </div>
@@ -141,14 +141,14 @@
                   for="password"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Mot de passe
+                  {{ 'Authentication.Password' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
                     type="password"
                     class="form-control"
                     id="password"
-                    placeholder="Mot de passe"
+                    [placeholder]="'Authentication.Password' | translate"
                     formControlName="password"
                   />
                   <small *ngFor="let error of getPasswordErrors()">
@@ -166,16 +166,16 @@
                   for="password_confirmation"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Confirmation
+                  {{ 'MyAccount.PasswordConfirmation' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
                     type="password"
                     class="form-control"
                     id="password_confirmation"
-                    placeholder="Confirmation du mot de passe"
+                    [placeholder]="'MyAccount.PasswordConfirmation' | translate"
                     matTooltipPosition="above"
-                    matTooltip="Répéter le mot de passe précédemment saisi."
+                    [matTooltip]="'Authentication.SignUp.PasswordConfirmationTooltip' | translate"
                     formControlName="password_confirmation"
                   />
                   <small
@@ -184,35 +184,35 @@
                       form.get('password_confirmation').touched
                     "
                   >
-                    Ce champ est nécessaire
+                    {{ 'Authentication.SignUp.FieldRequired' | translate }}
                   </small>
                   <small
                     *ngIf="
                       form.hasError('similarError') && form.get('password_confirmation').touched
                     "
                   >
-                    Erreur de confirmation
+                    {{ 'Authentication.SignUp.ConfirmationError' | translate }}
                   </small>
                 </div>
               </div>
 
               <mat-divider></mat-divider>
 
-              <h5>Informations complémentaires</h5>
+              <h5>{{ 'Authentication.SignUp.SectionAdditional' | translate }}</h5>
 
               <div class="form-group row">
                 <label
                   for="organisme"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Organisme
+                  {{ 'Organism' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <input
                     type="text"
                     class="form-control"
                     id="organisme"
-                    placeholder="Organisme"
+                    [placeholder]="'Organism' | translate"
                     formControlName="organisme"
                   />
                 </div>
@@ -223,13 +223,13 @@
                   for="remarques"
                   class="col-md-3 col-form-label text-md-right"
                 >
-                  Remarques
+                  {{ 'Authentication.SignUp.Remarks' | translate }}
                 </label>
                 <div class="col-md-9 col-lg-7">
                   <textarea
                     id="remarques"
                     class="form-control"
-                    placeholder="Précisions diverses..."
+                    [placeholder]="'Authentication.SignUp.RemarksPlaceholder' | translate"
                     formControlName="remarques"
                   ></textarea>
                 </div>
@@ -248,7 +248,7 @@
                   [disabled]="!form.valid || !dynamicFormGroup.valid || disableSubmit"
                   (click)="save()"
                 >
-                  S'inscrire
+                  {{ 'Authentication.SignUp.Submit' | translate }}
                 </button>
               </div>
             </form>

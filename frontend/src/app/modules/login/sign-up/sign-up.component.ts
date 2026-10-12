@@ -67,7 +67,7 @@ export class SignUpComponent implements OnInit {
 
     return Object.keys(control.errors).map((errorKey) => {
       const error = control.errors[errorKey];
-      return error.message || 'Erreur inconnue';
+      return error.message || this.translate.instant('Errors.Unknown');
     });
   }
 

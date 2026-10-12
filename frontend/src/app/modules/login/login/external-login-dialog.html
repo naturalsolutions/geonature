@@ -16,7 +16,7 @@
           class="form-control"
           name="login"
           ngModel
-          placeholder="Identifiant"
+          [placeholder]="'Authentication.UsernamePlaceholder' | translate"
           autofocus
           data-qa="gn-connection-id"
         />

@@ -8,6 +8,7 @@ import { AuthService } from '../../../components/auth/auth.service';
 import { PasswordService } from '../../../userModule/services/password.service';
 import { ConfigService } from '@geonature/services/config.service';
 import { CommonService } from '@geonature_common/service/common.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pnx-new-password',
@@ -27,7 +28,8 @@ export class NewPasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public config: ConfigService,
     private _commonService: CommonService,
-    private passwordService: PasswordService
+    private passwordService: PasswordService,
+    private _translate: TranslateService
   ) {
     this.activatedRoute.queryParams.subscribe((params) => {
       let token = params['token'];
@@ -58,7 +60,7 @@ export class NewPasswordComponent implements OnInit {
 
     return Object.keys(control.errors).map((errorKey) => {
       const error = control.errors[errorKey];
-      return error.message || 'Erreur inconnue';
+      return error.message || this._translate.instant('Errors.Unknown');
     });
   }
 

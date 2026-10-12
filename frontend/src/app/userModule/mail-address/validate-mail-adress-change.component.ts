@@ -39,7 +39,7 @@ export class ValidateMailAddressChangeComponent implements OnInit {
       next: () => {
         this.validated = true;
         this.loading = false;
-        this._toastr.success('Email validé avec succès');
+        this._commonService.translateToaster('success', 'MyAccount.Messages.EmailValidated');
         setTimeout(() => {
           this._router.navigate(['/user']);
         }, 3000);

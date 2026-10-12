@@ -193,9 +193,9 @@
             <div class="card-title mb-0">
               {{ targetField.value.nomenclature_type.label_default }}
               <i
-                matTooltip="{{
-                  targetField.value.nomenclature_type.definition_default
-                }} |  Valeur par défaut: TODO"
+                matTooltip="{{ targetField.value.nomenclature_type.definition_default }} | {{
+                  'Import.ContentMapping.DefaultValueColon' | translate
+                }} TODO"
                 matTooltipClass="custom-tooltip"
                 class="fa fa-info-circle"
                 aria-hidden="true"
