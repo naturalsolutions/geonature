@@ -115,7 +115,8 @@
         "SexRequiredError": "Please indicate the sex",
         "CountingObjectRequiredError": "Please indicate the count object"
       },
-      "MediaDescription": "{{ taxon }} observed on {{ date }}"
+      "MediaDescription": "{{ taxon }} observed on {{ date }}",
+      "MediaNeedsTaxon": "Please choose a taxon before adding media"
     },
     "UI": {
       "ObserversColon": "Observer(s):",
@@ -206,7 +207,10 @@
       "EditSaveTaxon": "Edit and save this taxon",
       "SurveyIdFilter": "Survey ID",
       "CloseConfirm": "Are you sure you want to close the form?<br>Unsaved changes will be lost.",
-      "NoObserver": "No observer"
+      "NoObserver": "No observer",
+      "NoDataset": "No dataset",
+      "SavingInProgress": "Saving in progress",
+      "SaveError": "An error occurred while saving"
     }
   }
 }

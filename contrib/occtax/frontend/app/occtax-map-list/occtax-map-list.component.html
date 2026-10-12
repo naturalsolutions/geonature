@@ -278,7 +278,9 @@
                   </span>
                   <span
                     *ngSwitchCase="'nb_taxons'"
-                    [matTooltip]="displayTaxons(row).join('\n') || 'Aucun taxon'"
+                    [matTooltip]="
+                      displayTaxons(row).join('\n') || ('Occtax.UI.NoTaxon' | translate)
+                    "
                     matTooltipPosition="left"
                     matTooltipClass="mat-tooltip"
                   >
@@ -286,7 +288,9 @@
                   </span>
                   <span
                     *ngSwitchCase="'taxons'"
-                    [matTooltip]="displayTaxons(row).join('\n') || 'Aucun taxon'"
+                    [matTooltip]="
+                      displayTaxons(row).join('\n') || ('Occtax.UI.NoTaxon' | translate)
+                    "
                     matTooltipPosition="left"
                     matTooltipClass="mat-tooltip"
                   >
@@ -294,7 +298,7 @@
                       <span class="badge badge-dark">
                         {{ row.t_occurrences_occtax?.length || '0' }}
                       </span>
-                      {{ displayTaxons(row).join(', ') || 'Aucun taxon' }}
+                      {{ displayTaxons(row).join(', ') || ('Occtax.UI.NoTaxon' | translate) }}
                     </span>
                   </span>
                   <span
@@ -306,10 +310,10 @@
                   </span>
                   <span
                     *ngSwitchCase="'dataset'"
-                    [matTooltip]="row?.dataset.dataset_name || 'Aucun JDD'"
+                    [matTooltip]="row?.dataset.dataset_name || ('Occtax.UI.NoDataset' | translate)"
                     matTooltipPosition="left"
                   >
-                    {{ row['dataset'].dataset_name || 'Aucun JDD' }}
+                    {{ row['dataset'].dataset_name || ('Occtax.UI.NoDataset' | translate) }}
                   </span>
                   <span
                     *ngSwitchDefault
