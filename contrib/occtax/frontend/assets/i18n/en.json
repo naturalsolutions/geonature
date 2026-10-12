@@ -36,7 +36,8 @@
         "AltitudeError": "The maximum altitude cannot be less than the minimum altitude",
         "DepthError": "The maximum depth cannot be less than the minimum depth",
         "HourMaxError": "The start time cannot be later than the end time",
-        "DoesNotExist": "This survey does not exist"
+        "DoesNotExist": "This survey does not exist",
+        "NotAllowed": "Action not allowed: {{ error }}"
       },
       "Observer": "Observer",
       "Observers": "Observer(s)"
@@ -113,7 +114,8 @@
         "LifeStageRequiredError": "Please indicate the life stage",
         "SexRequiredError": "Please indicate the sex",
         "CountingObjectRequiredError": "Please indicate the count object"
-      }
+      },
+      "MediaDescription": "{{ taxon }} observed on {{ date }}"
     },
     "UI": {
       "ObserversColon": "Observer(s):",
