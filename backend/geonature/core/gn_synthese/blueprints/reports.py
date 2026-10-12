@@ -2,6 +2,7 @@ import datetime
 
 
 from flask import Blueprint, abort, current_app, g, jsonify, request
+from flask_babel import gettext as _
 from sqlalchemy import asc, desc, exists, or_, select
 from sqlalchemy.orm import Load, joinedload
 from werkzeug.exceptions import BadRequest, Conflict, Forbidden
@@ -135,7 +136,7 @@ def notify_new_report_change(synthese, user, id_roles, content):
     dispatch_notifications(
         code_categories=["OBSERVATION-COMMENT"],
         id_roles=id_roles,
-        title="Nouveau commentaire sur une observation",
+        title=_("Nouveau commentaire sur une observation"),
         url=(
             current_app.config["URL_APPLICATION"]
             + "/#/synthese/occurrence/"
