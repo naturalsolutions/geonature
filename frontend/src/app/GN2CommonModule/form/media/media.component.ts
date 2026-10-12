@@ -7,6 +7,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { CommonService } from '@geonature_common/service/common.service';
 import { DynamicFormService } from '../dynamic-form-generator/dynamic-form.service';
 import { ConfigService } from '@geonature/services/config.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pnx-media',
@@ -52,7 +53,8 @@ export class MediaComponent implements OnInit {
     public ms: MediaService,
     private _commonService: CommonService,
     private _dynformService: DynamicFormService,
-    public config: ConfigService
+    public config: ConfigService,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -64,6 +66,7 @@ export class MediaComponent implements OnInit {
         hideDetailsFields: this.hideDetailsFields,
       }
     );
+    this.translateFormDefinition();
 
     //if field not hidden => put it before advance setting
     let afterDisplay = false;
@@ -119,14 +122,26 @@ export class MediaComponent implements OnInit {
     });
   }
 
+  translateFormDefinition() {
+    const t = (key) => this._translate.instant(`Media.Form.${key}`);
+    for (const field of this.mediaFormDefinition) {
+      const label = t(field.attribut_name);
+      field.attribut_label = label.startsWith('Media.Form.') ? field.attribut_label : label;
+    }
+    const details = this.mediaFormDefinition.find((f) => f.attribut_name == 'displayDetails');
+    details.definition = t('displayDetailsHelp');
+    const bFile = this.mediaFormDefinition.find((f) => f.attribut_name == 'bFile');
+    bFile.values = [t('Upload'), t('Url')];
+  }
+
   message() {
     return this.media.sent
       ? ''
       : this.mediaFormReadyToSend()
-        ? 'Veuillez valider le média en appuyant sur le bouton de validation'
+        ? this._translate.instant('Media.Messages.PleaseValidate')
         : this.media.bFile
-          ? 'Veuillez compléter le formulaire et renseigner un fichier'
-          : 'Veuillez compléter le formulaire et Renseigner une URL valide';
+          ? this._translate.instant('Media.Messages.FileRequired')
+          : this._translate.instant('Media.Messages.UrlRequired');
   }
 
   /**
@@ -304,7 +319,7 @@ export class MediaComponent implements OnInit {
       (error) => {
         this._commonService.regularToaster(
           'error',
-          `Erreur avec la requête : ${error && error.error}`
+          `${this._translate.instant('Media.Messages.RequestError')} ${error && error.error}`
         );
         this.errorMsg = error.error;
         this.media.bLoading = false;
