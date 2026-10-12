@@ -485,3 +485,242 @@ msgstr "Import completed"
 
 msgid "Nouveau commentaire sur une observation"
 msgstr "New comment on an observation"
+
+# Monitoring, config generic
+
+msgid "Actif"
+msgstr "Active"
+
+msgid "Activer cet individu"
+msgstr "Activate this individual"
+
+msgid "Activer la synthèse ?"
+msgstr "Enable the synthesis?"
+
+msgid "Affichage des groupes de site en dessinant l'enveloppe des sites du groupe et en affichant l'aire du groupe de sites"
+msgstr "Display site groups by drawing the envelope of the group's sites and showing the site group area"
+
+msgid "Affichage des taxons"
+msgstr "Taxon display"
+
+msgid "Afficher dans le menu ?"
+msgstr "Show in the menu?"
+
+msgid "Afficher le module dans le menu de GeoNature. (Recharger la page pour voir les modifications)."
+msgstr "Show the module in the GeoNature menu. (Reload the page to see the changes)."
+
+msgid "Altitude (max)"
+msgstr "Altitude (max)"
+
+msgid "Altitude (min)"
+msgstr "Altitude (min)"
+
+msgid "Choix de l'individu"
+msgstr "Individual choice"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Code du marquage"
+msgstr "Marking code"
+
+msgid "Commentaires"
+msgstr "Comments"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Date (max)"
+msgstr "Date (max)"
+
+msgid "Date de marquage"
+msgstr "Marking date"
+
+msgid "Date description"
+msgstr "Description date"
+
+msgid "Dernière visite"
+msgstr "Last visit"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Dessiner les groupes de sites"
+msgstr "Draw site groups"
+
+msgid "Digitiser"
+msgstr "Digitiser"
+
+msgid "Détails du marquage"
+msgstr "Marking details"
+
+msgid "Espèce"
+msgstr "Species"
+
+msgid "Groupe de sites"
+msgstr "Site group"
+
+msgid "Groupes de sites"
+msgstr "Site groups"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "ID Module"
+msgstr "Module ID"
+
+msgid "ID SITE"
+msgstr "SITE ID"
+
+msgid "Icone dans le menu"
+msgstr "Menu icon"
+
+msgid "Id individu"
+msgstr "Individual ID"
+
+msgid "Id individual"
+msgstr "Individual ID"
+
+msgid "Id marquage"
+msgstr "Marking ID"
+
+msgid "Id observation"
+msgstr "Observation ID"
+
+msgid "Id site"
+msgstr "Site ID"
+
+msgid "Id visite"
+msgstr "Visit ID"
+
+msgid "Individu"
+msgstr "Individual"
+
+msgid "Individus"
+msgstr "Individuals"
+
+msgid "Insertion automatique des nouvelles données dans la synthèse."
+msgstr "Automatic insertion of new data into the synthesis."
+
+msgid "Jeu de données"
+msgstr "Dataset"
+
+msgid "Liste des observateurs"
+msgstr "Observer list"
+
+msgid "Liste des observateurs. À gérer dans UsersHub."
+msgstr "Observer list. Managed in UsersHub."
+
+msgid "Liste des taxons"
+msgstr "Taxon list"
+
+msgid "Liste des taxons. À gérer dans TaxHub."
+msgstr "Taxon list. Managed in TaxHub."
+
+msgid "Localisation du marquage"
+msgstr "Marking location"
+
+msgid "Marquage"
+msgstr "Marking"
+
+msgid "Marquages"
+msgstr "Markings"
+
+msgid "Module"
+msgstr "Module"
+
+msgid "Nb. individus"
+msgstr "No. of individuals"
+
+msgid "Nb. visites"
+msgstr "No. of visits"
+
+msgid "Nom"
+msgstr "Name"
+
+msgid "Nom de l'individu"
+msgstr "Individual name"
+
+msgid "Nom latin"
+msgstr "Scientific name"
+
+msgid "Nom vernaculaire ou nom latin"
+msgstr "Common or scientific name"
+
+msgid "Nombre d'observations"
+msgstr "Number of observations"
+
+msgid "Nombre de sites"
+msgstr "Number of sites"
+
+msgid "Nombre de sites associés"
+msgstr "Number of associated sites"
+
+msgid "Nombre de visites"
+msgstr "Number of visits"
+
+msgid "Numérisateur"
+msgstr "Digitiser"
+
+msgid "Observateur"
+msgstr "Observer"
+
+msgid "Observateur(s) (extérieur)"
+msgstr "Observer(s) (external)"
+
+msgid "Observateurs"
+msgstr "Observers"
+
+msgid "Observation"
+msgstr "Observation"
+
+msgid "Observation détail"
+msgstr "Observation detail"
+
+msgid "Observations"
+msgstr "Observations"
+
+msgid "Observations détail"
+msgstr "Observation details"
+
+msgid "Opérateur"
+msgstr "Operator"
+
+msgid "Path"
+msgstr "Path"
+
+msgid "Permet de contrôler dans quel(s) module(s) les groupes de site remonteront"
+msgstr "Controls in which module(s) the site groups appear"
+
+msgid "Permet de n'avoir que les types de site lié au module"
+msgstr "Keeps only the site types linked to the module"
+
+msgid "Permet de paramétrer la compatibilité de ce module avec les types de sites"
+msgstr "Sets the compatibility of this module with site types"
+
+msgid "Sexe"
+msgstr "Sex"
+
+msgid "Site"
+msgstr "Site"
+
+msgid "Sites"
+msgstr "Sites"
+
+msgid "Type de marquage"
+msgstr "Marking type"
+
+msgid "Type(s) de site"
+msgstr "Site type(s)"
+
+msgid "Types de sites"
+msgstr "Site types"
+
+msgid "Visite"
+msgstr "Visit"
+
+msgid "Visites"
+msgstr "Visits"
+
+msgid "uuid"
+msgstr "UUID"
