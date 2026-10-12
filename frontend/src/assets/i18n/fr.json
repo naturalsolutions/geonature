@@ -216,8 +216,13 @@
   "DownloadOverflow": "Le nombre d'élément est trop important pour être téléchargé, veuillez affiner votre recherche ou contacter votre administrateur",
   "DynamicForm": {
     "Errors": {
-      "CheckBoxError": "Veuillez choisir au moins une option"
-    }
+      "CheckBoxError": "Veuillez choisir au moins une option",
+      "InvalidUuid": "Le champ doit contenir un UUID valide."
+    },
+    "TypeToSearch": "Taper pour chercher",
+    "NoItemFound": "Pas d'élément trouvé",
+    "Loading": "Chargement en cours...",
+    "NoneOption": "-- Aucun --"
   },
   "Map": {
     "Actions": {
@@ -503,12 +508,23 @@
   "TaxonSearch": {
     "Messages": {
       "NoTaxonFound": "Aucun taxon trouvé pour cette recherche"
-    }
+    },
+    "KingdomColon": "Règne:",
+    "GroupColon": "Groupe:",
+    "FilterHelp": "Filtrer les taxons proposés à l'autocompletion  par règne et groupe INPN"
   },
   "Geo": {
     "Municipality": "Commune",
     "Municipalities": "Commune(s)",
-    "Territories": "Territoires"
+    "Territories": "Territoires",
+    "Areas": {
+      "ClearAll": "Supprimer toutes les zones géographiques",
+      "AddTag": "Ajouter une zone géographique",
+      "TypeToSearch": "Commencer à saisir une zone",
+      "NotFound": "Aucune correspondance pour « {{ term }} »",
+      "LoadingFor": "Chargements des zones pour « {{ term }} »",
+      "LoadingShort": "Chargements pour « {{ term }} »"
+    }
   },
   "Synthese": {
     "LatestObservations": "Dernières observations",
@@ -796,9 +812,26 @@
       "Previous": "Voir le média précédent"
     },
     "Messages": {
-      "loading": "Chargement du média en cours"
+      "loading": "Chargement du média en cours",
+      "PleaseValidate": "Veuillez valider le média en appuyant sur le bouton de validation",
+      "FileRequired": "Veuillez compléter le formulaire et renseigner un fichier",
+      "UrlRequired": "Veuillez compléter le formulaire et Renseigner une URL valide",
+      "RequestError": "Erreur avec la requête :",
+      "Incomplete": "Veuillez compléter le formulaire.",
+      "Valid": "Le media est valide"
     },
-    "MediaType": "Type de média"
+    "MediaType": "Type de média",
+    "Form": {
+      "file": "Choisir un fichier",
+      "displayDetails": "Avancé",
+      "displayDetailsHelp": "Afficher plus d'options pour le formulaire",
+      "id_nomenclature_media_type": "Type de média",
+      "bFile": "Import du média",
+      "Upload": "Uploader un fichier",
+      "Url": "Renseigner une URL",
+      "title_fr": "Titre",
+      "author": "Auteur"
+    }
   },
   "Import": {
     "Destination": "Destination",

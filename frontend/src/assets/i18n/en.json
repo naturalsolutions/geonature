@@ -221,8 +221,13 @@
   "DownloadOverflow": "The number of items is too large to be downloaded, please refine your search or contact your administrator",
   "DynamicForm": {
     "Errors": {
-      "CheckBoxError": "Please select at least one option"
-    }
+      "CheckBoxError": "Please select at least one option",
+      "InvalidUuid": "The field must contain a valid UUID."
+    },
+    "TypeToSearch": "Type to search",
+    "NoItemFound": "No item found",
+    "Loading": "Loading...",
+    "NoneOption": "-- None --"
   },
   "Map": {
     "Actions": {
@@ -509,12 +514,23 @@
   "TaxonSearch": {
     "Messages": {
       "NoTaxonFound": "No taxon found for this search"
-    }
+    },
+    "KingdomColon": "Kingdom:",
+    "GroupColon": "Group:",
+    "FilterHelp": "Filter the suggested taxa by kingdom and INPN group"
   },
   "Geo": {
     "Municipality": "Municipality",
     "Municipalities": "Municipality(ies)",
-    "Territories": "Territories"
+    "Territories": "Territories",
+    "Areas": {
+      "ClearAll": "Remove all geographic areas",
+      "AddTag": "Add a geographic area",
+      "TypeToSearch": "Start typing an area",
+      "NotFound": "No match for “{{ term }}”",
+      "LoadingFor": "Loading areas for “{{ term }}”",
+      "LoadingShort": "Loading “{{ term }}”"
+    }
   },
   "Synthese": {
     "LatestObservations": "Latest observations",
@@ -802,9 +818,26 @@
       "Cancel": "Cancel adding the media"
     },
     "Messages": {
-      "loading": "Loading media"
+      "loading": "Loading media",
+      "PleaseValidate": "Please validate the media with the validation button",
+      "FileRequired": "Please complete the form and provide a file",
+      "UrlRequired": "Please complete the form and provide a valid URL",
+      "RequestError": "Request error:",
+      "Incomplete": "Please complete the form.",
+      "Valid": "The media is valid"
     },
-    "MediaType": "Media type"
+    "MediaType": "Media type",
+    "Form": {
+      "file": "Choose a file",
+      "displayDetails": "Advanced",
+      "displayDetailsHelp": "Show more options for the form",
+      "id_nomenclature_media_type": "Media type",
+      "bFile": "Media import",
+      "Upload": "Upload a file",
+      "Url": "Enter a URL",
+      "title_fr": "Title",
+      "author": "Author"
+    }
   },
   "Import": {
     "Destination": "Destination",
