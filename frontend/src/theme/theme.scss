@@ -249,8 +249,27 @@ small,
 }
 #app-toolbar h3,
 #app-toolbar [data-qa='nav-home-module-name'] {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   margin-bottom: 0;
+}
+// the module name gives way first, then the structure logo, before the toolbar wraps
+#app-toolbar {
+  > * {
+    flex-shrink: 0;
+  }
+  > span:has([data-qa='nav-home-module-name']) {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  #logo-structure {
+    flex-shrink: 1;
+    min-width: 8rem;
+    max-height: 2.75rem;
+    object-fit: contain;
+  }
 }
 
 // ---------------------------------------------------------------- elevation

@@ -36,10 +36,13 @@
 
 #app-toolbar {
   background-color: var(--gn-surface);
-  // narrow screens: wraps on a second line instead of overflowing the viewport
+  // the module name and the structure logo shrink first, a second line only on narrow screens
   height: auto;
   min-height: 64px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  @media (max-width: 1199.98px) {
+    flex-wrap: wrap;
+  }
   row-gap: 4px;
   padding-top: 4px;
   padding-bottom: 4px;
