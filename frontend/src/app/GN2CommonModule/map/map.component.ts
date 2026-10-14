@@ -179,6 +179,15 @@ export class MapComponent implements OnInit {
           formatedBasemap.options
         );
       }
+      // optional labels layer drawn over the basemap, switched with it
+      if (formatedBasemap.labels) {
+        baseControl[formatedBasemap.name] = L.layerGroup([
+          baseControl[formatedBasemap.name],
+          L.tileLayer(formatedBasemap.labels, {
+            maxNativeZoom: formatedBasemap.options?.maxNativeZoom,
+          }),
+        ]);
+      }
     });
     // --- Layers selection
     // overlays layers
@@ -189,6 +198,7 @@ export class MapComponent implements OnInit {
       collapsed: true, //If true, the control will be collapsed into an icon and expanded on mouse hover
     });
     this.mapService.layerControl.addTo(this.map);
+    this.addBasemapSwitcher(baseControl, BASEMAP);
 
     this.mapService.setMap(this.map);
 
@@ -244,6 +254,48 @@ export class MapComponent implements OnInit {
     }
   }
    */
+  /**
+   * Thumbnail switcher for the basemaps, shown only when every basemap of the config has a thumbnail.
+   * The base layers stay registered in the layers control, which fires baselayerchange on each switch.
+   */
+  addBasemapSwitcher(baseControl, basemaps) {
+    if (!basemaps.length || !basemaps.every((basemap) => basemap.thumbnail)) {
+      return;
+    }
+    const map = this.map;
+    const staticUrl = `${this.config.API_ENDPOINT}${this.config.STATIC_URL}/`;
+    const Switcher = L.Control.extend({
+      options: { position: 'bottomleft' },
+      onAdd: () => {
+        const container = L.DomUtil.create('div', 'gn-basemap-switcher');
+        L.DomEvent.disableClickPropagation(container);
+        const buttons = basemaps.map((basemap) => {
+          const button = L.DomUtil.create('button', 'gn-basemap-switcher__item', container);
+          button.type = 'button';
+          button.title = basemap.name;
+          const thumbnail = /^(https?:)?\/\//.test(basemap.thumbnail)
+            ? basemap.thumbnail
+            : staticUrl + basemap.thumbnail;
+          L.DomUtil.create('img', 'gn-basemap-switcher__thumbnail', button).src = thumbnail;
+          L.DomUtil.create('span', 'gn-basemap-switcher__label', button).textContent = basemap.name;
+          L.DomEvent.on(button, 'click', () => {
+            Object.keys(baseControl).forEach((name) => map.removeLayer(baseControl[name]));
+            map.addLayer(baseControl[basemap.name]);
+          });
+          return button;
+        });
+        map.on('baselayerchange', (event: any) =>
+          buttons.forEach((button) =>
+            button.classList.toggle('is-active', button.title === event.name)
+          )
+        );
+        return container;
+      },
+    });
+    new Switcher().addTo(map);
+    map.getContainer().classList.add('gn-has-basemap-switcher');
+  }
+
   formatBaseMapConfig(baseMap) {
     // eslint-disable-next-line guard-for-in
     for (let attr in baseMap) {
@@ -251,7 +303,7 @@ export class MapComponent implements OnInit {
         baseMap['url'] = baseMap[attr];
         delete baseMap['layer'];
       }
-      if (!['url', 'layer', 'name', 'service', 'options'].includes(attr)) {
+      if (!['url', 'layer', 'name', 'service', 'options', 'thumbnail', 'labels'].includes(attr)) {
         if (!baseMap['options']) {
           baseMap['options'] = {};
         }

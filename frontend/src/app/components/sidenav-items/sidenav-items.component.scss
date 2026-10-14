@@ -25,6 +25,14 @@
   border: 0;
   border-bottom: 1px solid var(--gn-divider);
   border-radius: 0;
+  // the logo stays compact once the rail opens, the menu keeps the room
+  img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 3rem;
+    margin: 0 auto;
+  }
 }
 
 // same left padding in both states, so that icons do not move when the rail expands
