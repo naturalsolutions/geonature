@@ -325,6 +325,7 @@
       [creatableInModule]="formDef.creatable_in_module"
       [attr.data-qa]="'field-dataset' + '-' + formDefComp['attribut_name']"
       [bindValue]="formDef.bind_value ?? 'id_dataset'"
+      [bindAllItem]="formDefComp['bind_all_item']"
     ></pnx-datasets>
 
     <pnx-observers
@@ -359,6 +360,7 @@
       [valueFieldName]="formDefComp.value_field_name"
       [typeCodes]="formDefComp.type_codes"
       [multiSelect]="formDefComp.multi_select"
+      [bindAllItem]="formDefComp['bind_all_item']"
       [attr.data-qa]="'field-areas' + '-' + formDefComp['attribut_name']"
     ></pnx-areas>
 
@@ -414,6 +416,7 @@
       [moduleCode]="formDefComp['module_code']"
       [idList]="formDefComp['id_list']"
       [cdNom]="formDefComp['cd_nom']"
+      [bindAllItem]="formDefComp['bind_all_item']"
     ></pnx-individuals>
     <small class="form-text text-muted">{{ formDefComp['help'] }}</small>
   </div>
