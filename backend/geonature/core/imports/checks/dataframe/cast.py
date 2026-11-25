@@ -443,15 +443,25 @@ def check_boolean_field(df, source_col, dest_col, required):
         - INVALID_BOOL: the value is not a boolean.
 
     """
-    df[dest_col] = df[source_col].apply(lambda x: strtobool(x) if pd.notnull(x) else x)
+
+    def _to_bool(x):
+        if pd.isnull(x):
+            return None
+        try:
+            return strtobool(x)
+        except (ValueError, AttributeError):
+            # Valeur non booléenne : None dans la colonne de destination, la ligne est signalée
+            return None
+
+    df[dest_col] = df[source_col].apply(_to_bool)
 
     if required:  # FIXME: to remove as done in check_required_value
-        invalid_mask = df[dest_col].apply(lambda x: type(x) != bool and pd.isnull(x))
-        yield dict(error_code=ImportCodeError.MISSING_VALUE, invalid_rows=df[invalid_mask])
-    else:
-        invalid_mask = df[dest_col].apply(lambda x: type(x) != bool and (not pd.isnull(x)))
-        if invalid_mask.sum() > 0:
-            yield dict(error_code=ImportCodeError.INVALID_BOOL, invalid_rows=df[invalid_mask])
+        missing_mask = df[source_col].isna()
+        yield dict(error_code=ImportCodeError.MISSING_VALUE, invalid_rows=df[missing_mask])
+
+    invalid_mask = df[source_col].notna() & df[dest_col].isna()
+    if invalid_mask.sum() > 0:
+        yield dict(error_code=ImportCodeError.INVALID_BOOL, invalid_rows=df[invalid_mask])
     return {dest_col}
 
 
