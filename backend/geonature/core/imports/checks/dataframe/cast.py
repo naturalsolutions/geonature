@@ -194,6 +194,18 @@ def check_uuid_field(
     return {target_field}
 
 
+def check_date_field(
+    df: pd.DataFrame, source_field: str, target_field: str, required: bool
+) -> Set[str]:
+    """
+    Check if a column is a date and convert it to date type (and not datetime: the destination column
+    is a DATE). Errors are reported as in check_datetime_field (INVALID_DATE).
+    """
+    updated_cols = yield from check_datetime_field(df, source_field, target_field, required)
+    df[target_field] = df[target_field].apply(lambda x: x.date() if pd.notnull(x) else None)
+    return updated_cols
+
+
 def check_integer_field(
     df: pd.DataFrame, source_field: str, target_field: str, required: bool
 ) -> Set[str]:
@@ -502,7 +514,7 @@ def check_anytype_field(
     if isinstance(field_type, sqltypes.DateTime):
         updated_cols |= yield from check_datetime_field(df, source_col, dest_col, required)
     elif isinstance(field_type, sqltypes.Date):
-        updated_cols |= yield from check_datetime_field(df, source_col, dest_col, required)
+        updated_cols |= yield from check_date_field(df, source_col, dest_col, required)
     elif isinstance(field_type, sqltypes.Integer):
         updated_cols |= yield from check_integer_field(df, source_col, dest_col, required)
     elif isinstance(field_type, UUIDType):
