@@ -5,7 +5,7 @@ relatifs aux protocoles de suivis
 """
 
 from typing import Optional, Any
-from datetime import datetime
+from datetime import date, datetime
 
 from flask import g
 
@@ -13,6 +13,7 @@ from geoalchemy2 import Geometry
 from sqlalchemy import (
     Boolean,
     Column,
+    Date,
     DateTime,
     ForeignKey,
     Integer,
@@ -172,8 +173,8 @@ class TBaseVisits(DB.Model):
         Integer, ForeignKey("gn_commons.t_modules.id_module")
     )
 
-    visit_date_min: Mapped[Optional[datetime]] = mapped_column(DateTime)
-    visit_date_max: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    visit_date_min: Mapped[Optional[date]] = mapped_column(Date)
+    visit_date_max: Mapped[Optional[date]] = mapped_column(Date)
     id_nomenclature_tech_collect_campanule: Mapped[Optional[int]] = mapped_column(
         Integer, ForeignKey("ref_nomenclatures.t_nomenclatures.id_nomenclature")
     )
@@ -230,7 +231,7 @@ class TBaseSites(DB.Model):
     base_site_name: Mapped[Optional[str]] = mapped_column(Unicode)
     base_site_description: Mapped[Optional[str]] = mapped_column(Unicode)
     base_site_code: Mapped[Optional[str]] = mapped_column(Unicode)
-    first_use_date: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    first_use_date: Mapped[Optional[date]] = mapped_column(Date)
     geom: Mapped[Optional[Any]] = mapped_column(Geometry("GEOMETRY", 4326))
     geom_local: Mapped[Optional[Any]] = mapped_column(Geometry("GEOMETRY"))
     uuid_base_site: Mapped[Optional[Any]] = mapped_column(
