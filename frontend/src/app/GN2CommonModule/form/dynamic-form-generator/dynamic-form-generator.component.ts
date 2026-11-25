@@ -2,7 +2,8 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angu
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { DynamicFormService } from './dynamic-form.service';
 import * as equal from 'fast-deep-equal/es6';
-import { filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 
 /**
  * Ce composant permet de créer dynamiquement des formulaire à partir
